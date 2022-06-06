@@ -1,0 +1,1 @@
+{"name":"Local: BFS","url":"c:\\Users\\Dhananjai sharma\\OneDrive\\Desktop\\work\\P+C+JS\\C++\\algo\\BFS.cpp","tests":[{"id":1640763822149,"input":"7 7\n1 2\n1 3\n2 4\n2 5\n2 6\n2 7\n7 3","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Dhananjai sharma\\OneDrive\\Desktop\\work\\P+C+JS\\C++\\algo\\BFS.cpp","group":"local","local":true}
