@@ -288,6 +288,22 @@ signed main()
 
 
 //UNIT 4
+
+BACKTRACKING : DFS
+    it is a systematic way to go through all the possible configurations of a search space in the genral
+    case we assume out sol is a vector v = [a1, a2, a3,...an] where each element ai is selected from a finite
+    ordered set si
+    the basic idea is to build up the solution vector one compoent at a time and use modified criterion func
+    to test weather the vector being formed has any chance of success
+    main adv is we can ignore all the remaining possible test vectors when we realise that we can not get to
+    a sol
+    These require constrants which are
+    #1 Explicit :-
+    these restrict each xi to take values from a given set
+    #2 Implicit :-
+    These are rules that determine which of the tuples in the sol space satisfy the criterion func thus they
+    describe the way xi is reated to reach other
+
 n queens
 on a n x n board you are to put n queens so that so queen can attack each other
 

@@ -1,104 +1,59 @@
-// #include <iostream>
-
-// using namespace std;
-
-// int main()
-// {
-//     int n, bt[20], wt[20], tat[20], avwt = 0, avtat = 0, i, j;
-//     cout << "Enter total number of processes(maximum 20):";
-//     cin >> n;
-
-//     cout << "\nEnter Process Burst Time\n";
-//     for (i = 0; i < n; i++)
-//     {
-//         cout << "P[" << i + 1 << "]:";
-//         cin >> bt[i];
-//     }
-
-//     wt[0] = 0; // waiting time for first process is 0
-
-//     // calculating waiting time
-//     for (i = 1; i < n; i++)
-//     {
-//         wt[i] = 0;
-//         for (j = 0; j < i; j++)
-//             wt[i] += bt[j];
-//     }
-
-//     cout << "\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
-//     // calculating turnaround time
-//     for (i = 0; i < n; i++)
-//     {
-//         tat[i] = bt[i] + wt[i];
-//         avwt += wt[i];
-//         avtat += tat[i];
-//         cout << "\nP[" << i + 1 << "]"
-//              << "\t\t" << bt[i] << "\t\t" << wt[i] << "\t\t" << tat[i];
-//     }
-
-//     avwt /= i;
-//     avtat /= i;
-//     cout << "\n\nAverage Waiting Time:" << avwt;
-//     cout << "\nAverage Turnaround Time:" << avtat;
-
-//     return 0;
-// }
-
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
-int lcs(string s1, string s2)
-{
-    int n = s1.size();
-    int m = s2.size();
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
-    for (int i = 0; i <= n; i++)
-    {
-        dp[i][0] = 0;
-    }
-    for (int i = 0; i <= m; i++)
-    {
-        dp[0][i] = 0;
-    }
 
-    for (int i = 1; i <= n; i++)
+#define int long long
+#define tb ' '
+#define all(a) (a).begin(), (a).end()
+#define sz(x) ((int)x.size())
+#define MOD (int)(1e9 + 7)
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+
+void solve()
+{
+    vector<int> a{9, -3, 3, -1, 6, -5};
+    map<int, int> mp;
+    int mx = INT_MIN;
+    int sm = 0;
+    for (int i = 0; i < a.size(); i++)
     {
-        for (int j = 1; j <= m; j++)
+        sm += a[i];
+        if (sm == 0)
         {
-            if (s1[i - 1] == s2[j - 1])
-                dp[i][j] = 1 + dp[i - 1][j - 1];
+            mx = i + 1;
+        }
+        else
+        {
+            if (mp.find(sm) != mp.end())
+            {
+                mx = max(mx, i - mp[sm]);
+            }
             else
             {
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                mp[sm] = i;
             }
         }
     }
-
-    return dp[n][m];
-}
-
-int lps(string s)
-{
-    string rev = s;
-    reverse(s.begin(), s.end());
-
-    return lcs(s, rev);
-}
-
-int minInsertions(string s)
-{
-    return s.size() - lps(s);
-}
-void solve()
-{
-    string s;
-    cin >> s;
-    cout << minInsertions(s);
+    cout << mx << endl;
 }
 
 signed main()
 {
-    solve();
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t = 1;
+    // cin>>t;
+    while (t--)
+    {
+        solve();
+    }
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
     return 0;
 }
