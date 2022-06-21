@@ -302,7 +302,7 @@ BACKTRACKING : DFS
     these restrict each xi to take values from a given set
     #2 Implicit :-
     These are rules that determine which of the tuples in the sol space satisfy the criterion func thus they
-    describe the way xi is reated to reach other
+    describe the way xi is reated to each other
 
 n queens
 on a n x n board you are to put n queens so that so queen can attack each other
@@ -394,6 +394,71 @@ signed main()
 }
 
 Sub set sum:
+
+basic bactrack we add a node in if we dont get sol we ignore it
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define tb ' '
+#define all(a) (a).begin(), (a).end()
+#define sz(x) ((int)x.size())
+#define MOD (int)(1e9 + 7)
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+
+bool isSubsetSum(int set[], int n, int sm)
+{
+    if (sm == 0)
+        return true;
+    if (n == 0)
+        return false;
+    if (set[n - 1] > sm)
+    {
+        return isSubsetSum(set, n - 1, sm);
+    }
+    return isSubsetSum(set, n - 1, sm) || isSubsetSum(set, n - 1, sm - set[n - 1]);
+    //add in a global var which stores the res like in n queens problem
+}
+void solve()
+{
+    int set[] = {3, 34, 4, 12, 5, 2};
+    int sm = 9;
+    int n = sizeof(set) / sizeof(set[0]);
+    if (isSubsetSum(set, n, sm) == true)
+        cout << "Found a subset with given sum";
+    else
+        cout << "No subset with given sum";
+}
+
+signed main()
+{
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t = 1;
+    // cin>>t;
+    while (t--)
+    {
+        solve();
+    }
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
+    return 0;
+}
+
+# BRANCH AND BOUND
+    it refers to all state space search methods in which all children of the e node are generated before any other
+live node can become the e node
+
+# Traveling sales man
+    
 
 
 */

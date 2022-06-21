@@ -13,30 +13,38 @@ typedef pair<pii, pii> ppp;
 
 void solve()
 {
-    vector<int> a{9, -3, 3, -1, 6, -5};
-    map<int, int> mp;
-    int mx = INT_MIN;
-    int sm = 0;
-    for (int i = 0; i < a.size(); i++)
+    // vector<int> a{9, -3, 3, -1, 6, -5};
+    // map<int, int> mp;
+    // int mx = INT_MIN;
+    // int sm = 0;
+    // for (int i = 0; i < a.size(); i++)
+    // {
+    //     sm += a[i];
+    //     if (sm == 0)
+    //     {
+    //         mx = i + 1;
+    //     }
+    //     else
+    //     {
+    //         if (mp.find(sm) != mp.end())
+    //         {
+    //             mx = max(mx, i - mp[sm]);
+    //         }
+    //         else
+    //         {
+    //             mp[sm] = i;
+    //         }
+    //     }
+    // }
+    // cout << mx << endl;
+    for (int i = 0; i < 3; i++)
     {
-        sm += a[i];
-        if (sm == 0)
+        for (int j = 0; j < 3; j++)
         {
-            mx = i + 1;
+            cout << "{" << i << " , " << j << "}  ";
         }
-        else
-        {
-            if (mp.find(sm) != mp.end())
-            {
-                mx = max(mx, i - mp[sm]);
-            }
-            else
-            {
-                mp[sm] = i;
-            }
-        }
+        cout << endl;
     }
-    cout << mx << endl;
 }
 
 signed main()
