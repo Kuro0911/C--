@@ -550,6 +550,20 @@ as expected value for example randomized quick sort Time(O(n log n))
 ** Np is a set of decision problems that can be solved in pollynomial time via a Lucky alogorithm that always
 chooses the correct path among a given set of paths
 
-Np complete are the hardest in np set
+Np complete are the hardest in np set a decision problem L is NP complete if
+    1) L is in NP
+    2) Every problem in NP is reducible to L in polynomial time
+NP hard is a problem that follows property 2 mentioned above
+
+# Randomized quickSort
+
+just quick sort but we select the pivot randomly / shuffle the array
+
+# Rabin Karp Algorithm :
+basicly we use a hashfunction and a sliding window to compare the 2 strings to find the pattern the hash func
+can be any user defined func but we mostly use { s[i].code * 10 ^ m , s[i].code * 10 ^ m - 1, ...}
+
+O(mn) worst case
+O(n - m + 1) avg case
 
 */
