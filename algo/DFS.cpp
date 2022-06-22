@@ -32,7 +32,7 @@ void Graph::Dfs(int v){
             Dfs(*i);
         }
     }
-     
+
 }
 int main(){
     ios_base::sync_with_stdio(false);
@@ -46,7 +46,7 @@ int main(){
     g.addEdge(2 , 0);
     g.addEdge(2 , 3);
     g.addEdge(3 , 3);
-    
+
     cout<<"Following is  the Dfs traversal starting from 2 \n";
     g.Dfs(2);
     #ifndef ONLINE_JUDGE
@@ -79,43 +79,46 @@ void DFS(int i){
 }
 int main()
 {
-    DFS(0); 
+    DFS(0);
     return 0;
 }
 */
 
-//ANOTHER WAY:
+// ANOTHER WAY:
 
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e5+2;
+const int N = 1e5 + 2;
 bool vis[N];
 vector<int> adj[N];
 
-void dfs(int node){
+void dfs(int node)
+{
     vis[node] = true;
-    cout<<node<<" ";
-    vector<int> :: iterator it;
-    for (it = adj[node].begin();it!=adj[node].end();it++)
+    cout << node << " ";
+    vector<int>::iterator it;
+    for (it = adj[node].begin(); it != adj[node].end(); it++)
     {
-        if(!vis[*it]){
+        if (!vis[*it])
+        {
             dfs(*it);
         }
     }
 }
-int main(){
-    memset(vis,false,sizeof(vis));
-    int n,m;
-    cin>>n>>m;
-    int x,y;
+int main()
+{
+    memset(vis, false, sizeof(vis));
+    int n, m;
+    cin >> n >> m;
+    int x, y;
     for (int i = 0; i < m; i++)
     {
-        cin>>x>>y;
+        cin >> x >> y;
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
     dfs(1);
-    
+
     return 0;
 }
