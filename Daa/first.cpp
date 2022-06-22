@@ -536,9 +536,20 @@ int main()
 
 # Randomized Algorithms
 
-these algorithms always produce correct/optimum results time is based on a random value and time is evaluated
+an algo that uses random numbers to decide what to do next anywhere in its logic is called randomized algo
+
+# classification of random algo
+    1) Las Vegas:   these algorithms always produce correct/optimum results time is based on a random value and time is evaluated
 as expected value for example randomized quick sort Time(O(n log n))
 
+    2) Monte Carlo: Produce correct or optimum res with some probability these have deterministic running
+    time and it is generally easier to find out worst case time complexity as O(E) Another example is Fremet
+    method for primality testing
 
+# NP problems: P is a set of problems that can be solved by a deterministic Turing machine in polynimial time
+** Np is a set of decision problems that can be solved in pollynomial time via a Lucky alogorithm that always
+chooses the correct path among a given set of paths
+
+Np complete are the hardest in np set
 
 */
