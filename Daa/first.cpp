@@ -551,9 +551,19 @@ as expected value for example randomized quick sort Time(O(n log n))
 chooses the correct path among a given set of paths
 
 Np complete are the hardest in np set a decision problem L is NP complete if
-    1) L is in NP
-    2) Every problem in NP is reducible to L in polynomial time
+    1) L is in NP / L has a known non-deterministic sol in poly time
+    2) Every problem in NP is reduceable to L in polynomial time
 NP hard is a problem that follows property 2 mentioned above
+
+# Deterministic Algo : Each and every step that we write we are shown how they work and we know how they
+    work
+# Non Deterministic : Some statements that we are yet not sure of how they work and may be made functional/
+    Deterministic in the future
+
+-> P are the deterministic algos that take polynomial time
+-> NP are non deterministic algos that will take polynomial time
+
+
 
 # Randomized quickSort
 
