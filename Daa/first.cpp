@@ -453,12 +453,92 @@ signed main()
     return 0;
 }
 
+# HAMILTONIAN CYCLE
+    Find all possible ways to visit all the verticies in a graph exactly once
+
+    * articulation point : a junction which connects 2 graphs so if their exists a point like this then we
+                do not have a hamiltonian cycle in the graph
+
+    Algo:
+    Hamiltonian(k) {
+        do{
+            nextVert(k);
+            if(x[k] == 0) return;
+            if(k == n) print(x[1:n]);
+            else Hamiltonian(k + 1);
+        }while(True)
+    }
+    nextVert(k){
+        do{
+            x[k] = (x[k] + 1) % (n + 1);
+            if(x[k] == 0) return;
+            if((G[x[k - 1] , x[k]])){
+                for j = 1 to k - 1 do if(x[j] == x[k]) break;
+                if(j == k)
+                    if(k < n or (k == n) && G[x[n], x[1]] != 0) return;
+            }
+        }while(True)
+    }
+
+
 # BRANCH AND BOUND
     it refers to all state space search methods in which all children of the e node are generated before any other
 live node can become the e node
 
+
+
 # Traveling sales man
-    
+#include <bits/stdc++.h>
+using namespace std;
+#define V 4
+
+int travllingSalesmanProblem(int graph[][V], int s)
+{
+    vector<int> vertex;
+    for (int i = 0; i < V; i++)
+        if (i != s)
+            vertex.push_back(i);
+
+    int min_path = INT_MAX;
+    do
+    {
+        int current_pathweight = 0;
+
+        int k = s;
+        for (int i = 0; i < vertex.size(); i++)
+        {
+            current_pathweight += graph[k][vertex[i]];
+            k = vertex[i];
+        }
+        current_pathweight += graph[k][s];
+
+        min_path = min(min_path, current_pathweight);
+
+    } while (
+        next_permutation(vertex.begin(), vertex.end()));
+
+    return min_path;
+}
+
+int main()
+{
+    // matrix representation of graph
+    int graph[][V] = {{0, 10, 15, 20},
+                      {10, 0, 35, 25},
+                      {15, 35, 0, 30},
+                      {20, 25, 30, 0}};
+    int s = 0;
+    cout << travllingSalesmanProblem(graph, s) << endl;
+    return 0;
+}
+
+//UNIT 5
+
+# Randomized Algorithms
+
+these algorithms always produce correct/optimum results time is based on a random value and time is evaluated
+as expected value for example randomized quick sort Time(O(n log n))
+
 
 
 */
