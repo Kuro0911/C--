@@ -1,3 +1,5 @@
+/*
+// Q1
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -11,40 +13,131 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
+void getMulti(int n)
+{
+    for (int i = 1; i < n; i++)
+    {
+        if (i % 3 == 0)
+        {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+}
+void RGetMulti(int n, int i)
+{
+    if (i > n)
+    {
+        return;
+    }
+    if (i % 3 == 0)
+    {
+        cout << i << " ";
+    }
+    i++;
+    RGetMulti(n, i);
+}
 void solve()
 {
-    // vector<int> a{9, -3, 3, -1, 6, -5};
-    // map<int, int> mp;
-    // int mx = INT_MIN;
-    // int sm = 0;
-    // for (int i = 0; i < a.size(); i++)
-    // {
-    //     sm += a[i];
-    //     if (sm == 0)
-    //     {
-    //         mx = i + 1;
-    //     }
-    //     else
-    //     {
-    //         if (mp.find(sm) != mp.end())
-    //         {
-    //             mx = max(mx, i - mp[sm]);
-    //         }
-    //         else
-    //         {
-    //             mp[sm] = i;
-    //         }
-    //     }
-    // }
-    // cout << mx << endl;
-    for (int i = 0; i < 3; i++)
+    int n;
+    cin >> n;
+    getMulti(n);
+    RGetMulti(n, 1);
+    cout << endl;
+}
+
+signed main()
+{
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t = 1;
+    // cin>>t;
+    while (t--)
     {
-        for (int j = 0; j < 3; j++)
-        {
-            cout << "{" << i << " , " << j << "}  ";
-        }
-        cout << endl;
+        solve();
     }
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
+    return 0;
+}
+*/
+
+// Q2
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define tb ' '
+#define all(a) (a).begin(), (a).end()
+#define sz(x) ((int)x.size())
+#define MOD (int)(1e9 + 7)
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+
+void TwoSum(vector<int> &vec, int target)
+{
+    map<int, int> mp;
+    for (auto &x : vec)
+    {
+        int fndTar = x - target;
+        for (int i = 0; i < vec.size(); i++)
+        {
+            int tar = target - vec[i];
+            if (mp.find(tar) != mp.end())
+            {
+                cout << i + 1 << " " << mp[tar] + 1;
+                return;
+            }
+            mp[vec[i]] = i;
+        }
+    }
+}
+void AllSum(vector<int> &vec, int target)
+{
+    int st = 0, end = vec.size() - 1;
+    while (st < end)
+    {
+        int crrSum = 0;
+        for (int i = st; i <= end; i++)
+        {
+            crrSum += vec[i];
+        }
+        if (crrSum == target)
+        {
+            for (int i = st; i <= end; i++)
+            {
+                cout << i + 1 << " ";
+            }
+            cout << endl;
+            return;
+        }
+        if (crrSum < target)
+        {
+            st++;
+        }
+        if (crrSum > target)
+        {
+            end--;
+        }
+    }
+}
+void solve()
+{
+    int n, target;
+    cin >> target >> n;
+    vector<int> vec(n);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+    // TwoSum(vec, target);
+    AllSum(vec, target);
 }
 
 signed main()
