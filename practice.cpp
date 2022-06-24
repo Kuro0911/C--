@@ -120,6 +120,7 @@ void AllSum(vector<int> &vec, int target)
         if (crrSum < target)
         {
             st++;
+            end = vec.size() - 1;
         }
         if (crrSum > target)
         {
