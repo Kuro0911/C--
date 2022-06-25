@@ -472,7 +472,7 @@ signed main()
         do{
             x[k] = (x[k] + 1) % (n + 1);
             if(x[k] == 0) return;
-            if((G[x[k - 1] , x[k]])){
+            if((G[x[k - 1] , x[k]]) != 0){
                 for j = 1 to k - 1 do if(x[j] == x[k]) break;
                 if(j == k)
                     if(k < n or (k == n) && G[x[n], x[1]] != 0) return;
@@ -577,3 +577,51 @@ O(mn) worst case
 O(n - m + 1) avg case
 
 */
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define tb ' '
+#define all(a) (a).begin(), (a).end()
+#define sz(x) ((int)x.size())
+#define MOD (int)(1e9 + 7)
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+
+void solve()
+{
+    int v = 4;
+    int a[101][101];
+    for (int k = 1; k <= 4; k++)
+    {
+        for (int i = 1; i <= 4; i++)
+        {
+            for (int j = 1; j <= 4; j++)
+            {
+                a[i][j] = min(a[i][j], a[i][k] + a[k][j]);
+            }
+        }
+    }
+}
+
+signed main()
+{
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t = 1;
+    // cin>>t;
+    while (t--)
+    {
+        solve();
+    }
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
+    return 0;
+}
