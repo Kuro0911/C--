@@ -505,12 +505,12 @@ int partitionR(int arr[], int low, int hi)
 {
     int pvt = arr[hi];
     int i = low - 1;
-    for (int j = low; j <= hi; j++)
+    for (int j = low; j < hi; j++)
     {
         if (arr[j] <= pvt)
         {
-            swap(arr[i], arr[j]);
             i++;
+            swap(arr[i], arr[j]);
         }
     }
     swap(arr[hi], arr[i + 1]);
