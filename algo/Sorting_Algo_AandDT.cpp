@@ -513,7 +513,7 @@ void solve()
     }
     // SelectSort(a, n);
     // BubbleSort(a, n);
-    // insertSort(a, n);
+    // insertSort(a, n)z`;
     // mergeSort(a, 0, n - 1);
     // QuickSort(a, 0, n - 1);
     HeapSort(a, n);
