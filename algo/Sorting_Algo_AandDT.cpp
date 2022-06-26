@@ -501,7 +501,37 @@ void HeapSort(int a[], int n)
         heapify(a, i, 0);
     }
 }
-
+int partitionR(int arr[], int low, int hi)
+{
+    int pvt = arr[hi];
+    int i = low - 1;
+    for (int j = low; j <= hi; j++)
+    {
+        if (arr[j] <= pvt)
+        {
+            swap(arr[i], arr[j]);
+            i++;
+        }
+    }
+    swap(arr[hi], arr[i + 1]);
+    return (i + 1);
+};
+int r_partition(int arr[], int low, int hi)
+{
+    srand(time(NULL));
+    int r = low + rand() % (hi - low);
+    swap(arr[r], arr[hi]);
+    return partitionR(arr, low, hi);
+};
+void randomQuick(int arr[], int low, int hi)
+{
+    if (low < hi)
+    {
+        int p = r_partition(arr, low, hi);
+        randomQuick(arr, low, p - 1);
+        randomQuick(arr, p + 1, hi);
+    }
+}
 void solve()
 {
     int n;
@@ -516,7 +546,8 @@ void solve()
     // insertSort(a, n)z`;
     // mergeSort(a, 0, n - 1);
     // QuickSort(a, 0, n - 1);
-    HeapSort(a, n);
+    // HeapSort(a, n);
+    randomQuick(a, 0, n - 1);
     print(a, n);
 }
 
