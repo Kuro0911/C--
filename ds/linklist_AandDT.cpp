@@ -14,30 +14,30 @@ void lltraversal(Node* ptr){
     }
 };
 int main(){
-    
+
     Node * head;
     Node * second;
     Node * third;
     Node * fourth;
-    
+
     //allocate memory for nodes in ll in heap
     head = (Node *)malloc(sizeof(Node));
-    second = (Node *)malloc(sizeof(Node));  
-    third = (Node *)malloc(sizeof(Node));  
-    fourth = (Node *)malloc(sizeof(Node));  
+    second = (Node *)malloc(sizeof(Node));
+    third = (Node *)malloc(sizeof(Node));
+    fourth = (Node *)malloc(sizeof(Node));
 
     //link first and second nodes;
     head->data = 4;
     head->next = second;
-    
+
     //link second and third nodes;
     second->data = 45;
     second->next = third;
-    
+
     //link third and fourth nodes;
     third->data = 87;
     third->next = fourth;
-    
+
     //tirminate list at third node;
     fourth->data = 54;
     fourth->next = NULL;
@@ -189,7 +189,7 @@ Node *delete_at_end(Node *head)
     while (q->next != NULL)
     {
         p = p->next;
-        q = q->next; 
+        q = q->next;
     }
     p->next = NULL;
     free(q);
@@ -209,7 +209,7 @@ Node *delete_value(Node *head, int value)
         p->next = q->next;
         free(q);
     }
-    
+
     return head;
 };
 int main()
@@ -247,7 +247,7 @@ int main()
     return 0;
 }
 ****************************************************************************************************************
-  
+
 //circular ll
 #include <bits/stdc++.h>
 
@@ -268,7 +268,7 @@ void clltraversal(Node* head){
 Node * insert_at_first(Node *head , int data){
     Node *ptr = (Node *)malloc(sizeof(Node));
     ptr->data = data;
-    
+
     Node *p = head->next;
     while (p->next!=head)
     {
@@ -280,30 +280,30 @@ Node * insert_at_first(Node *head , int data){
     return head;
 };
 int main(){
-    
+
     Node * head;
     Node * second;
     Node * third;
     Node * fourth;
-    
+
     //allocate memory for nodes in ll in heap
     head = (Node *)malloc(sizeof(Node));
-    second = (Node *)malloc(sizeof(Node));  
-    third = (Node *)malloc(sizeof(Node));  
-    fourth = (Node *)malloc(sizeof(Node));  
+    second = (Node *)malloc(sizeof(Node));
+    third = (Node *)malloc(sizeof(Node));
+    fourth = (Node *)malloc(sizeof(Node));
 
     //link first and second nodes;
     head->data = 4;
     head->next = second;
-    
+
     //link second and third nodes;
     second->data = 45;
     second->next = third;
-    
+
     //link third and fourth nodes;
     third->data = 87;
     third->next = fourth;
-    
+
     //tirminate list at third node;
     fourth->data = 54;
     fourth->next = head;
@@ -570,7 +570,7 @@ int main()
 }
 */
 
-//doubly ll
+// doubly ll
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -613,19 +613,21 @@ void rev_print()
     }
     while (ptr != NULL)
     {
-        cout<<ptr->data<<" ";
+        cout << ptr->data << " ";
         ptr = ptr->prev;
     }
     cout << "\n";
 }
-Node *Get_new_node(int x){
+Node *Get_new_node(int x)
+{
     Node *newNode = new Node();
     newNode->data = x;
     newNode->prev = NULL;
     newNode->next = NULL;
     return newNode;
 }
-void insert_at_head(int x){
+void insert_at_head(int x)
+{
     Node *newNode = Get_new_node(x);
     if (head == NULL)
     {
@@ -636,7 +638,8 @@ void insert_at_head(int x){
     newNode->next = head;
     head = newNode;
 }
-void insert_at_tail(int x){
+void insert_at_tail(int x)
+{
     Node *newNode = Get_new_node(x);
     Node *temp = head;
     while (temp->next != NULL)
@@ -653,10 +656,14 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
     head = NULL;
-    insert_at_head(1);lltraversal(),rev_print();
-    insert_at_head(2);lltraversal(),rev_print();
-    insert_at_head(3);lltraversal(),rev_print();
-    insert_at_tail(4);lltraversal(),rev_print();
+    insert_at_head(1);
+    lltraversal(), rev_print();
+    insert_at_head(2);
+    lltraversal(), rev_print();
+    insert_at_head(3);
+    lltraversal(), rev_print();
+    insert_at_tail(4);
+    lltraversal(), rev_print();
 
 #ifndef ONLINE_JUDGE
     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
@@ -666,24 +673,24 @@ int main()
 /*
 //Q1
 Q 1. Write a program using functions for implementation of circular Linked List.
-Q 2. Write a program to perform the following operations on Link List 
+Q 2. Write a program to perform the following operations on Link List
 a) Insertion
-                       at the beginning 
-                       at the end 
-                       at the given location 
-                       in the sorted list 
-b) Deletion 
-                       of first node 
-                       of last node 
-                       of given item 
+                       at the beginning
+                       at the end
+                       at the given location
+                       in the sorted list
+b) Deletion
+                       of first node
+                       of last node
+                       of given item
                         of given item from sorted list.
 
 
-c) Given a list, split it into two sublists — one for the front half, and one for the back half. 
- If the number of elements is odd, the extra element should go in the front list. So FrontBackSplit() on the list {2, 3, 5, 7, 11} should yield the two lists {2, 3, 5} and {7,11}. 
+c) Given a list, split it into two sublists — one for the front half, and one for the back half.
+ If the number of elements is odd, the extra element should go in the front list. So FrontBackSplit() on the list {2, 3, 5, 7, 11} should yield the two lists {2, 3, 5} and {7,11}.
 
 
-d) Given two one-way-link lists A and B. Sort them independently and then Merge as list C. 
+d) Given two one-way-link lists A and B. Sort them independently and then Merge as list C.
 
 e) Two way link list insertion and Deletion
 
@@ -733,7 +740,7 @@ int main()
     push(&head, 2);
     push(&head, 11);
     printList(head);
- 
+
     return 0;
 }
 
@@ -1020,7 +1027,7 @@ int main()
     create_header_list(15);
     delete(&start,14);
     display();
-  
+
     return 0;
 }
-*/ 
+*/
