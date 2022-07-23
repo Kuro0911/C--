@@ -172,7 +172,7 @@
 //     pair<int, int> ans = MaxMin(0, n - 1, vec, temp);
 //     cout << "max : " << ans.first << "\nmin : " << ans.second;
 //     // QuickSort(0, n - 1, vec);
-//     // print(n, vec);
+// print(n, vec);
 // }
 
 // signed main()
