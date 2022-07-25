@@ -157,7 +157,7 @@ public:
         node *temp = root;
         for (auto x : word)
         {
-            if (temp->chars.find(x) == temp->chars.end())
+            if (!temp->chars[x])
             {
                 temp->chars[x] = new node();
             }
@@ -165,36 +165,37 @@ public:
         }
         temp->isEnd = true;
     }
-    bool dfs(node *curr, string word)
+    bool dfs(node *curr, int st, string word)
     {
-        for (auto x : word)
+        node *temp = curr;
+        for (int i = st; i < word.size(); i++)
         {
-            cout << x << " ";
+            if (word[i] == '.')
+            {
+                for (auto y : temp->chars)
+                {
+                    if (dfs(y.second, i + 1, word))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                if (!temp->chars[word[i]])
+                {
+                    return false;
+                }
+                temp = temp->chars[word[i]];
+            }
         }
-
-        return true;
+        return temp->isEnd;
     }
     bool search(string word)
     {
         node *temp = root;
-        for (int i = 0; i < word.size(); i++)
-        {
-            if (word[i] == '.')
-            {
-                string TempStr;
-                for (int j = 0; j <= i; j++)
-                {
-                    TempStr[j] = word[j];
-                }
-                return dfs(temp, TempStr);
-            }
-            if (temp->chars.find(word[i]) == temp->chars.end())
-            {
-                return false;
-            }
-            temp = temp->chars[word[i]];
-        }
-        return temp->isEnd;
+        return dfs(temp, 0, word);
     }
 };
 
@@ -202,7 +203,14 @@ void solve()
 {
     WordDictionary trie;
     trie.addWord("hello");
-    trie.search("h.");
+    if (trie.search(".h"))
+    {
+        cout << "\nfound\n";
+    }
+    else
+    {
+        cout << "NF\n";
+    }
 }
 
 signed main()
