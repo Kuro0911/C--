@@ -39,7 +39,7 @@ signed main()
     // cin >> t;
     while (t--)
     {
-    https: // us05web.zoom.us/j/85463658816?pwd=clROQXp2M0YvdE83M0UxR1RnNkZmQT09    solve();
+        solve();
     }
 #ifndef ONLINE_JUDGE
     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
