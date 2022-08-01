@@ -13,22 +13,19 @@ typedef pair<pii, pii> ppp;
 
 void solve()
 {
-    string s = "aaAA111";
-    vector<int> vec;
-    int l = 0;
-    int n = s.length();
-    for (int i = 0; i <= n; i++)
+    int n;
+    cin >> n;
+    while (n--)
     {
-        if (l == n || s[i] != s[l])
+        int x;
+        cin >> x;
+        if (x == 1)
         {
-            vec.push_back(i - l);
-            l = i;
+            cout << "HARD\n";
+            return;
         }
     }
-    for (int x : vec)
-    {
-        cout << x << " ";
-    }
+    cout << "EASY\n";
 }
 
 signed main()
@@ -39,10 +36,10 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin>>t;
+    // cin >> t;
     while (t--)
     {
-        solve();
+    https: // us05web.zoom.us/j/85463658816?pwd=clROQXp2M0YvdE83M0UxR1RnNkZmQT09    solve();
     }
 #ifndef ONLINE_JUDGE
     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
