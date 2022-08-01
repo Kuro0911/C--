@@ -13,19 +13,6 @@ typedef pair<pii, pii> ppp;
 
 void solve()
 {
-    int n;
-    cin >> n;
-    while (n--)
-    {
-        int x;
-        cin >> x;
-        if (x == 1)
-        {
-            cout << "HARD\n";
-            return;
-        }
-    }
-    cout << "EASY\n";
 }
 
 signed main()
