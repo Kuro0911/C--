@@ -22,29 +22,30 @@ typedef pair<pii, pii> ppp;
 void solve()
 {
     vector<int> arr(6);
-    int sm = 0, target;
+    int sm = 0, target, n = 6;
     cin >> target;
     for (int &X : arr)
     {
         cin >> X;
         sm += X;
     }
-    vector<vector<int>> dp(arr.size() + 1, vector<int>(target + 1, -1));
-    for (int i = 0; i <= target; i++)
+    int val = (target + sm) / 2;
+    vector<vector<int>> dp(n + 1, vector<int>(val + 1, -1));
+    for (int i = 0; i <= val; i++)
     {
         dp[0][i] = 0;
     }
-    for (int i = 0; i <= arr.size(); i++)
+    for (int i = 0; i <= n; i++)
     {
         dp[i][0] = 1;
     }
-    for (int i = 1; i <= arr.size(); i++)
+    for (int i = 1; i <= n; i++)
     {
-        for (int j = 1; j <= target; j++)
+        for (int j = 1; j <= val; j++)
         {
             if (arr[i - 1] <= j)
             {
-                dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
+                dp[i][j] = dp[i - 1][j - arr[i - 1]] + dp[i - 1][j];
             }
             else
             {
@@ -52,13 +53,7 @@ void solve()
             }
         }
     }
-    int cnt = 0;
-    for (int i = 0; i <= arr.size() - 1; i++)
-    {
-        if (dp[i][target])
-            cnt++;
-    }
-    cout << cnt;
+    cout << dp[n][val];
 }
 
 signed main()
