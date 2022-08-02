@@ -19,28 +19,67 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-// knapsack
+// recursion
+
+bool isPresent(vector<int> &arr, int n, int target, int sm)
+{
+    if (sm == target)
+        return true;
+    else if (sm <= target || n < 0)
+        return false;
+    else
+        return isPresent(arr, n - 1, target, sm - arr[n]) || isPresent(arr, n - 1, target, sm);
+}
+// memo
+int isPresentMemo(vector<int> &arr, int n, int target, int sm, vector<vector<int>> &dp)
+{
+    if (dp[n][sm] != -1)
+    {
+        return dp[n][sm];
+    }
+    if (sm == target)
+    {
+        cout << "yes";
+        return dp[n][sm] = 1;
+    }
+    else if (sm <= target || n < 0)
+        return dp[n][sm] = 0;
+    else
+        return dp[n][sm] = isPresent(arr, n - 1, target, sm - arr[n]) || isPresent(arr, n - 1, target, sm);
+}
+
 void solve()
 {
-    vector<int> wt{1, 2, 3, 5};
-    vector<int> prof{5, 4, 3, 1};
-    int W = 5;
-    vector<vector<int>> dp(wt.size(), vector<int>(W + 1, 0));
-    for (int i = 1; i < wt.size(); i++)
+    int target;
+    cin >> target;
+    vector<int> arr(5);
+    int sm = 0;
+    for (int &X : arr)
     {
-        for (int j = 1; j < W + 1; j++)
+        cin >> X;
+        sm += X;
+    }
+    vector<vector<int>> dp(arr.size() + 1, vector<int>(target + 1, -1));
+    for (int i = 0; i <= target; i++)
+    {
+        dp[0][i] = 0;
+    }
+    for (int i = 0; i <= arr.size(); i++)
+    {
+        dp[i][0] = 1;
+    }
+    // isPresentMemo(arr, arr.size(), target, sm, dp);
+    for (int i = 1; i <= arr.size(); i++)
+    {
+        for (int j = 1; j <= target; j++)
         {
-            if (wt[i - 1] <= j)
-            {
-                dp[i][j] = max(prof[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
-            }
+            if (arr[i - 1] <= j)
+                dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
             else
-            {
                 dp[i][j] = dp[i - 1][j];
-            }
         }
     }
-    cout << dp[wt.size() - 1][W];
+    cout << dp[arr.size() - 1][target];
 }
 
 signed main()
