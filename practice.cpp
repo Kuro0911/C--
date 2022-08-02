@@ -19,41 +19,11 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-// recursion
-
-bool isPresent(vector<int> &arr, int n, int target, int sm)
-{
-    if (sm == target)
-        return true;
-    else if (sm <= target || n < 0)
-        return false;
-    else
-        return isPresent(arr, n - 1, target, sm - arr[n]) || isPresent(arr, n - 1, target, sm);
-}
-// memo
-int isPresentMemo(vector<int> &arr, int n, int target, int sm, vector<vector<int>> &dp)
-{
-    if (dp[n][sm] != -1)
-    {
-        return dp[n][sm];
-    }
-    if (sm == target)
-    {
-        cout << "yes";
-        return dp[n][sm] = 1;
-    }
-    else if (sm <= target || n < 0)
-        return dp[n][sm] = 0;
-    else
-        return dp[n][sm] = isPresent(arr, n - 1, target, sm - arr[n]) || isPresent(arr, n - 1, target, sm);
-}
-
 void solve()
 {
-    int target;
+    vector<int> arr(6);
+    int sm = 0, target;
     cin >> target;
-    vector<int> arr(5);
-    int sm = 0;
     for (int &X : arr)
     {
         cin >> X;
@@ -68,18 +38,29 @@ void solve()
     {
         dp[i][0] = 1;
     }
-    // isPresentMemo(arr, arr.size(), target, sm, dp);
     for (int i = 1; i <= arr.size(); i++)
     {
         for (int j = 1; j <= target; j++)
         {
             if (arr[i - 1] <= j)
-                dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
+            {
+                dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j - 1];
+            }
             else
-                dp[i][j] = dp[i - 1][j];
+            {
+                dp[i][j] = 0;
+            }
         }
     }
-    cout << dp[arr.size() - 1][target];
+    int cnt = 0;
+    for (int i = 0; i <= arr.size(); i++)
+    {
+        if (dp[i][target])
+        {
+            cnt++;
+        }
+    }
+    cout << cnt << endl;
 }
 
 signed main()
