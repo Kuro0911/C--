@@ -53,12 +53,40 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n, target;
-    cin >> n >> target;
-    vector<int> coins(n);
-    for (auto &x : coins)
+    string s1, s2;
+    cin >> s1 >> s2;
+    int n = s1.size(), m = s2.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+    for (int i = 0; i <= n; i++)
     {
-        cin >> x;
+        dp[i][0] = 0;
+    }
+    for (int i = 0; i <= m; i++)
+    {
+        dp[0][i] = 0;
+    }
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (s1[i - 1] == s2[j - 1])
+            {
+                cout << i << " : " << j << endl;
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            }
+            else
+            {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j <= m; j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
     }
 }
 signed main()
