@@ -19,46 +19,50 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-void solve()
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
 {
-    vector<int> arr(6);
-    int sm = 0, target, n = 6;
-    cin >> target;
-    for (int &X : arr)
-    {
-        cin >> X;
-        sm += X;
-    }
-    int val = (target + sm) / 2;
-    vector<vector<int>> dp(n + 1, vector<int>(val + 1, -1));
-    for (int i = 0; i <= val; i++)
-    {
-        dp[0][i] = 0;
-    }
-    for (int i = 0; i <= n; i++)
-    {
-        dp[i][0] = 1;
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= val; j++)
-        {
-            if (arr[i - 1] <= j)
-            {
-                dp[i][j] = dp[i - 1][j - arr[i - 1]] + dp[i - 1][j];
-            }
-            else
-            {
-                dp[i][j] = dp[i - 1][j];
-            }
-        }
-    }
-    cout << dp[n][val];
+    for (auto &x : v)
+        os << x << " ";
+    os << endl;
+    return os;
+}
+template <typename T>
+
+ostream &operator<<(ostream &os, const set<T> &v)
+{
+    for (auto it : v)
+        os << it << " ";
+    return os;
 }
 
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const map<T, S> &v)
+{
+    for (auto it : v)
+        os << it.first << " : " << it.second << "\n";
+
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const pair<T, S> &v)
+{
+    os << v.first << " : " << v.second << "\n";
+    return os;
+}
+
+void solve()
+{
+    int n, target;
+    cin >> n >> target;
+    vector<int> coins(n);
+    for (auto &x : coins)
+    {
+        cin >> x;
+    }
+}
 signed main()
 {
-
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
