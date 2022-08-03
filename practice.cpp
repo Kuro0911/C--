@@ -57,6 +57,7 @@ void solve()
     cin >> s1 >> s2;
     int n = s1.size(), m = s2.size();
     vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+    pair<int, pair<int, int>> mx = {-1, {-1, -1}};
     for (int i = 0; i <= n; i++)
     {
         dp[i][0] = 0;
@@ -65,6 +66,7 @@ void solve()
     {
         dp[0][i] = 0;
     }
+
     for (int i = 1; i <= n; i++)
     {
         for (int j = 1; j <= m; j++)
@@ -72,15 +74,40 @@ void solve()
             if (s1[i - 1] == s2[j - 1])
             {
                 dp[i][j] = 1 + dp[i - 1][j - 1];
+                if (mx.first < dp[i][j])
+                {
+                    mx.first = dp[i][j];
+                    mx.second.first = i;
+                    mx.second.second = j;
+                }
             }
             else
             {
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                dp[i][j] = 0;
             }
         }
     }
-
-    cout << "del : " << n - dp[n][m] << "\ninsert: " << m - dp[n][m];
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j <= m; j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
+    int x = mx.second.first, y = mx.second.second;
+    string res;
+    while (x >= 0 || y >= 0)
+    {
+        if (dp[x][y] == 0)
+        {
+            break;
+        }
+        res += s1[x];
+        x--;
+        y--;
+    }
+    cout << res;
 }
 signed main()
 {
