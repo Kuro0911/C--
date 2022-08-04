@@ -43,33 +43,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int mcm(vector<int> &arr, int i, int j, vector<vector<int>> &dp)
+bool isPalindrome(string s, int st, int ed)
+{
+    while (st < ed)
+    {
+        if (s[st] != s[ed])
+            return false;
+        st++;
+        ed--;
+    }
+    return true;
+}
+int mcm(string s, int i, int j, vector<vector<int>> &dp)
 {
     if (dp[i][j] != -1)
         return dp[i][j];
     int ans = INT_MAX;
-    if (i >= j)
-        return 0;
+    if (isPalindrome(s, i, j) || i >= j)
+    {
+        return dp[i][j] = 0;
+    }
     for (int k = i; k <= j - 1; k++)
     {
-        int temp = mcm(arr, i, k, dp) + mcm(arr, k + 1, j, dp) + arr[i - 1] * arr[k] * arr[j];
+        int temp = mcm(s, i, k, dp) + mcm(s, k + 1, j, dp) + 1;
         ans = min(temp, ans);
     }
     return dp[i][j] = ans;
 }
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
-    for (auto &x : arr)
-    {
-        cin >> x;
-    }
-
-    cout << mcm(arr, 1, n - 1, dp);
+    string s;
+    cin >> s;
+    vector<vector<int>> dp(s.size() + 1, vector<int>(s.size() + 1, -1));
+    cout << mcm(s, 0, s.size() - 1, dp);
 }
 
 signed main()
