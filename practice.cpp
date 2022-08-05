@@ -43,39 +43,70 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-bool isPalindrome(string s, int st, int ed)
+struct node
 {
-    while (st < ed)
-    {
-        if (s[st] != s[ed])
-            return false;
-        st++;
-        ed--;
-    }
-    return true;
+    int data;
+    node *left, *right;
+};
+node *root = NULL;
+node *getNewNode(int data)
+{
+    node *temp = new node();
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
 }
-int mcm(string s, int i, int j, vector<vector<int>> &dp)
+node *insert(node *curr, int info)
 {
-    if (dp[i][j] != -1)
-        return dp[i][j];
-    int ans = INT_MAX;
-    if (isPalindrome(s, i, j) || i >= j)
+    if (curr == NULL)
     {
-        return dp[i][j] = 0;
+        curr = getNewNode(info);
+        return curr;
     }
-    for (int k = i; k <= j - 1; k++)
+    else if (info <= curr->data)
     {
-        int temp = mcm(s, i, k, dp) + mcm(s, k + 1, j, dp) + 1;
-        ans = min(temp, ans);
+        curr->left = insert(curr->left, info);
     }
-    return dp[i][j] = ans;
+    else
+    {
+        curr->right = insert(curr->right, info);
+    }
+    return curr;
+}
+int diameter(node *curr, int &res)
+{
+    if (curr == NULL)
+        return 0;
+    int l = diameter(curr->left, res);
+    int r = diameter(curr->right, res);
+    int temp = max(l, r) + 1;
+    int ans = max(temp, l + r + 1);
+    res = max(res, ans);
+    return temp;
+}
+void inOrder(node *curr)
+{
+    if (curr == NULL)
+        return;
+    inOrder(curr->left);
+    cout << curr->data << " ";
+    inOrder(curr->right);
 }
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<vector<int>> dp(s.size() + 1, vector<int>(s.size() + 1, -1));
-    cout << mcm(s, 0, s.size() - 1, dp);
+    int n;
+    cin >> n;
+    while (n--)
+    {
+        int x;
+        cin >> x;
+        root = insert(root, x);
+    }
+    inOrder(root);
+    int res = INT_MIN;
+    diameter(root, res);
+    cout << endl
+         << res - 1;
 }
 
 signed main()
