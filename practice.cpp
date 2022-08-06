@@ -43,70 +43,13 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct node
-{
-    int data;
-    node *left, *right;
-};
-node *root = NULL;
-node *getNewNode(int data)
-{
-    node *temp = new node();
-    temp->data = data;
-    temp->left = temp->right = NULL;
-    return temp;
-}
-node *insert(node *curr, int info)
-{
-    if (curr == NULL)
-    {
-        curr = getNewNode(info);
-        return curr;
-    }
-    else if (info <= curr->data)
-    {
-        curr->left = insert(curr->left, info);
-    }
-    else
-    {
-        curr->right = insert(curr->right, info);
-    }
-    return curr;
-}
-int diameter(node *curr, int &res)
-{
-    if (curr == NULL)
-        return 0;
-    int l = diameter(curr->left, res);
-    int r = diameter(curr->right, res);
-    int temp = max(l, r) + 1;
-    int ans = max(temp, l + r + 1);
-    res = max(res, ans);
-    return temp;
-}
-void inOrder(node *curr)
-{
-    if (curr == NULL)
-        return;
-    inOrder(curr->left);
-    cout << curr->data << " ";
-    inOrder(curr->right);
-}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    while (n--)
-    {
-        int x;
-        cin >> x;
-        root = insert(root, x);
-    }
-    inOrder(root);
-    int res = INT_MIN;
-    diameter(root, res);
-    cout << endl
-         << res - 1;
+    int x = 10;
+    int temp = x / 10;
+    x = x % 10;
+    cout << x << "\t" << temp;
 }
 
 signed main()
