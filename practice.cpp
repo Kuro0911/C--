@@ -44,12 +44,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+map<char, vector<char>> mp;
+void helper(string s, string &temp, vector<string> &ans)
+{
+    if (s.size() == 0)
+    {
+        ans.push_back(temp);
+        return;
+    }
+    else
+    {
+        string test = s.substr(1);
+        for (auto x : mp[s[0]])
+        {
+            temp.push_back(x);
+            helper(test, temp, ans);
+            temp.pop_back();
+        }
+    }
+    return;
+}
+vector<string> letterCombinations(string digits)
+{
+    mp['2'] = {'a', 'b', 'c'};
+    mp['3'] = {'d', 'e', 'f'};
+    mp['4'] = {'g', 'h', 'i'};
+    mp['5'] = {'j', 'k', 'l'};
+    mp['6'] = {'m', 'n', 'o'};
+    mp['7'] = {'p', 'q', 'r', 's'};
+    mp['8'] = {'t', 'u', 'v'};
+    mp['9'] = {'w', 'x', 'y', 'z'};
+
+    vector<string> ans;
+    string temp = "";
+    helper(digits, temp, ans);
+    return ans;
+}
 void solve()
 {
-    string s = "abc";
-    vector<string> vec{"a", "aaaa", "aa"};
-    sort(all(vec));
-    cout << vec;
+    string digits = "23";
+    vector<string> ans = letterCombinations(digits);
+    cout << ans;
 }
 
 signed main()
