@@ -46,10 +46,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int x = 10;
-    int temp = x / 10;
-    x = x % 10;
-    cout << x << "\t" << temp;
+    string s = "abc";
+    vector<string> vec{"a", "aaaa", "aa"};
+    sort(all(vec));
+    cout << vec;
 }
 
 signed main()
