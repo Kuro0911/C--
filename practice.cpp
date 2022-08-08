@@ -82,9 +82,13 @@ vector<string> letterCombinations(string digits)
 }
 void solve()
 {
-    string digits = "23";
-    vector<string> ans = letterCombinations(digits);
-    cout << ans;
+    set<char> st;
+    st.insert('{');
+    int n = 2;
+    while (n--)
+    {
+        cout << 1;
+    }
 }
 
 signed main()
