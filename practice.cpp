@@ -44,50 +44,95 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-map<char, vector<char>> mp;
-void helper(string s, string &temp, vector<string> &ans)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution
 {
-    if (s.size() == 0)
+public:
+    void insert(ListNode **curr, int data, int pos)
     {
-        ans.push_back(temp);
+        ListNode *temp = new ListNode(data);
+        if (pos == 0)
+        {
+            *curr = temp;
+            return;
+        }
+        while (pos--)
+        {
+            if (pos == 0)
+            {
+                temp->next = *curr;
+                *curr = temp;
+            }
+            else
+            {
+                curr = &(*curr)->next;
+            }
+        }
         return;
     }
-    else
+    void print(ListNode *head_ref)
     {
-        string test = s.substr(1);
-        for (auto x : mp[s[0]])
+        ListNode *temp = head_ref;
+        while (temp != NULL)
         {
-            temp.push_back(x);
-            helper(test, temp, ans);
-            temp.pop_back();
+            cout << temp->val << " ";
+            temp = temp->next;
         }
+        cout << endl;
+        return;
     }
-    return;
-}
-vector<string> letterCombinations(string digits)
-{
-    mp['2'] = {'a', 'b', 'c'};
-    mp['3'] = {'d', 'e', 'f'};
-    mp['4'] = {'g', 'h', 'i'};
-    mp['5'] = {'j', 'k', 'l'};
-    mp['6'] = {'m', 'n', 'o'};
-    mp['7'] = {'p', 'q', 'r', 's'};
-    mp['8'] = {'t', 'u', 'v'};
-    mp['9'] = {'w', 'x', 'y', 'z'};
-
-    vector<string> ans;
-    string temp = "";
-    helper(digits, temp, ans);
-    return ans;
-}
+    ListNode *mergeKLists(vector<ListNode *> &lists)
+    {
+        ListNode *head = NULL;
+        for (auto x : lists)
+        {
+            ListNode *temp = head, *l = x;
+            print(head);
+            if (head == NULL)
+            {
+                while (l != NULL)
+                {
+                    int pos = 0;
+                    insert(&head, l->val, pos);
+                    pos++;
+                }
+            }
+            else
+            {
+                while (l != NULL)
+                {
+                    int pos = 0;
+                    if (temp->val >= l->val)
+                    {
+                        insert(&head, l->val, pos);
+                    }
+                    pos++;
+                    l = l->next;
+                    if (temp != NULL && temp->next != NULL)
+                    {
+                        temp = temp->next;
+                    }
+                }
+            }
+        }
+        return head;
+    }
+};
 void solve()
 {
-    set<char> st;
-    st.insert('{');
-    int n = 2;
-    while (n--)
+    int x = 0;
+    while (x--)
     {
-        cout << 1;
+        cout << x;
     }
 }
 
