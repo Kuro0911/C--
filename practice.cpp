@@ -44,39 +44,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int binarySearch(vector<int> arr, int l, int r, int x)
+class Solution
 {
-    if (r >= l)
+public:
+    int helper(int l, int r, vector<int> height)
     {
-        int mid = l + (r - l) / 2;
-        if (arr[mid] == x)
-            return mid;
-        if (arr[mid] > x)
-            return binarySearch(arr, l, mid - 1, x);
-        return binarySearch(arr, mid + 1, r, x);
+        int maxWater, boxes = 0;
+        maxWater = max(height[l], height[r]) * (r - l - 1);
+        for (int i = l + 1; i < r; i++)
+        {
+            boxes += height[i];
+        }
+        return maxWater - boxes;
     }
-    return -1;
-}
-int getStart(vector<int> &nums, int st, int ed, int target)
-{
-    if (ed >= st)
+    int trap(vector<int> &height)
     {
-        int md = (st + (ed - st)) / 2;
-        if (nums[md] == target)
-            return md;
-        if (nums[md] > target)
-            return getStart(nums, st, md - 1, target);
-        return getStart(nums, md + 1, ed, target);
+        int l = 0, r = 1;
+        int water = 0;
+        while (r < height.size())
+        {
+            if (height[r] >= height[l])
+            {
+                water += helper(l, r, height);
+                l = r;
+                r = l + 1;
+            }
+            else
+            {
+                r++;
+            }
+        }
+        return water;
     }
-    return -1;
-}
-void solve()
-{
-    vector<int> vec{1, 4};
-    cout << binarySearch(vec, 0, vec.size() - 1, 4);
-    cout << getStart(vec, 0, vec.size() - 1, 4);
-}
-
+};
 signed main()
 {
 
