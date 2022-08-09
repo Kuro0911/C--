@@ -77,6 +77,10 @@ public:
         return water;
     }
 };
+void solve()
+{
+}
+
 signed main()
 {
 
