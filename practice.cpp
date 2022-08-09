@@ -44,96 +44,37 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution
+int binarySearch(vector<int> arr, int l, int r, int x)
 {
-public:
-    void insert(ListNode **curr, int data, int pos)
+    if (r >= l)
     {
-        ListNode *temp = new ListNode(data);
-        if (pos == 0)
-        {
-            *curr = temp;
-            return;
-        }
-        while (pos--)
-        {
-            if (pos == 0)
-            {
-                temp->next = *curr;
-                *curr = temp;
-            }
-            else
-            {
-                curr = &(*curr)->next;
-            }
-        }
-        return;
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == x)
+            return mid;
+        if (arr[mid] > x)
+            return binarySearch(arr, l, mid - 1, x);
+        return binarySearch(arr, mid + 1, r, x);
     }
-    void print(ListNode *head_ref)
+    return -1;
+}
+int getStart(vector<int> &nums, int st, int ed, int target)
+{
+    if (ed >= st)
     {
-        ListNode *temp = head_ref;
-        while (temp != NULL)
-        {
-            cout << temp->val << " ";
-            temp = temp->next;
-        }
-        cout << endl;
-        return;
+        int md = (st + (ed - st)) / 2;
+        if (nums[md] == target)
+            return md;
+        if (nums[md] > target)
+            return getStart(nums, st, md - 1, target);
+        return getStart(nums, md + 1, ed, target);
     }
-    ListNode *mergeKLists(vector<ListNode *> &lists)
-    {
-        ListNode *head = NULL;
-        for (auto x : lists)
-        {
-            ListNode *temp = head, *l = x;
-            print(head);
-            if (head == NULL)
-            {
-                while (l != NULL)
-                {
-                    int pos = 0;
-                    insert(&head, l->val, pos);
-                    pos++;
-                }
-            }
-            else
-            {
-                while (l != NULL)
-                {
-                    int pos = 0;
-                    if (temp->val >= l->val)
-                    {
-                        insert(&head, l->val, pos);
-                    }
-                    pos++;
-                    l = l->next;
-                    if (temp != NULL && temp->next != NULL)
-                    {
-                        temp = temp->next;
-                    }
-                }
-            }
-        }
-        return head;
-    }
-};
+    return -1;
+}
 void solve()
 {
-    int x = 0;
-    while (x--)
-    {
-        cout << x;
-    }
+    vector<int> vec{1, 4};
+    cout << binarySearch(vec, 0, vec.size() - 1, 4);
+    cout << getStart(vec, 0, vec.size() - 1, 4);
 }
 
 signed main()
