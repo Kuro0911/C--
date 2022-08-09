@@ -44,41 +44,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-class Solution
-{
-public:
-    int helper(int l, int r, vector<int> height)
-    {
-        int maxWater, boxes = 0;
-        maxWater = max(height[l], height[r]) * (r - l - 1);
-        for (int i = l + 1; i < r; i++)
-        {
-            boxes += height[i];
-        }
-        return maxWater - boxes;
-    }
-    int trap(vector<int> &height)
-    {
-        int l = 0, r = 1;
-        int water = 0;
-        while (r < height.size())
-        {
-            if (height[r] >= height[l])
-            {
-                water += helper(l, r, height);
-                l = r;
-                r = l + 1;
-            }
-            else
-            {
-                r++;
-            }
-        }
-        return water;
-    }
-};
 void solve()
 {
+    int n, sm;
+    cin >> n >> sm;
+    vector<int> vec(n);
+    for (auto &a : vec)
+    {
+        cin >> a;
+    }
+    map<int, vector<int>> mp;
+    for (int i = 0; i < n; i++)
+    {
+        mp[vec[i]].push_back(i);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        int rem = sm - vec[i];
+        if (mp.find(rem) != mp.end())
+        {
+            for (auto x : mp[rem])
+            {
+                set<int> st;
+                st.insert(i);
+                st.insert(x);
+                if (sz(st) == 2)
+                {
+                    for (auto s : st)
+                    {
+                        cout << s + 1 << tb;
+                    }
+                    exit(0);
+                }
+            }
+        }
+    }
+    cout << "IMPOSSIBLE";
 }
 
 signed main()
