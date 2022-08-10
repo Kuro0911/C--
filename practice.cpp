@@ -46,40 +46,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n, sm;
-    cin >> n >> sm;
-    vector<int> vec(n);
-    for (auto &a : vec)
+    int n, q;
+    cin >> n >> q;
+    vector<long long> a(n), p(n);
+    for (int i = 0; i < n; ++i)
     {
-        cin >> a;
+        cin >> a[i];
     }
-    map<int, vector<int>> mp;
-    for (int i = 0; i < n; i++)
+    sort(a.rbegin(), a.rend());
+    for (int i = 0; i < n; ++i)
     {
-        mp[vec[i]].push_back(i);
+        p[i] = (i ? p[i - 1] : 0) + a[i];
     }
-    for (int i = 0; i < n; i++)
+
+    while (q--)
     {
-        int rem = sm - vec[i];
-        if (mp.find(rem) != mp.end())
+        long long x;
+        cin >> x;
+        int l = 1, r = n, ans = -1;
+        while (l <= r)
         {
-            for (auto x : mp[rem])
+            int mid = (l + r) / 2;
+            if (p[mid - 1] >= x)
             {
-                set<int> st;
-                st.insert(i);
-                st.insert(x);
-                if (sz(st) == 2)
-                {
-                    for (auto s : st)
-                    {
-                        cout << s + 1 << tb;
-                    }
-                    exit(0);
-                }
+                ans = mid;
+                r = mid - 1;
+            }
+            else
+            {
+                l = mid + 1;
             }
         }
+        cout << ans << "\n";
     }
-    cout << "IMPOSSIBLE";
 }
 
 signed main()
@@ -90,7 +89,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin>>t;
+    cin >> t;
     while (t--)
     {
         solve();
