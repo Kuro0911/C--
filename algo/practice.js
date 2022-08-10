@@ -31,4 +31,16 @@ const randomQuickSort = ({ arr, low, hi }) => {
 
 const arr = [5, 4, 3, 2, 1];
 
-console.log(randomQuickSort(arr={arr}, low={0}, hi={5}));
+// console.log(randomQuickSort(arr={arr}, low={0}, hi={5}));
+
+const getStr = () => {
+  let n = 0;
+  const characters = "?*";
+  var s = "";
+  for (let i = 0; i < 500; i++) {
+    s += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return s;
+};
+
+console.log(getStr());

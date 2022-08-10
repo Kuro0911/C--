@@ -44,41 +44,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+int helper(int i, int j, int tot, vector<int> nums)
+{
+    if (i >= j)
+    {
+        return tot;
+    }
+    if (nums[i] > nums[j])
+    {
+        return helper(i, j - 1, tot - nums[j], nums);
+    }
+    else
+    {
+        return helper(i + 1, j, tot - nums[i], nums);
+    }
+}
+int maxSubArray(vector<int> &nums)
+{
+    int tot = 0;
+    for (auto x : nums)
+    {
+        tot += x;
+    }
+    int temp = max(helper(0, nums.size() - 2, tot - nums[nums.size() - 1], nums), helper(1, nums.size() - 1, tot - nums[0], nums));
+    return max(tot, temp);
+}
 void solve()
 {
-    int n, q;
-    cin >> n >> q;
-    vector<long long> a(n), p(n);
-    for (int i = 0; i < n; ++i)
+    vector<int> temp(9);
+    for (auto &x : temp)
     {
-        cin >> a[i];
-    }
-    sort(a.rbegin(), a.rend());
-    for (int i = 0; i < n; ++i)
-    {
-        p[i] = (i ? p[i - 1] : 0) + a[i];
-    }
-
-    while (q--)
-    {
-        long long x;
         cin >> x;
-        int l = 1, r = n, ans = -1;
-        while (l <= r)
-        {
-            int mid = (l + r) / 2;
-            if (p[mid - 1] >= x)
-            {
-                ans = mid;
-                r = mid - 1;
-            }
-            else
-            {
-                l = mid + 1;
-            }
-        }
-        cout << ans << "\n";
     }
+    cout << maxSubArray(temp);
 }
 
 signed main()
@@ -89,7 +87,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
