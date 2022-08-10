@@ -44,30 +44,48 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int helper(int i, int j, int tot, vector<int> nums)
+int helper(int st, int ed, vector<int> nums)
 {
-    if (i >= j)
+    if (st == ed)
+        return nums[st];
+    int mid = (st + ed) / 2;
+    int lsm = helper(st, mid, nums);
+    int rsm = helper(mid + 1, ed, nums);
+    int sm = 0, lCS = INT_MIN, rCS = INT_MIN;
+    for (int i = mid; i <= ed; i++)
     {
-        return tot;
+        sm += nums[i];
+        rCS = max(sm, rCS);
     }
-    if (nums[i] > nums[j])
+    sm = 0;
+    for (int i = mid - 1; i >= st; i--)
     {
-        return helper(i, j - 1, tot - nums[j], nums);
+        sm += nums[i];
+        lCS = max(sm, lCS);
     }
-    else
-    {
-        return helper(i + 1, j, tot - nums[i], nums);
-    }
+    int ans = max(lsm, rsm);
+    return max(lCS + rCS, ans);
 }
 int maxSubArray(vector<int> &nums)
 {
-    int tot = 0;
+    return helper(0, nums.size() - 1, nums);
+}
+int Kadnae(vector<int> &nums)
+{
+    int sm = 0, ans = 0;
     for (auto x : nums)
     {
-        tot += x;
+        if (sm + x > 0)
+        {
+            sm += x;
+        }
+        else
+        {
+            sm = 0;
+        }
+        ans = max(sm, ans);
     }
-    int temp = max(helper(0, nums.size() - 2, tot - nums[nums.size() - 1], nums), helper(1, nums.size() - 1, tot - nums[0], nums));
-    return max(tot, temp);
+    return ans;
 }
 void solve()
 {
