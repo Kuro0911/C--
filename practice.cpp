@@ -44,28 +44,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void merge(int i, int j, vector<vector<int>> &interval)
-{
-    interval[i][0] = min(interval[i][0], interval[j][0]);
-    interval[i][1] = max(interval[i][1], interval[j][1]);
-    interval.erase(interval.begin() + j);
-}
 void solve()
 {
-    vector<vector<int>> interval(2, vector<int>(2));
-    for (auto &x : interval)
-    {
-        for (auto &y : x)
-        {
-            cin >> y;
-        }
-    }
-    sort(all(interval));
-    merge(0, 1, interval);
-    for (auto x : interval)
-    {
-        cout << x;
-    }
+    vector<int> temp{1, 2, 3};
+    temp.emplace(temp.begin(), 0);
+    cout << temp;
 }
 
 signed main()
