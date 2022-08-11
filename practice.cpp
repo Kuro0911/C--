@@ -44,57 +44,28 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int helper(int st, int ed, vector<int> nums)
+void merge(int i, int j, vector<vector<int>> &interval)
 {
-    if (st == ed)
-        return nums[st];
-    int mid = (st + ed) / 2;
-    int lsm = helper(st, mid, nums);
-    int rsm = helper(mid + 1, ed, nums);
-    int sm = 0, lCS = INT_MIN, rCS = INT_MIN;
-    for (int i = mid; i <= ed; i++)
-    {
-        sm += nums[i];
-        rCS = max(sm, rCS);
-    }
-    sm = 0;
-    for (int i = mid - 1; i >= st; i--)
-    {
-        sm += nums[i];
-        lCS = max(sm, lCS);
-    }
-    int ans = max(lsm, rsm);
-    return max(lCS + rCS, ans);
-}
-int maxSubArray(vector<int> &nums)
-{
-    return helper(0, nums.size() - 1, nums);
-}
-int Kadnae(vector<int> &nums)
-{
-    int sm = 0, ans = 0;
-    for (auto x : nums)
-    {
-        if (sm + x > 0)
-        {
-            sm += x;
-        }
-        else
-        {
-            sm = 0;
-        }
-        ans = max(sm, ans);
-    }
-    return ans;
+    interval[i][0] = min(interval[i][0], interval[j][0]);
+    interval[i][1] = max(interval[i][1], interval[j][1]);
+    interval.erase(interval.begin() + j);
 }
 void solve()
 {
-    vector<int> temp(9);
-    for (auto &x : temp)
+    vector<vector<int>> interval(2, vector<int>(2));
+    for (auto &x : interval)
     {
-        cin >> x;
+        for (auto &y : x)
+        {
+            cin >> y;
+        }
     }
-    cout << maxSubArray(temp);
+    sort(all(interval));
+    merge(0, 1, interval);
+    for (auto x : interval)
+    {
+        cout << x;
+    }
 }
 
 signed main()
