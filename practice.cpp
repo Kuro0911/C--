@@ -44,10 +44,60 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+int partition(vector<int> &arr, int lw, int hi)
+{
+    int pvt = arr[lw];
+    if (pvt == 2)
+    {
+        swap(arr[lw], arr[hi]);
+        return hi;
+    }
+    else if (pvt == 0)
+    {
+        return lw;
+    }
+    else
+    {
+        int x = lw;
+        while (arr[x] == 1 && x < hi)
+        {
+            x++;
+        }
+        if (x == hi && arr[x] == 1)
+            return -1;
+        else if (arr[x] == 0)
+        {
+            swap(arr[x], arr[lw]);
+            return lw;
+        }
+        else
+        {
+            swap(arr[x], arr[hi]);
+            return hi;
+        }
+    }
+}
+void QuickSort(vector<int> &arr, int lw, int hi)
+{
+    if (lw < hi)
+    {
+        int pInd = partition(arr, lw, hi);
+        if (pInd == -1)
+            return;
+        QuickSort(arr, lw, pInd - 1);
+        QuickSort(arr, pInd + 1, hi);
+    }
+}
 void solve()
 {
-    vector<int> temp{1, 2, 3};
-    temp.emplace(temp.begin(), 0);
+    int n;
+    cin >> n;
+    vector<int> temp(n);
+    for (auto &x : temp)
+    {
+        cin >> x;
+    }
+    QuickSort(temp, 0, n - 1);
     cout << temp;
 }
 
