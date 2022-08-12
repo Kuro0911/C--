@@ -44,61 +44,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int partition(vector<int> &arr, int lw, int hi)
+vector<int> maxSlidingWindow(vector<int> &nums, int k)
 {
-    int pvt = arr[lw];
-    if (pvt == 2)
+    deque<int> dq;
+    for (int i = 0; i < k; i++)
     {
-        swap(arr[lw], arr[hi]);
-        return hi;
+        while (!dq.empty() && nums[dq.back()] < nums[i])
+            dq.pop_back();
+        dq.push_back(i);
     }
-    else if (pvt == 0)
+
+    vector<int> result;
+    for (int i = k; i < nums.size(); i++)
     {
-        return lw;
+        result.push_back(nums[dq.front()]);
+        while (!dq.empty() && dq.front() <= i - k)
+            dq.pop_front();
+        while (!dq.empty() && nums[dq.back()] < nums[i])
+            dq.pop_back();
+        dq.push_back(i);
     }
-    else
-    {
-        int x = lw;
-        while (arr[x] == 1 && x < hi)
-        {
-            x++;
-        }
-        if (x == hi && arr[x] == 1)
-            return -1;
-        else if (arr[x] == 0)
-        {
-            swap(arr[x], arr[lw]);
-            return lw;
-        }
-        else
-        {
-            swap(arr[x], arr[hi]);
-            return hi;
-        }
-    }
-}
-void QuickSort(vector<int> &arr, int lw, int hi)
-{
-    if (lw < hi)
-    {
-        int pInd = partition(arr, lw, hi);
-        if (pInd == -1)
-            return;
-        QuickSort(arr, lw, pInd - 1);
-        QuickSort(arr, pInd + 1, hi);
-    }
+
+    result.push_back(nums[dq.front()]);
+    return result;
 }
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> temp(n);
-    for (auto &x : temp)
-    {
-        cin >> x;
-    }
-    QuickSort(temp, 0, n - 1);
-    cout << temp;
+    vector<int> temp{1, 3, 1, 2, 0, 5};
+    vector<int> vec = maxSlidingWindow(temp, 3);
+    cout << "ans : " << vec;
 }
 
 signed main()
