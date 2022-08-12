@@ -44,35 +44,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-vector<int> maxSlidingWindow(vector<int> &nums, int k)
+bool check(int testA, int testB, int target, vector<vector<int>> &dp)
 {
-    deque<int> dq;
-    for (int i = 0; i < k; i++)
+    int a = min(testA, testB);
+    int b = max(testA, testB);
+    if (dp[a][b] != -1)
     {
-        while (!dq.empty() && nums[dq.back()] < nums[i])
-            dq.pop_back();
-        dq.push_back(i);
+        return dp[a][b];
     }
-
-    vector<int> result;
-    for (int i = k; i < nums.size(); i++)
+    if (a > target || b > target || a * b > target || a < 0 || b < 0)
     {
-        result.push_back(nums[dq.front()]);
-        while (!dq.empty() && dq.front() <= i - k)
-            dq.pop_front();
-        while (!dq.empty() && nums[dq.back()] < nums[i])
-            dq.pop_back();
-        dq.push_back(i);
+        return dp[a][b] = false;
     }
-
-    result.push_back(nums[dq.front()]);
-    return result;
+    int temp = (a * 2) + (2 * b) + (a * b);
+    if (temp == target)
+    {
+        return dp[a][b] = true;
+    }
+    if (temp < target)
+    {
+        return dp[a][b] = check(a + 1, b, target, dp) || check(a, b + 1, target, dp);
+    }
+    else
+    {
+        return dp[a][b] = check(a - 1, b, target, dp) || check(a, b - 1, target, dp);
+    }
 }
+
 void solve()
 {
-    vector<int> temp{1, 3, 1, 2, 0, 5};
-    vector<int> vec = maxSlidingWindow(temp, 3);
-    cout << "ans : " << vec;
+
+    int n;
+    cin >> n;
+    vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+    if (check(1, 1, n, dp))
+    {
+        cout << "YES\n";
+    }
+    else
+    {
+        cout << "NO\n";
+    }
 }
 
 signed main()
@@ -83,7 +95,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--)
     {
         solve();
