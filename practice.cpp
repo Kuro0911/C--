@@ -46,7 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 int helper(string s, int k)
 {
-    int i = 0, j = 0, ans = INT_MIN, currSize = 0;
+    int i = 0, j = 0, ans = 0, currSize = 0;
     map<char, int> mp;
     while (j < s.size())
     {
@@ -58,20 +58,18 @@ int helper(string s, int k)
                 ans = max(ans, j - i + 1);
             j++;
         }
-        else if (mp.size() > k)
+        else
         {
             while (mp.size() > k)
             {
                 mp[s[i]]--;
                 if (mp[s[i]] == 0)
-                    mp.erase(mp[s[i]]);
+                    mp.erase(s[i]);
                 i++;
             }
             j++;
         }
-        cout << "yez";
     }
-    cout << i << j;
     return ans;
 }
 
