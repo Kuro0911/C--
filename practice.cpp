@@ -44,47 +44,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-bool check(int testA, int testB, int target, vector<vector<int>> &dp)
+int helper(string s, int k)
 {
-    int a = min(testA, testB);
-    int b = max(testA, testB);
-    if (dp[a][b] != -1)
+    int i = 0, j = 0, ans = INT_MIN, currSize = 0;
+    map<char, int> mp;
+    while (j < s.size())
     {
-        return dp[a][b];
+        char x = s[j];
+        mp[x]++;
+        if (mp.size() <= k)
+        {
+            if (mp.size() == k)
+                ans = max(ans, j - i + 1);
+            j++;
+        }
+        else if (mp.size() > k)
+        {
+            while (mp.size() > k)
+            {
+                mp[s[i]]--;
+                if (mp[s[i]] == 0)
+                    mp.erase(mp[s[i]]);
+                i++;
+            }
+            j++;
+        }
+        cout << "yez";
     }
-    if (a > target || b > target || a * b > target || a < 0 || b < 0)
-    {
-        return dp[a][b] = false;
-    }
-    int temp = (a * 2) + (2 * b) + (a * b);
-    if (temp == target)
-    {
-        return dp[a][b] = true;
-    }
-    if (temp < target)
-    {
-        return dp[a][b] = check(a + 1, b, target, dp) || check(a, b + 1, target, dp);
-    }
-    else
-    {
-        return dp[a][b] = check(a - 1, b, target, dp) || check(a, b - 1, target, dp);
-    }
+    cout << i << j;
+    return ans;
 }
 
 void solve()
 {
 
-    int n;
-    cin >> n;
-    vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
-    if (check(1, 1, n, dp))
-    {
-        cout << "YES\n";
-    }
-    else
-    {
-        cout << "NO\n";
-    }
+    string s;
+    cin >> s;
+    int k;
+    cin >> k;
+    int ans = helper(s, k);
+    cout << ans;
 }
 
 signed main()
