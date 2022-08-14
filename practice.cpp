@@ -43,21 +43,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+int helper(string s, map<string, int> &mp)
+{
+    if (mp.find(s) != mp.end())
+    {
+        return mp[s];
+    }
+    if (s.empty())
+    {
+        return mp[s] = 1;
+    }
+    if (s.size() == 1)
+    {
+        return mp[s] = 1;
+    }
+    if (s.size() == 2)
+    {
+        int temp = (s[0] - 48) * 10 + (s[1] - 48);
+        if (temp <= 26 && s[1] != '0')
+            return mp[s] = 2;
+        else
+            return mp[s] = 1;
+    }
+    int mid = (s.size() - 1) / 2;
+    while (mid < s.size() - 1 && s[mid + 1] == '0')
+        mid++;
+    cout << mid << "\n";
+    cout << s.substr(0, mid + 1) << " : {" << s.substr(mid + 1, s.size()) << " }" << endl;
+    return mp[s] = helper(s.substr(0, mid + 1), mp) * helper(s.substr(mid + 1, s.size()), mp);
+}
+int numDecodings(string s)
+{
+    map<string, int> mp;
+    helper(s, mp);
+    return mp[s];
+}
 void solve()
 {
 
-    int n;
-    cin >> n;
-    for (int i = 1; i <= sqrt(n); i++)
-    {
-        if (((n - 2 * i) % (i + 2)) == 0 && 2 * i != n)
-        {
-            cout << "YES\n";
-            return;
-        }
-    }
-    cout << "NO\n";
+    string s;
+    cin >> s;
+    cout << numDecodings(s);
 }
 
 signed main()
@@ -68,7 +94,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
