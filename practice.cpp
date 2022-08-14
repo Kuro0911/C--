@@ -43,46 +43,21 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void merge(vector<int> &nums1, int n, vector<int> &nums2, int m)
-{
-    int l = n - 1, r = m - 1, k = n + m - 1;
-    while (l >= 0 && r >= 0)
-    {
-        if (nums1[l] > nums2[r])
-        {
-            nums1[k] = nums1[l];
-            l--;
-            k--;
-        }
-        else
-        {
-            nums1[k] = nums2[r];
-            r--;
-            k--;
-        }
-    }
-    while (r >= 0)
-    {
-        nums1[k] = nums2[r];
-        r--;
-        k--;
-    }
-}
+
 void solve()
 {
-    int m, n;
-    cin >> m >> n;
-    vector<int> nums1(m + n), nums2(n);
-    for (auto &x : nums1)
+
+    int n;
+    cin >> n;
+    for (int i = 1; i <= sqrt(n); i++)
     {
-        cin >> x;
+        if (((n - 2 * i) % (i + 2)) == 0 && 2 * i != n)
+        {
+            cout << "YES\n";
+            return;
+        }
     }
-    for (auto &x : nums2)
-    {
-        cin >> x;
-    }
-    merge(nums1, m, nums2, n);
-    cout << nums1;
+    cout << "NO\n";
 }
 
 signed main()
@@ -93,7 +68,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin >> t;
+    cin >> t;
     while (t--)
     {
         solve();
