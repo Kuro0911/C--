@@ -43,45 +43,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int helper(string s, int k)
+void merge(vector<int> &nums1, int n, vector<int> &nums2, int m)
 {
-    int i = 0, j = 0, ans = 0, currSize = 0;
-    map<char, int> mp;
-    while (j < s.size())
+    int l = n - 1, r = m - 1, k = n + m - 1;
+    while (l >= 0 && r >= 0)
     {
-        char x = s[j];
-        mp[x]++;
-        if (mp.size() <= k)
+        if (nums1[l] > nums2[r])
         {
-            if (mp.size() == k)
-                ans = max(ans, j - i + 1);
-            j++;
+            nums1[k] = nums1[l];
+            l--;
+            k--;
         }
         else
         {
-            while (mp.size() > k)
-            {
-                mp[s[i]]--;
-                if (mp[s[i]] == 0)
-                    mp.erase(s[i]);
-                i++;
-            }
-            j++;
+            nums1[k] = nums2[r];
+            r--;
+            k--;
         }
     }
-    return ans;
+    while (r >= 0)
+    {
+        nums1[k] = nums2[r];
+        r--;
+        k--;
+    }
 }
-
 void solve()
 {
-
-    string s;
-    cin >> s;
-    int k;
-    cin >> k;
-    int ans = helper(s, k);
-    cout << ans;
+    int m, n;
+    cin >> m >> n;
+    vector<int> nums1(m + n), nums2(n);
+    for (auto &x : nums1)
+    {
+        cin >> x;
+    }
+    for (auto &x : nums2)
+    {
+        cin >> x;
+    }
+    merge(nums1, m, nums2, n);
+    cout << nums1;
 }
 
 signed main()
@@ -92,7 +93,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
