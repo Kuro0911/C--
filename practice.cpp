@@ -43,47 +43,38 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int helper(string s, map<string, int> &mp)
+int largestRectangleArea(vector<int> &heights)
 {
-    if (mp.find(s) != mp.end())
+    stack<pair<int, int>> st;
+    int i = 0, ans = INT_MIN;
+    int n = heights.size();
+    for (int i = 0; i < n; i++)
     {
-        return mp[s];
+        int start = i;
+        while (!st.empty() && st.top().second > heights[i])
+        {
+            int ind = st.top().first;
+            int w = i - ind;
+            int h = st.top().second;
+            st.pop();
+            ans = max(ans, h * w);
+            start = ind;
+        }
+        st.push({start, heights[i]});
     }
-    if (s.empty())
+
+    while (!st.empty())
     {
-        return mp[s] = 1;
+        ans = max(ans, st.top().second * (n - st.top().first));
+        st.pop();
     }
-    if (s.size() == 1)
-    {
-        return mp[s] = 1;
-    }
-    if (s.size() == 2)
-    {
-        int temp = (s[0] - 48) * 10 + (s[1] - 48);
-        if (temp <= 26 && s[1] != '0')
-            return mp[s] = 2;
-        else
-            return mp[s] = 1;
-    }
-    int mid = (s.size() - 1) / 2;
-    while (mid < s.size() - 1 && s[mid + 1] == '0')
-        mid++;
-    cout << mid << "\n";
-    cout << s.substr(0, mid + 1) << " : {" << s.substr(mid + 1, s.size()) << " }" << endl;
-    return mp[s] = helper(s.substr(0, mid + 1), mp) * helper(s.substr(mid + 1, s.size()), mp);
-}
-int numDecodings(string s)
-{
-    map<string, int> mp;
-    helper(s, mp);
-    return mp[s];
+    return ans;
 }
 void solve()
 {
-
-    string s;
-    cin >> s;
-    cout << numDecodings(s);
+    queue<int> q;
+    q.push(1);
+    q.front();
 }
 
 signed main()
