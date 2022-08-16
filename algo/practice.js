@@ -43,4 +43,9 @@ const getStr = () => {
   return s;
 };
 
-console.log(getStr());
+// console.log(getStr());
+
+var str = "STR ,1 2 ";
+str = str.toLowerCase().replace(/\W/g, "");
+var res = str.split("").reverse().join("");
+console.log(res);
