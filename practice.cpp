@@ -72,9 +72,9 @@ int largestRectangleArea(vector<int> &heights)
 }
 void solve()
 {
-    queue<int> q;
-    q.push(1);
-    q.front();
+    vector<int> temp{9, 3, 15, 20};
+    cout << temp[temp.size() / 2];
+    stack<int> st;
 }
 
 signed main()
