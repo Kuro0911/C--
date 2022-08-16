@@ -43,38 +43,66 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int largestRectangleArea(vector<int> &heights)
+void dfs(int i, int j, vector<vector<char>> &board, set<pair<int, int>> &path)
 {
-    stack<pair<int, int>> st;
-    int i = 0, ans = INT_MIN;
-    int n = heights.size();
-    for (int i = 0; i < n; i++)
+    if (path.empty())
+        return;
+    if (i >= board.size() || i < 0 || j > board[i].size() || j < 0)
     {
-        int start = i;
-        while (!st.empty() && st.top().second > heights[i])
+        return;
+    }
+    if (board[i][j] == 'O')
+    {
+        if (i == 0 || j == 0)
         {
-            int ind = st.top().first;
-            int w = i - ind;
-            int h = st.top().second;
-            st.pop();
-            ans = max(ans, h * w);
-            start = ind;
+            path.clear();
+            return;
         }
-        st.push({start, heights[i]});
+        path.insert({i, j});
+        dfs(i + 1, j, board, path);
+        dfs(i - 1, j, board, path);
+        dfs(i, j + 1, board, path);
+        dfs(i, j + 1, board, path);
+        return;
     }
-
-    while (!st.empty())
+    return;
+};
+void solve(vector<vector<char>> &board)
+{
+    for (int i = 0; i < board.size(); i++)
     {
-        ans = max(ans, st.top().second * (n - st.top().first));
-        st.pop();
+        for (int j = 0; j < board[i].size(); j++)
+        {
+            if (board[i][j] == 0)
+            {
+                set<pair<int, int>> path;
+                path.insert({i, j});
+                dfs(i, j, board, path);
+                if (!path.empty())
+                {
+                    cout << "yes\n";
+                    for (auto x : path)
+                    {
+                        board[x.first][x.second] = 'X';
+                    }
+                }
+            }
+        }
     }
-    return ans;
 }
 void solve()
 {
-    vector<int> temp{9, 3, 15, 20};
-    cout << temp[temp.size() / 2];
-    stack<int> st;
+    set<pii> st;
+    st.insert({1, 2});
+    st.insert({3, 4});
+    st.insert({1, 2});
+    st.insert({3, 1});
+    st.insert({1, 3});
+    for (auto &x : st)
+    {
+        cout << x.first;
+    }
+    st.clear();
 }
 
 signed main()
