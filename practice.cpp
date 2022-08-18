@@ -43,19 +43,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
+struct Node
 {
-    for (int i = 0; i < gas.size() * 2; i++)
+    int data;
+    Node *next;
+};
+void insert(Node **head_ref, int data)
+{
+    Node *new_node = new Node();
+    new_node->data = data;
+    new_node->next = NULL;
+    if (*head_ref == NULL)
     {
-        cout << gas[i % gas.size()] << " ";
+        *head_ref = new_node;
+        return;
     }
-    return -1;
+    Node *temp = *head_ref;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = new_node;
+    return;
+}
+void print(Node *head)
+{
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
 }
 void solve()
 {
-    vector<int> gas{1, 2, 3, 4, 5};
-    vector<int> cost{3, 4, 5, 1, 2};
-    canCompleteCircuit(gas, cost);
+    Node *head = NULL;
+    vector<int> ll{1, 2, 3, 4, 5};
+    for (auto x : ll)
+    {
+        insert(&head, x);
+    }
+    print(head);
 }
 
 signed main()
