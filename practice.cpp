@@ -43,47 +43,17 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct Node
-{
-    int data;
-    Node *next;
-};
-void insert(Node **head_ref, int data)
-{
-    Node *new_node = new Node();
-    new_node->data = data;
-    new_node->next = NULL;
-    if (*head_ref == NULL)
-    {
-        *head_ref = new_node;
-        return;
-    }
-    Node *temp = *head_ref;
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    temp->next = new_node;
-    return;
-}
-void print(Node *head)
-{
-    Node *temp = head;
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-}
+
 void solve()
 {
-    Node *head = NULL;
-    vector<int> ll{1, 2, 3, 4, 5};
-    for (auto x : ll)
-    {
-        insert(&head, x);
-    }
-    print(head);
+    string s, temp;
+    cin >> s;
+    // for (int i = 1; i <= s.size(); i++)
+    // {
+    //     string str = s.substr(0, i);
+    //     cout << str << " " << s.substr(i) << endl;
+    // }
+    cout << s.substr(0, s.size() - 1);
 }
 
 signed main()
