@@ -46,14 +46,13 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string s, temp;
-    cin >> s;
-    // for (int i = 1; i <= s.size(); i++)
-    // {
-    //     string str = s.substr(0, i);
-    //     cout << str << " " << s.substr(i) << endl;
-    // }
-    cout << s.substr(0, s.size() - 1);
+    map<int, int> mp;
+    for (int i = 0; i < 10; i++)
+    {
+        mp[i] = i * 10;
+    }
+    auto x = *max_element(all(mp));
+    cout << x.first << " " << x.second;
 }
 
 signed main()
