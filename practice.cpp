@@ -46,13 +46,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    map<int, int> mp;
-    for (int i = 0; i < 10; i++)
-    {
-        mp[i] = i * 10;
-    }
-    auto x = *max_element(all(mp));
-    cout << x.first << " " << x.second;
+    stack<string> st;
+    vector<string> vec{"1", "b", "c"};
+    int s = stoi(vec[0]);
+    cout << s;
 }
 
 signed main()
