@@ -48,7 +48,8 @@ void solve()
 {
     stack<string> st;
     vector<string> vec{"1", "b", "c"};
-    int s = stoi(vec[0]);
+    int x = 1234;
+    string s = to_string(x);
     cout << s;
 }
 
