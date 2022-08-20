@@ -46,21 +46,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n;
-    int k;
-    vector<int> vec(n);
-    for (auto &x : vec)
-    {
-        cin >> x;
-    }
-    auto x = vec.begin();
-    for (int i = 0; i <= n - k; i++)
-    {
-        x++;
-    }
-    reverse(x, vec.end());
-    reverse(vec.begin(), x - 1);
-    reverse(vec.begin(), vec.end());
+    int a = 30, b = 3;
+    string x1 = to_string(a), x2 = to_string(b);
+    string res = x1 + x2;
+    cout << stoi(res);
 }
 
 signed main()
