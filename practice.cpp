@@ -43,49 +43,24 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int helper(int st, int ed, vector<int> nums)
-{
-    if (st <= ed)
-    {
-        int md = (ed + st) / 2;
-        if (md == 0)
-        {
-            if (nums[md] > nums[md] + 1)
-                return md;
-            else
-                return -1;
-        }
-        if (md == nums.size() - 1)
-        {
-            if (nums[md] > nums[md] - 1)
-                return md;
-            else
-                return -1;
-        }
-        if (nums[md] > nums[md - 1] && nums[md] > nums[md + 1])
-        {
-            return md;
-        }
-        if (nums[md] < nums[md - 1])
-        {
-            return helper(st, md - 1, nums);
-        }
-        if (nums[md] < nums[md + 1])
-        {
-            return helper(md + 1, ed, nums);
-        }
-    }
-    return -1;
-}
-int findPeakElement(vector<int> &nums)
-{
-    return helper(0, nums.size() - 1, nums);
-}
+
 void solve()
 {
-    set<int> st;
-    vector<int> vec{1, 2, 3, 1};
-    cout << findPeakElement(vec);
+    int n;
+    int k;
+    vector<int> vec(n);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+    auto x = vec.begin();
+    for (int i = 0; i <= n - k; i++)
+    {
+        x++;
+    }
+    reverse(x, vec.end());
+    reverse(vec.begin(), x - 1);
+    reverse(vec.begin(), vec.end());
 }
 
 signed main()
