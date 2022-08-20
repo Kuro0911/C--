@@ -46,10 +46,12 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int a = 30, b = 3;
+    int a = INT_MIN, b = 1;
     string x1 = to_string(a), x2 = to_string(b);
     string res = x1 + x2;
-    cout << stoi(res);
+
+    int x = stoll(res);
+    cout << x;
 }
 
 signed main()
