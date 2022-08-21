@@ -46,6 +46,14 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    unordered_set<int> test;
+    test.insert(1);
+    test.insert(4);
+    test.insert(2);
+    test.insert(3);
+    reverse(all(test));
+    vector<int> temp(all(test));
+    cout << temp;
 }
 
 signed main()
