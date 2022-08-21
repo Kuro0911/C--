@@ -44,16 +44,52 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+int partition(int lw, int hi, vector<int> &vec)
+{
+    int pvt = vec[hi];
+    int pInd = lw;
+    for (int i = lw; i < hi; i++)
+    {
+        if (vec[i] <= pvt)
+        {
+            swap(vec[i], vec[pInd]);
+            pInd++;
+        }
+    }
+    swap(vec[hi], vec[pInd]);
+    return pInd;
+}
+void quickSort(int lw, int hi, vector<int> &vec, int k)
+{
+    if (lw >= hi)
+    {
+        return;
+    }
+    int pInd = partition(lw, hi, vec);
+    if (pInd == k)
+    {
+        cout << vec[k] << endl;
+    }
+    if (pInd < k)
+    {
+        quickSort(lw, pInd - 1, vec, k);
+    }
+    else
+    {
+        quickSort(pInd + 1, hi, vec, k);
+    }
+};
 void solve()
 {
-    unordered_set<int> test;
-    test.insert(1);
-    test.insert(4);
-    test.insert(2);
-    test.insert(3);
-    reverse(all(test));
-    vector<int> temp(all(test));
-    cout << temp;
+    int n, k;
+    cin >> n >> k;
+    vector<int> vec(n);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+    quickSort(0, vec.size() - 1, vec, k);
+    cout << vec;
 }
 
 signed main()
