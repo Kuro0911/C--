@@ -44,35 +44,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void remove(int a, set<int> &temp, int n)
-{
-    int ptr = 2;
-    while (a * ptr < n)
-    {
-        if (temp.find(a * ptr) != temp.end())
-            temp.erase(a * ptr);
-        ptr++;
-    }
-    return;
-}
-int countPrimes(int n)
-{
-    set<int> temp;
-    for (int i = 2; i < n; i++)
-    {
-        temp.insert(i);
-    }
-    for (auto x : temp)
-    {
-        remove(x, temp, n);
-    }
-    return temp.size();
-}
 void solve()
 {
-    int n;
-    cin >> n;
-    cout << countPrimes(n);
 }
 
 signed main()
