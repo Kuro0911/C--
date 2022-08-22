@@ -44,7 +44,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void opp(char op, int a, int b, vector<char> &s)
+int opp(char op, int a, int b)
 {
     int res;
     if (op == '+')
@@ -63,31 +63,64 @@ void opp(char op, int a, int b, vector<char> &s)
     {
         res = a / b;
     }
+    return res;
 }
 void solve()
 {
-    set<char> check;
-    check.insert('+');
-    check.insert('-');
-    check.insert('/');
-    check.insert('*');
-
     string s;
     cin >> s;
-    vector<char> str;
-    for (auto x : s)
+    stack<string> st;
+    int i = 0;
+    while (i < s.size())
     {
-        str.push_back(x);
-    }
-    for (int i = 0; i < str.size(); i++)
-    {
-        if (check.find(str[i]) != check.end())
+        if (s[i] == '*' || s[i] == '/')
         {
-            opp(str[i], str[i - 1] - '0', str[i + 1] - '0', str);
+            cout << "yes";
+            int res = opp(s[i], stoi(st.top()), s[i + 1] - '0');
+            st.pop();
+            i += 2;
+            st.push(to_string(res));
+        }
+        else if (s[i] == '+' || s[i] == '-')
+        {
+            string temp = "";
+            temp += s[i];
+            st.push(temp);
+            i++;
+        }
+        else
+        {
+            int x = s[i] - '0';
+            st.push(to_string(x));
+            i++;
         }
     }
-
-    cout << s;
+    int ans = 0;
+    string x;
+    while (!st.empty())
+    {
+        x += st.top();
+        cout << st.top() << endl;
+        st.pop();
+    }
+    i = 0;
+    while (i < s.size())
+    {
+        if (s[i] == '+' || s[i] == '-')
+        {
+            int res = opp(s[i], stoi(st.top()), s[i + 1] - '0');
+            st.pop();
+            i += 2;
+            st.push(to_string(res));
+        }
+        else
+        {
+            int x = s[i] - '0';
+            st.push(to_string(x));
+            i++;
+        }
+    }
+    cout << st.top() << endl;
 }
 
 signed main()
