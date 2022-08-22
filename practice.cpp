@@ -44,95 +44,32 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int opp(char op, int a, int b)
+bool searchMatrix(vector<vector<int>> &matrix, int target)
 {
-    int res;
-    if (op == '+')
+    int i = 0, j = matrix[i].size() - 1;
+    while (i < matrix.size() && j >= 0)
     {
-        res = a + b;
+        if (matrix[i][j] == target)
+        {
+            return true;
+        }
+        else if (matrix[i][j] < target)
+        {
+            i++;
+        }
+        else
+        {
+            j--;
+        }
     }
-    else if (op == '-')
-    {
-        res = a - b;
-    }
-    else if (op == '*')
-    {
-        res = a * b;
-    }
-    else if (op == '/')
-    {
-        res = a / b;
-    }
-    return res;
+    return false;
 }
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<string> str;
-    int i = 0;
-    string temp;
-    while (i < s.size())
-    {
-        if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/')
-        {
-            str.push_back(temp);
-            string x;
-            x.push_back(s[i]);
-            str.push_back(x);
-            temp.clear();
-        }
-        else
-        {
-            temp.push_back(s[i]);
-        }
-        i++;
-    }
-    if (temp.size() != 0)
-        str.push_back(temp);
-    stack<string> st;
-    i = 0;
-    while (i < str.size())
-    {
-        if (str[i] == "*" || str[i] == "/")
-        {
-            int res = opp(str[i][0], stoi(st.top()), stoi(str[i + 1]));
-            st.pop();
-            i += 2;
-            st.push(to_string(res));
-        }
-        else
-        {
-            st.push(str[i]);
-            i++;
-        }
-    }
-    int ans = 0;
-    vector<string> x;
-    while (!st.empty())
-    {
-        x.push_back(st.top());
-        st.pop();
-    }
-    reverse(x.begin(), x.end());
-    str = x;
-    i = 0;
-    while (i < str.size())
-    {
-        if (str[i] == "+" || str[i] == "-")
-        {
-            int res = opp(str[i][0], stoi(st.top()), stoi(str[i + 1]));
-            st.pop();
-            i += 2;
-            st.push(to_string(res));
-        }
-        else
-        {
-            st.push(str[i]);
-            i++;
-        }
-    }
-    cout << st.top() << endl;
+    vector<vector<int>> vec{{1}, {3}, {5}};
+    int target;
+    cin >> target;
+    cout << searchMatrix(vec, target);
 }
 
 signed main()
