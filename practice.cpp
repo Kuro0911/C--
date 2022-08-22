@@ -69,54 +69,66 @@ void solve()
 {
     string s;
     cin >> s;
-    stack<string> st;
+    vector<string> str;
     int i = 0;
+    string temp;
     while (i < s.size())
     {
-        if (s[i] == '*' || s[i] == '/')
+        if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/')
         {
-            cout << "yes";
-            int res = opp(s[i], stoi(st.top()), s[i + 1] - '0');
+            str.push_back(temp);
+            string x;
+            x.push_back(s[i]);
+            str.push_back(x);
+            temp.clear();
+        }
+        else
+        {
+            temp.push_back(s[i]);
+        }
+        i++;
+    }
+    if (temp.size() != 0)
+        str.push_back(temp);
+    stack<string> st;
+    i = 0;
+    while (i < str.size())
+    {
+        if (str[i] == "*" || str[i] == "/")
+        {
+            int res = opp(str[i][0], stoi(st.top()), stoi(str[i + 1]));
             st.pop();
             i += 2;
             st.push(to_string(res));
         }
-        else if (s[i] == '+' || s[i] == '-')
-        {
-            string temp = "";
-            temp += s[i];
-            st.push(temp);
-            i++;
-        }
         else
         {
-            int x = s[i] - '0';
-            st.push(to_string(x));
+            st.push(str[i]);
             i++;
         }
     }
     int ans = 0;
-    string x;
+    vector<string> x;
     while (!st.empty())
     {
-        x += st.top();
-        cout << st.top() << endl;
+        x.push_back(st.top());
         st.pop();
     }
+    reverse(x.begin(), x.end());
+    str = x;
     i = 0;
-    while (i < s.size())
+    while (i < str.size())
     {
-        if (s[i] == '+' || s[i] == '-')
+        if (str[i] == "+" || str[i] == "-")
         {
-            int res = opp(s[i], stoi(st.top()), s[i + 1] - '0');
+            int res = opp(str[i][0], stoi(st.top()), stoi(str[i + 1]));
             st.pop();
             i += 2;
             st.push(to_string(res));
         }
         else
         {
-            int x = s[i] - '0';
-            st.push(to_string(x));
+            st.push(str[i]);
             i++;
         }
     }
