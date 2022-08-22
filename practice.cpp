@@ -44,8 +44,50 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+void opp(char op, int a, int b, vector<char> &s)
+{
+    int res;
+    if (op == '+')
+    {
+        res = a + b;
+    }
+    else if (op == '-')
+    {
+        res = a - b;
+    }
+    else if (op == '*')
+    {
+        res = a * b;
+    }
+    else if (op == '/')
+    {
+        res = a / b;
+    }
+}
 void solve()
 {
+    set<char> check;
+    check.insert('+');
+    check.insert('-');
+    check.insert('/');
+    check.insert('*');
+
+    string s;
+    cin >> s;
+    vector<char> str;
+    for (auto x : s)
+    {
+        str.push_back(x);
+    }
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (check.find(str[i]) != check.end())
+        {
+            opp(str[i], str[i - 1] - '0', str[i + 1] - '0', str);
+        }
+    }
+
+    cout << s;
 }
 
 signed main()
