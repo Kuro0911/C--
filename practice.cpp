@@ -43,33 +43,23 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-bool searchMatrix(vector<vector<int>> &matrix, int target)
+int findDuplicate(vector<int> &nums)
 {
-    int i = 0, j = matrix[i].size() - 1;
-    while (i < matrix.size() && j >= 0)
+    map<int, int> mp;
+    for (auto x : nums)
     {
-        if (matrix[i][j] == target)
+        mp[x]++;
+        if (mp[x] == 2)
         {
-            return true;
-        }
-        else if (matrix[i][j] < target)
-        {
-            i++;
-        }
-        else
-        {
-            j--;
+            return x;
         }
     }
-    return false;
+    return -1;
 }
 void solve()
 {
-    vector<vector<int>> vec{{1}, {3}, {5}};
-    int target;
-    cin >> target;
-    cout << searchMatrix(vec, target);
+    int x = sqrt(12);
+    cout << x;
 }
 
 signed main()

@@ -35,17 +35,21 @@ const arr = [5, 4, 3, 2, 1];
 
 const getStr = () => {
   let n = 0;
-  const characters = "0123456789";
+  const characters = "123456789";
   var s = "";
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 128; i++) {
     s += characters.charAt(Math.floor(Math.random() * characters.length));
+    if (i % 4 == 0) {
+      console.log(s);
+      s = "";
+    }
   }
   return s;
 };
 
-// console.log(getStr());
+console.log(getStr());
 
 var str = "STR ,1 2 ";
 str = str.toLowerCase().replace(/\W/g, "");
 var res = str.split("").reverse().join("");
-console.log(res);
+// console.log(res);
