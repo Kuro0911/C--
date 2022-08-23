@@ -43,18 +43,36 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int findDuplicate(vector<int> &nums)
+void update(int i, int j, vector<vector<int>> &board)
 {
-    map<int, int> mp;
-    for (auto x : nums)
+    vector<pair<int, int>> dir{{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
+    int alive = 0;
+    for (auto x : dir)
     {
-        mp[x]++;
-        if (mp[x] == 2)
+        int a = i + x.first, b = j + x.second;
+        if(a < 0 || a > board.size() || b < 0 || b > board[a].size()){
+            continue;
+        }
+        if (board[i + x.first][j + x.second] == 1)
         {
-            return x;
+            alive++;
         }
     }
-    return -1;
+    if (board[i][j] == 0 && alive == 3)
+        board[i][j] = 1;
+    else if (board[i][j] == 1 && alive < 2 || alive > 3)
+        board[i][j] = 0;
+}
+void gameOfLife(vector<vector<int>> &board)
+{
+    vector<vector<int>> ans = board;
+    for (int i = 0; i < board.size(); i++)
+    {
+        for (int j = 0; j < board[i].size(); i++)
+        {
+            update(i, j, board);
+        }
+    }
 }
 void solve()
 {
