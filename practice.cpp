@@ -43,41 +43,18 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void update(int i, int j, vector<vector<int>> &board)
-{
-    vector<pair<int, int>> dir{{1, 0}, {0, 1}, {-1, 0}, {0, -1}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
-    int alive = 0;
-    for (auto x : dir)
-    {
-        int a = i + x.first, b = j + x.second;
-        if(a < 0 || a > board.size() || b < 0 || b > board[a].size()){
-            continue;
-        }
-        if (board[i + x.first][j + x.second] == 1)
-        {
-            alive++;
-        }
-    }
-    if (board[i][j] == 0 && alive == 3)
-        board[i][j] = 1;
-    else if (board[i][j] == 1 && alive < 2 || alive > 3)
-        board[i][j] = 0;
-}
-void gameOfLife(vector<vector<int>> &board)
-{
-    vector<vector<int>> ans = board;
-    for (int i = 0; i < board.size(); i++)
-    {
-        for (int j = 0; j < board[i].size(); i++)
-        {
-            update(i, j, board);
-        }
-    }
-}
+
 void solve()
 {
-    int x = sqrt(12);
-    cout << x;
+    string s = "a b c";
+    stringstream temp(s);
+    vector<string> vec;
+    string x;
+    while (temp >> x)
+    {
+        vec.push_back(x);
+    }
+    cout << vec;
 }
 
 signed main()
