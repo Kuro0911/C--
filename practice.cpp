@@ -51,6 +51,10 @@ void solve()
     priority_queue<int> max_heap;
     priority_queue<int, vector<int>, greater<int>> min_heap;
     int mid = nums.size() / 2;
+    if (nums.size() % 2 == 0)
+    {
+        mid++;
+    }
     for (int i = 0; i < mid; i++)
     {
         max_heap.push(nums[i]);
@@ -76,7 +80,6 @@ void solve()
         }
         flag = !flag;
     }
-    cout << min_heap.size() << endl;
     cout << ans;
 }
 
