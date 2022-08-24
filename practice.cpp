@@ -43,38 +43,37 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(vector<int> nums, vector<int> temp, int &ans)
+int coinChange(vector<int> &coins, int amount)
 {
-    cout << temp;
-    int sz = temp.size();
-    if (nums.size() == 0)
+    vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1));
+    for (int i = 0; i < dp.size(); i++)
+        dp[i][0] = 0;
+    for (int i = 0; i < dp[0].size(); i++)
+        dp[0][i] = INT_MAX - 1;
+    for (int i = 1; i < dp.size(); i++)
     {
-        ans = max(ans, sz);
-        return;
+        for (int j = 1; j < dp[i].size(); j++)
+        {
+            if (coins[i - 1] <= j)
+            {
+                dp[i][j] = min(dp[i][j - coins[i - 1]] + 1, dp[i - 1][j]);
+            }
+            else
+            {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+        }
     }
-    int x = nums[0];
-    nums.erase(nums.begin());
-    if (sz == 0 || temp[sz - 1] < x)
+    for (auto x : dp)
     {
-        temp.push_back(x);
-        ans = max(ans, sz);
-        helper(nums, temp, ans);
-        temp.pop_back();
-    };
-    helper(nums, temp, ans);
-    return;
-}
-int lengthOfLIS(vector<int> &nums)
-{
-    int ans = 0;
-    vector<int> temp;
-    helper(nums, temp, ans);
-    return ans;
+        cout << x;
+    }
+    return dp[coins.size()][amount];
 }
 void solve()
 {
-    vector<int> nums{7, 7, 7, 7, 7, 7};
-    cout << lengthOfLIS(nums);
+    vector<int> nums{3, 2, 1};
+    cout << coinChange(nums, 5);
 }
 
 signed main()
