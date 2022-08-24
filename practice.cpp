@@ -43,10 +43,38 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+void helper(vector<int> nums, vector<int> temp, int &ans)
+{
+    cout << temp;
+    int sz = temp.size();
+    if (nums.size() == 0)
+    {
+        ans = max(ans, sz);
+        return;
+    }
+    int x = nums[0];
+    nums.erase(nums.begin());
+    if (sz == 0 || temp[sz - 1] < x)
+    {
+        temp.push_back(x);
+        ans = max(ans, sz);
+        helper(nums, temp, ans);
+        temp.pop_back();
+    };
+    helper(nums, temp, ans);
+    return;
+}
+int lengthOfLIS(vector<int> &nums)
+{
+    int ans = 0;
+    vector<int> temp;
+    helper(nums, temp, ans);
+    return ans;
+}
 void solve()
 {
-    cout << "lcs";
+    vector<int> nums{7, 7, 7, 7, 7, 7};
+    cout << lengthOfLIS(nums);
 }
 
 signed main()

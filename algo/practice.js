@@ -38,11 +38,7 @@ const getStr = () => {
   const characters = "123456789";
   var s = "";
   for (let i = 0; i < 128; i++) {
-    s += characters.charAt(Math.floor(Math.random() * characters.length));
-    if (i % 4 == 0) {
-      console.log(s);
-      s = "";
-    }
+    s += characters.charAt(Math.floor(Math.random() * characters.length)) + ",";
   }
   return s;
 };
