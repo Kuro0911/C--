@@ -46,15 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string s = "a b c";
-    stringstream temp(s);
-    vector<string> vec;
-    string x;
-    while (temp >> x)
-    {
-        vec.push_back(x);
-    }
-    cout << vec;
+    cout << "lcs";
 }
 
 signed main()
