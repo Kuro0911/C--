@@ -43,37 +43,41 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int coinChange(vector<int> &coins, int amount)
-{
-    vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1));
-    for (int i = 0; i < dp.size(); i++)
-        dp[i][0] = 0;
-    for (int i = 0; i < dp[0].size(); i++)
-        dp[0][i] = INT_MAX - 1;
-    for (int i = 1; i < dp.size(); i++)
-    {
-        for (int j = 1; j < dp[i].size(); j++)
-        {
-            if (coins[i - 1] <= j)
-            {
-                dp[i][j] = min(dp[i][j - coins[i - 1]] + 1, dp[i - 1][j]);
-            }
-            else
-            {
-                dp[i][j] = dp[i - 1][j - 1];
-            }
-        }
-    }
-    for (auto x : dp)
-    {
-        cout << x;
-    }
-    return dp[coins.size()][amount];
-}
+
 void solve()
 {
-    vector<int> nums{3, 2, 1};
-    cout << coinChange(nums, 5);
+    vector<int> nums{1, 6, 1, 5, 1, 4, 7};
+    sort(nums.begin(), nums.end());
+    priority_queue<int> max_heap;
+    priority_queue<int, vector<int>, greater<int>> min_heap;
+    int mid = nums.size() / 2;
+    for (int i = 0; i < mid; i++)
+    {
+        max_heap.push(nums[i]);
+    }
+    cout << endl;
+    for (int i = mid; i < nums.size(); i++)
+    {
+        min_heap.push(nums[i]);
+    }
+    vector<int> ans;
+    bool flag = true;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (flag)
+        {
+            ans.push_back(max_heap.top());
+            max_heap.pop();
+        }
+        else
+        {
+            ans.push_back(min_heap.top());
+            min_heap.pop();
+        }
+        flag = !flag;
+    }
+    cout << min_heap.size() << endl;
+    cout << ans;
 }
 
 signed main()
