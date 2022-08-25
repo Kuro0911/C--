@@ -43,44 +43,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+int dfs(int i, int j, vector<vector<int>> &matrix, map<pair<int, int>, int> &mp)
+{
+    vector<pair<int, int>> dir{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+    if (mp.find({i, j}) != mp.end())
+    {
+        return mp[{i, j}];
+    }
+    int ans = 0;
+    for (auto x : dir)
+    {
+        int a = i + x.first;
+        int b = j + x.second;
+        if (a >= 0 && a < matrix.size() && b >= 0 && b < matrix[i].size() && matrix[a][b] > matrix[i][j])
+        {
+            ans = max(ans, dfs(a, b, matrix, mp));
+        }
+    }
+    return mp[{i, j}] = ans + 1;
+}
+int longestIncreasingPath(vector<vector<int>> &matrix)
+{
+    int ans = 1;
+    map<pair<int, int>, int> mp;
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            if (mp.find({i, j}) == mp.end())
+            {
+                cout << i << " " << j << endl;
+                mp[{i, j}] = dfs(i, j, matrix, mp);
+            }
+            ans = max(ans, mp[{i, j}]);
+        }
+    }
+    return ans;
+}
 void solve()
 {
-    vector<int> nums{1, 6, 1, 5, 1, 4, 7};
-    sort(nums.begin(), nums.end());
-    priority_queue<int> max_heap;
-    priority_queue<int, vector<int>, greater<int>> min_heap;
-    int mid = nums.size() / 2;
-    if (nums.size() % 2 == 0)
-    {
-        mid++;
-    }
-    for (int i = 0; i < mid; i++)
-    {
-        max_heap.push(nums[i]);
-    }
-    cout << endl;
-    for (int i = mid; i < nums.size(); i++)
-    {
-        min_heap.push(nums[i]);
-    }
-    vector<int> ans;
-    bool flag = true;
-    for (int i = 0; i < nums.size(); i++)
-    {
-        if (flag)
-        {
-            ans.push_back(max_heap.top());
-            max_heap.pop();
-        }
-        else
-        {
-            ans.push_back(min_heap.top());
-            min_heap.pop();
-        }
-        flag = !flag;
-    }
-    cout << ans;
+    vector<vector<int>> vec{{9, 9, 4}, {6, 6, 8}, {2, 1, 1}};
+    cout << longestIncreasingPath(vec);
 }
 
 signed main()
