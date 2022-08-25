@@ -46,7 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 int dfs(int i, int j, vector<vector<int>> &matrix, map<pair<int, int>, int> &mp)
 {
     vector<pair<int, int>> dir{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
-    if (mp.find({i, j}) != mp.end())
+    if (mp[{i, j}] != 0)
     {
         return mp[{i, j}];
     }
@@ -72,7 +72,6 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
         {
             if (mp.find({i, j}) == mp.end())
             {
-                cout << i << " " << j << endl;
                 mp[{i, j}] = dfs(i, j, matrix, mp);
             }
             ans = max(ans, mp[{i, j}]);
@@ -82,7 +81,7 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
 }
 void solve()
 {
-    vector<vector<int>> vec{{9, 9, 4}, {6, 6, 8}, {2, 1, 1}};
+    vector<vector<int>> vec{{3, 4, 5}, {3, 2, 6}, {2, 2, 1}};
     cout << longestIncreasingPath(vec);
 }
 
