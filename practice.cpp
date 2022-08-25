@@ -43,46 +43,89 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int dfs(int i, int j, vector<vector<int>> &matrix, map<pair<int, int>, int> &mp)
+struct node
 {
-    vector<pair<int, int>> dir{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
-    if (mp[{i, j}] != 0)
+    int data;
+    pair<int, int> range;
+    node *left;
+    node *right;
+    node(int val, int l, int r)
     {
-        return mp[{i, j}];
+        data = val;
+        range = {l, r};
+        node *left = NULL;
+        node *right = NULL;
     }
-    int ans = 0;
-    for (auto x : dir)
-    {
-        int a = i + x.first;
-        int b = j + x.second;
-        if (a >= 0 && a < matrix.size() && b >= 0 && b < matrix[i].size() && matrix[a][b] > matrix[i][j])
-        {
-            ans = max(ans, dfs(a, b, matrix, mp));
-        }
-    }
-    return mp[{i, j}] = ans + 1;
+};
+int merge(int x, int y)
+{
+    return x + y;
 }
-int longestIncreasingPath(vector<vector<int>> &matrix)
+void build(int i, int l, int r, vector<int> vec, vector<int> &t)
 {
-    int ans = 1;
-    map<pair<int, int>, int> mp;
-    for (int i = 0; i < matrix.size(); i++)
+    if (l == r)
     {
-        for (int j = 0; j < matrix[i].size(); j++)
-        {
-            if (mp.find({i, j}) == mp.end())
-            {
-                mp[{i, j}] = dfs(i, j, matrix, mp);
-            }
-            ans = max(ans, mp[{i, j}]);
-        }
+        t[i] = vec[i - 1];
+        return;
     }
-    return ans;
+    int mid = (l + r) / 2;
+    build(2 * i, l, mid, vec, t);
+    build((2 * i) + 1, mid + 1, r, vec, t);
+    t[i] = merge(t[2 * i], t[(2 * i) + 1]);
+}
+int lc(int i)
+{
+    return 2 * i;
+}
+int rc(int i)
+{
+    return (2 * i) + 1;
+}
+void update(int i, int l, int r, int pos, int val, vector<int> &t)
+{
+    if (l == r)
+    {
+        t[i] = val;
+        return;
+    }
+    int mid = (l + r) / 2;
+    if (pos <= mid)
+    {
+        update(lc(i), l, mid, pos, val, t);
+    }
+    else
+    {
+        update(rc(i), mid + 1, r, pos, val, t);
+    }
+    t[i] = merge(t[2 * i], t[(2 * i) + 1]);
+}
+int query(int i, int l, int r, int ql, int qr, vector<int> &t)
+{
+    if (l > qr || r < ql)
+    {
+        return 0;
+    }
+    if (l >= ql && r <= qr)
+    {
+        return t[i];
+    }
+    int md = (l + r) / 2;
+    int restl = query(lc(i), l, md, ql, qr, t);
+    int restr = query(rc(i), md + 1, r, ql, qr, t);
+    return merge(restl, restr);
 }
 void solve()
 {
-    vector<vector<int>> vec{{3, 4, 5}, {3, 2, 6}, {2, 2, 1}};
-    cout << longestIncreasingPath(vec);
+    int n;
+    cin >> n;
+    vector<int> vec(n);
+    vector<int> t(n);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+    build(1, 1, vec.size(), vec, t);
+    cout << query(1, 1, vec.size(), 1, 3, t);
 }
 
 signed main()
