@@ -49,9 +49,8 @@ struct node
     pair<int, int> range;
     node *left;
     node *right;
-    node(int val, int l, int r)
+    node(int l, int r)
     {
-        data = val;
         range = {l, r};
         node *left = NULL;
         node *right = NULL;
@@ -61,71 +60,77 @@ int merge(int x, int y)
 {
     return x + y;
 }
-void build(int i, int l, int r, vector<int> vec, vector<int> &t)
+void build(int l, int r, node *&root, vector<int> vec)
 {
+    node *temp = new node(l, r);
     if (l == r)
     {
-        t[i] = vec[i - 1];
+        temp->data = vec[l];
+        root = temp;
         return;
     }
     int mid = (l + r) / 2;
-    build(2 * i, l, mid, vec, t);
-    build((2 * i) + 1, mid + 1, r, vec, t);
-    t[i] = merge(t[2 * i], t[(2 * i) + 1]);
+    build(l, mid, temp->left, vec);
+    build(mid + 1, r, temp->right, vec);
+    temp->data = temp->left->data + temp->right->data;
+    root = temp;
+    return;
 }
-int lc(int i)
+void update(int pos, int val, node *&root)
 {
-    return 2 * i;
-}
-int rc(int i)
-{
-    return (2 * i) + 1;
-}
-void update(int i, int l, int r, int pos, int val, vector<int> &t)
-{
-    if (l == r)
+    node *runner = root;
+    stack<node *> path;
+    while (runner->range.first != runner->range.second)
     {
-        t[i] = val;
-        return;
+        path.push(runner);
+        if (runner->left->range.second >= pos)
+        {
+            runner = runner->left;
+        }
+        else
+        {
+            runner = runner->right;
+        }
     }
-    int mid = (l + r) / 2;
-    if (pos <= mid)
+    int diff = val - runner->data;
+    runner->data = val;
+
+    while (!path.empty())
     {
-        update(lc(i), l, mid, pos, val, t);
+        path.top()->data += diff;
+        path.pop();
     }
-    else
-    {
-        update(rc(i), mid + 1, r, pos, val, t);
-    }
-    t[i] = merge(t[2 * i], t[(2 * i) + 1]);
+    return;
 }
-int query(int i, int l, int r, int ql, int qr, vector<int> &t)
+int query(int ql, int qr, node *root)
 {
-    if (l > qr || r < ql)
+    int l = root->range.first, r = root->range.second;
+    if (root == NULL || l > qr || r < ql)
     {
         return 0;
-    }
+    };
     if (l >= ql && r <= qr)
     {
-        return t[i];
+        return root->data;
     }
-    int md = (l + r) / 2;
-    int restl = query(lc(i), l, md, ql, qr, t);
-    int restr = query(rc(i), md + 1, r, ql, qr, t);
-    return merge(restl, restr);
+    int restL = query(ql, qr, root->left);
+    int restR = query(ql, qr, root->right);
+    return merge(restL, restR);
 }
+
 void solve()
 {
     int n;
     cin >> n;
     vector<int> vec(n);
-    vector<int> t(n);
     for (auto &x : vec)
     {
         cin >> x;
     }
-    build(1, 1, vec.size(), vec, t);
-    cout << query(1, 1, vec.size(), 1, 3, t);
+    node *root = NULL;
+    build(0, vec.size() - 1, root, vec);
+    update(3, 10, root);
+    cout << query(1, 4, root);
 }
 
 signed main()
