@@ -52,29 +52,27 @@ struct node
     node(int l, int r)
     {
         range = {l, r};
-        node *left = NULL;
-        node *right = NULL;
+        left = NULL;
+        right = NULL;
     }
 };
 int merge(int x, int y)
 {
     return x + y;
 }
-void build(int l, int r, node *&root, vector<int> vec)
+node *build(int l, int r, vector<int> vec)
 {
     node *temp = new node(l, r);
     if (l == r)
     {
         temp->data = vec[l];
-        root = temp;
-        return;
+        return temp;
     }
     int mid = (l + r) / 2;
-    build(l, mid, temp->left, vec);
-    build(mid + 1, r, temp->right, vec);
+    temp->left = build(l, mid, vec);
+    temp->right = build(mid + 1, r, vec);
     temp->data = temp->left->data + temp->right->data;
-    root = temp;
-    return;
+    return temp;
 }
 void update(int pos, int val, node *&root)
 {
@@ -117,7 +115,34 @@ int query(int ql, int qr, node *root)
     int restR = query(ql, qr, root->right);
     return merge(restL, restR);
 }
-
+int sumRange(int ql, int qr, node *head)
+{
+    if (head == NULL)
+    {
+        return 0;
+    }
+    int l = head->range.first, r = head->range.second;
+    if (l == ql && r == qr)
+    {
+        return head->data;
+    }
+    int part = head->left->range.second;
+    if (part >= ql)
+    {
+        if (part >= qr)
+        {
+            return sumRange(ql, qr, head->left);
+        }
+        else
+        {
+            return sumRange(ql, part, head->left) + sumRange(part + 1, qr, head->right);
+        }
+    }
+    else
+    {
+        return sumRange(ql, qr, head->right);
+    }
+}
 void solve()
 {
     int n;
@@ -127,10 +152,9 @@ void solve()
     {
         cin >> x;
     }
-    node *root = NULL;
-    build(0, vec.size() - 1, root, vec);
+    node *root = build(0, vec.size() - 1, vec);
     update(3, 10, root);
-    cout << query(1, 4, root);
+    cout << sumRange(1, 4, root);
 }
 
 signed main()
