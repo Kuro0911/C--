@@ -44,35 +44,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int minimumLoss(vector<int> price)
-{
-    int minloss = INT_MIN;
-    int size = price.size();
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = i + 1; j < size; j++)
-        {
-            if (price.at(j) - price.at(i) < 0)
-            {
-                if (price.at(j) - price.at(i) > minloss)
-                {
-                    minloss = price.at(j) - price.at(i);
-                }
-            }
-        }
-    }
-    return 0 - minloss;
-}
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> vec(n);
-    for (auto &x : vec)
-    {
-        cin >> x;
-    }
-    cout << minimumLoss(vec) << endl;
+    string s = "ABCS";
+    cout << s.substr(0, 2) << " " << s.substr(2);
 }
 
 signed main()
@@ -83,7 +58,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin>>t;
     while (t--)
     {
         solve();
