@@ -43,11 +43,37 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+string convert(string s, int numRows)
+{
+    string ans;
+    unordered_map<int, vector<string>> mp;
+    int x = 0;
+    vector<string> temp;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (i % 3 == 0 && i > 3)
+        {
+            mp[x] = temp;
+            temp.clear();
+            mp[x + 1].push_back(to_string(s[i]));
+            x++;
+        }
+        else
+        {
+            temp.push_back(to_string(s[i]));
+        }
+    }
+    for (auto x : mp)
+    {
+        cout << x.first << " " << x.second;
+    }
+    return ans;
+}
 void solve()
 {
-    int x;
-    cin >> x;
+    string s;
+    cin >> s;
+    cout << convert(s, 3);
 }
 
 signed main()
