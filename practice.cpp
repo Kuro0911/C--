@@ -45,35 +45,34 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 string convert(string s, int numRows)
 {
-    string ans;
-    unordered_map<int, vector<string>> mp;
-    int x = 0;
-    vector<string> temp;
-    for (int i = 0; i < s.size(); i++)
+    vector<string> vec(numRows, "");
+    int i = 0;
+    while (i < s.size())
     {
-        if (i % 3 == 0 && i > 3)
+        for (int j = 0; j < numRows && i < s.size(); j++)
         {
-            mp[x] = temp;
-            temp.clear();
-            mp[x + 1].push_back(to_string(s[i]));
-            x++;
+            vec[j].push_back(s[i++]);
         }
-        else
+        for (int k = numRows - 2; k >= 1 && i < k; k--)
         {
-            temp.push_back(to_string(s[i]));
+            vec[k].push_back(s[i++]);
         }
     }
-    for (auto x : mp)
+    string ans = "";
+    for (auto x : vec)
     {
-        cout << x.first << " " << x.second;
+        ans += x;
     }
     return ans;
 }
 void solve()
 {
-    string s;
-    cin >> s;
-    cout << convert(s, 3);
+    string s = "0123456789";
+    for (int i = 0; i < s.size(); i++)
+    {
+        int x = s[i] - '0';
+        cout << x << endl;
+    }
 }
 
 signed main()
