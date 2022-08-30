@@ -35,10 +35,10 @@ const arr = [5, 4, 3, 2, 1];
 
 const getStr = () => {
   let n = 0;
-  const characters = "123456789";
+  const characters = "rdwpohqydpqkjkdxhoedvccakjmxuy.*";
   var s = "";
-  for (let i = 0; i < 128; i++) {
-    s += characters.charAt(Math.floor(Math.random() * characters.length)) + ",";
+  for (let i = 0; i < 30; i++) {
+    s += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return s;
 };
