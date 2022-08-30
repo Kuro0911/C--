@@ -43,36 +43,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-string convert(string s, int numRows)
+int myAtoi(string s)
 {
-    vector<string> vec(numRows, "");
+    bool sign = true;
     int i = 0;
+    if (s[i] == '-')
+    {
+        sign = false;
+        i++;
+    }
+    int ans = 0;
     while (i < s.size())
     {
-        for (int j = 0; j < numRows && i < s.size(); j++)
-        {
-            vec[j].push_back(s[i++]);
-        }
-        for (int k = numRows - 2; k >= 1 && i < k; k--)
-        {
-            vec[k].push_back(s[i++]);
-        }
+        int x = s[i] - '0';
+        ans = ans * 10 + x;
+        i++;
     }
-    string ans = "";
-    for (auto x : vec)
+    if (ans < INT_MAX)
     {
-        ans += x;
+        if (sign == false)
+        {
+            return -ans;
+        }
+        else
+        {
+            return ans;
+        }
     }
-    return ans;
+    if (sign == false)
+    {
+        return -INT_MAX;
+    }
+    return INT_MAX;
 }
 void solve()
 {
-    string s = "0123456789";
-    for (int i = 0; i < s.size(); i++)
-    {
-        int x = s[i] - '0';
-        cout << x << endl;
-    }
+    cout << INT_MAX;
 }
 
 signed main()
