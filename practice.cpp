@@ -43,42 +43,45 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int myAtoi(string s)
+bool helper(string s, string p, vector<char> &prev)
 {
-    bool sign = true;
-    int i = 0;
-    if (s[i] == '-')
+    if (s.size() == 0 && p.size() == 0)
     {
-        sign = false;
-        i++;
+        return true;
     }
-    int ans = 0;
-    while (i < s.size())
+    if (p[0] != '*')
     {
-        int x = s[i] - '0';
-        ans = ans * 10 + x;
-        i++;
-    }
-    if (ans < INT_MAX)
-    {
-        if (sign == false)
+        if (p.size() > 1 && p[1] == '*')
         {
-            return -ans;
+            prev.push_back(p[0]);
         }
-        else
+        if (s[0] != p[0] && p[0] != '.')
         {
-            return ans;
+            return false;
         }
+        return helper(s.substr(1), p.substr(1), prev);
     }
-    if (sign == false)
+    else
     {
-        return -INT_MAX;
+        int same = 0;
+        while (s[same] == prev[0])
+        {
+            same++;
+        }
+        return helper(s.substr(same), p.substr(1), prev);
     }
-    return INT_MAX;
+    return false;
+}
+bool isMatch(string s, string p)
+{
+    vector<char> temp;
+    return helper(s, p, temp);
 }
 void solve()
 {
-    cout << INT_MAX;
+    string s, p;
+    cin >> s >> p;
+    cout << isMatch(s, p);
 }
 
 signed main()
