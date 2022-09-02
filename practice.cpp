@@ -44,6 +44,16 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+struct node
+{
+    int data;
+    node *next;
+    node(int val)
+    {
+        data = val;
+    }
+};
+
 void solve()
 {
 }
