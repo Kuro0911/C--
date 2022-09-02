@@ -43,56 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-bool helper(string s, string p, vector<char> &prev)
-{
-    if (s.size() == 0 && p.size() == 0)
-    {
-        return true;
-    }
-    if (s.size() != 0 && p.size() == 0 || s.size() == 0 && p.size() != 0)
-    {
-        return false;
-    }
-    if (p[0] != '*')
-    {
-        if (p.size() > 1 && p[1] == '*')
-        {
-            if (!prev.empty())
-                prev.clear();
-            prev.push_back(p[0]);
-        }
-        if (s[0] == p[0] || p[0] == '.')
-        {
-            return helper(s.substr(1), p.substr(1), prev);
-        }
-        return helper(s, p.substr(1), prev);
-    }
-    else
-    {
-        int same = 0;
-        if (prev[0] == '.')
-        {
-            prev[0] = s[0];
-        }
-        while (s[same] == prev[0] && same < s.size())
-        {
-            same++;
-        }
-        cout << same;
-        return helper(s.substr(same), p.substr(1), prev);
-    }
-    return false;
-}
-bool isMatch(string s, string p)
-{
-    vector<char> temp;
-    return helper(s, p, temp);
-}
+
 void solve()
 {
-    string s, p;
-    cin >> s >> p;
-    cout << isMatch(s, p);
 }
 
 signed main()
