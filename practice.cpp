@@ -43,64 +43,16 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(vector<int> cd, int target, int curr_sm, vector<int> temp, set<vector<int>> &ans)
-{
-    if (curr_sm == target)
-    {
-        sort(temp.begin(), temp.end());
-        ans.insert(temp);
-        return;
-    }
-    if (curr_sm > target)
-    {
-        return;
-    }
-    if (cd.size() == 0)
-    {
-        return;
-    }
-    int x = cd[0];
-    temp.push_back(x);
-    cd.erase(cd.begin());
-    helper(cd, target, curr_sm + x, temp, ans);
-    temp.pop_back();
-    helper(cd, target, curr_sm, temp, ans);
-    return;
-}
-vector<vector<int>> combinationSum2(vector<int> &cd, int target)
-{
-    int sm = 0;
-    for (auto x : cd)
-        sm += x;
-    if (sm < target)
-    {
-        return {{}};
-    }
-    set<vector<int>> ans;
-    vector<int> temp;
-    helper(cd, target, 0, temp, ans);
-    vector<vector<int>> res = {ans.begin(), ans.end()};
-    return res;
-}
 
 void solve()
 {
-    int target, n;
-    cin >> n >> target;
-    vector<int> cd(n);
-    for (auto &x : cd)
+    vector<int> vec{2, 2, 2, 2};
+    int x = 2;
+    while (vec[0] == x && vec.size() != 0)
     {
-        cin >> x;
+        vec.erase(vec.begin());
     }
-    vector<vector<int>> ans = combinationSum2(cd, target);
-    for (auto x : ans)
-    {
-        for (auto y : x)
-        {
-            cout << y << " ";
-        }
-        cout << endl;
-    }
+    cout << vec;
 }
 
 signed main()
