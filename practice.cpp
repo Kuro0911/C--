@@ -51,11 +51,99 @@ struct node
     node(int val)
     {
         data = val;
+        next = NULL;
     }
 };
 
+void insert(node **head_ref, int data)
+{
+    node *new_node = new node(data);
+    if (*head_ref == NULL)
+    {
+        *head_ref = new_node;
+        return;
+    }
+    node *temp = *head_ref;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = new_node;
+    return;
+}
+void print(node *head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+    return;
+}
+void reverse(node **head_ref, node *end)
+{
+    node *curr = *head_ref;
+    node *prev = NULL;
+    while (curr != end)
+    {
+        node *temp = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = temp;
+    }
+    *head_ref = prev;
+    return;
+}
 void solve()
 {
+    node *root = NULL;
+    int n, k;
+    cin >> n >> k;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        insert(&root, x);
+    }
+    // node *end = root;
+    // while (k--)
+    // {
+    //     end = end->next;
+    // }
+    // reverse(&root, end);
+    node *temp = new node(-1);
+    temp->next = root;
+    node *prev = temp, *curr = root;
+    while (curr != NULL && curr->next != NULL)
+    {
+        node *nxt = curr;
+        while (k-- && nxt != NULL)
+        {
+            nxt = nxt->next;
+        }
+        node *tempCurr, *TempPrev;
+        tempCurr = curr;
+        TempPrev = NULL;
+        while (tempCurr != nxt)
+        {
+            node *x = tempCurr->next;
+            tempCurr->next = TempPrev;
+            TempPrev = tempCurr;
+            tempCurr = x;
+        }
+        prev = tempCurr;
+        curr = nxt;
+        node *sc = curr->next;
+
+        sc->next = curr;
+        curr->next = nxt;
+        prev->next = sc;
+
+        prev = curr;
+        curr = nxt;
+    }
+    print(temp->next);
 }
 
 signed main()
