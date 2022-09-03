@@ -43,107 +43,64 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-struct node
+void helper(vector<int> cd, int target, int curr_sm, vector<int> temp, set<vector<int>> &ans)
 {
-    int data;
-    node *next;
-    node(int val)
+    if (curr_sm == target)
     {
-        data = val;
-        next = NULL;
-    }
-};
-
-void insert(node **head_ref, int data)
-{
-    node *new_node = new node(data);
-    if (*head_ref == NULL)
-    {
-        *head_ref = new_node;
+        sort(temp.begin(), temp.end());
+        ans.insert(temp);
         return;
     }
-    node *temp = *head_ref;
-    while (temp->next != NULL)
+    if (curr_sm > target)
     {
-        temp = temp->next;
+        return;
     }
-    temp->next = new_node;
+    if (cd.size() == 0)
+    {
+        return;
+    }
+    int x = cd[0];
+    temp.push_back(x);
+    cd.erase(cd.begin());
+    helper(cd, target, curr_sm + x, temp, ans);
+    temp.pop_back();
+    helper(cd, target, curr_sm, temp, ans);
     return;
 }
-void print(node *head)
+vector<vector<int>> combinationSum2(vector<int> &cd, int target)
 {
-    while (head != NULL)
+    int sm = 0;
+    for (auto x : cd)
+        sm += x;
+    if (sm < target)
     {
-        cout << head->data << " ";
-        head = head->next;
+        return {{}};
     }
-    cout << endl;
-    return;
+    set<vector<int>> ans;
+    vector<int> temp;
+    helper(cd, target, 0, temp, ans);
+    vector<vector<int>> res = {ans.begin(), ans.end()};
+    return res;
 }
-void reverse(node **head_ref, node *end)
-{
-    node *curr = *head_ref;
-    node *prev = NULL;
-    while (curr != end)
-    {
-        node *temp = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = temp;
-    }
-    *head_ref = prev;
-    return;
-}
+
 void solve()
 {
-    node *root = NULL;
-    int n, k;
-    cin >> n >> k;
-    for (int i = 0; i < n; i++)
+    int target, n;
+    cin >> n >> target;
+    vector<int> cd(n);
+    for (auto &x : cd)
     {
-        int x;
         cin >> x;
-        insert(&root, x);
     }
-    // node *end = root;
-    // while (k--)
-    // {
-    //     end = end->next;
-    // }
-    // reverse(&root, end);
-    node *temp = new node(-1);
-    temp->next = root;
-    node *prev = temp, *curr = root;
-    while (curr != NULL && curr->next != NULL)
+    vector<vector<int>> ans = combinationSum2(cd, target);
+    for (auto x : ans)
     {
-        node *nxt = curr;
-        while (k-- && nxt != NULL)
+        for (auto y : x)
         {
-            nxt = nxt->next;
+            cout << y << " ";
         }
-        node *tempCurr, *TempPrev;
-        tempCurr = curr;
-        TempPrev = NULL;
-        while (tempCurr != nxt)
-        {
-            node *x = tempCurr->next;
-            tempCurr->next = TempPrev;
-            TempPrev = tempCurr;
-            tempCurr = x;
-        }
-        prev = tempCurr;
-        curr = nxt;
-        node *sc = curr->next;
-
-        sc->next = curr;
-        curr->next = nxt;
-        prev->next = sc;
-
-        prev = curr;
-        curr = nxt;
+        cout << endl;
     }
-    print(temp->next);
 }
 
 signed main()

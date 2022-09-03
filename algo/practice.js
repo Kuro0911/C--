@@ -37,8 +37,9 @@ const getStr = () => {
   let n = 0;
   const characters = "rdwpohqydpqkjkdxhoedvccakjmxuy.*";
   var s = "";
-  for (let i = 0; i < 30; i++) {
-    s += characters.charAt(Math.floor(Math.random() * characters.length));
+  for (let i = 0; i < 100; i++) {
+    // s += characters.charAt(Math.floor(Math.random() * characters.length));
+    s += Math.floor(Math.random() * 50) + ",";
   }
   return s;
 };
