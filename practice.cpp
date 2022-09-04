@@ -46,17 +46,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<int> vec{12, 3, 4, 2, 3};
-    auto pos = vec.begin();
-    for (auto x : vec)
-    {
-        if (x == 4)
-        {
-            vec.erase(pos);
-        }
-        pos++;
-    }
-    cout << vec;
+    string s = "ABC";
+    cout << s.substr(1);
 }
 
 signed main()
