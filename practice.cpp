@@ -46,8 +46,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string s = "ABC";
-    cout << s.substr(1);
+    char x = 1 + '0';
+    int y = x - '0';
+    cout << y;
 }
 
 signed main()
