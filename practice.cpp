@@ -43,70 +43,84 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-map<string, int> mp;
-int getSm(string temp, vector<int> board)
+
+void helper(int l, int r, int k, string s, vector<int> &ans, map<string, int> st, map<string, bool> &mp)
 {
-    int sm = 0;
-    for (auto x : temp)
+    if (r > s.size())
     {
-        sm += board[x - 'a'];
+        return;
     }
-    return sm;
-}
-void helper(string s, vector<int> board, int &ans)
-{
-    int n = s.size();
-    for (int len = 1; len <= n; len++)
+    string str = s.substr(l, r);
+    if (mp.find(str) != mp.end())
     {
-        for (int i = 0; i <= n - len; i++)
+        if (mp[str])
         {
-            int j = i + len - 1;
+            ans.push_back(l);
+        }
+        helper(l + k, r + k, k, s, ans, st, mp);
+    }
+    else
+    {
+        map<string, int> temp = st;
+        bool flag = true;
+        for (int i = l; i < r; i += k)
+        {
             string x = "";
-            for (int k = i; k <= j; k++)
+            for (int j = i; j < i + k; j++)
             {
-                x += s[k];
+                x += s[j];
             }
-            if (mp.find(x) != mp.end())
+            if (st.find(x) == st.end())
             {
-                if (mp[x] % x.size() == 0)
-                {
-                    ans++;
-                }
+                flag = false;
+                break;
             }
             else
             {
-                int sm = mp[x] = getSm(x, board);
-                if (sm % x.size() == 0)
-                {
-                    ans++;
-                }
+                st[x]--;
             }
         }
+        if (flag && st.size() == 0)
+        {
+            mp[str] = true;
+            ans.push_back(l);
+        }
+        else
+        {
+            mp[str] = false;
+        }
+        helper(l + k, r + k, k, s, ans, temp, mp);
     }
     return;
 }
-int countSubstrings(string s)
+vector<int> findSubstring(string s, vector<string> &words)
 {
-    vector<int> board;
-    board.push_back(1);
-    board.push_back(1);
-    int x = 2;
-    for (int i = 2; i < 26; i += 3)
+    int k = words[0].size();
+    int ansSize = k * words.size();
+    if (ansSize > s.size())
     {
-        board.push_back(x);
-        board.push_back(x);
-        board.push_back(x);
-        x++;
+        return {};
     }
-    int ans = 0;
-    helper(s, board, ans);
+    vector<int> ans;
+    map<string, bool> mp;
+    map<string, int> st;
+    for (auto x : words)
+    {
+        st[x]++;
+    }
+    helper(0, ansSize - 1, k, s, ans, st, mp);
     return ans;
 }
 void solve()
 {
+    vector<string> word(4);
     string s;
     cin >> s;
-    cout << countSubstrings(s);
+    for (auto &x : word)
+    {
+        cin >> x;
+    }
+    cout << findSubstring(s, word);
 }
 
 signed main()
