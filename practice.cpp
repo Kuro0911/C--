@@ -43,44 +43,70 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-void helper(int i, int j, int n, vector<vector<int>> &ans, vector<pair<int, int>> dir, int &d)
+map<string, int> mp;
+int getSm(string temp, vector<int> board)
 {
-    if (i >= ans.size() && i < 0 && j >= ans[i].size() || j < 0 || ans[i][j] != -1)
+    int sm = 0;
+    for (auto x : temp)
     {
-        return;
+        sm += board[x - 'a'];
     }
-    ans[i][j] = n;
-    int x, y;
-    while (d < 4)
-    {
-        x = i + dir[d].first;
-        y = j + dir[d].second;
-        if (x < ans.size() && x >= 0 && y < ans[i].size() && y >= 0 && ans[x][y] == -1)
-        {
-            helper(x, y, n + 1, ans, dir, d);
-            return;
-        }
-        d++;
-    }
-    d = 0;
-    x = i + dir[0].first;
-    y = j + dir[0].second;
-    helper(x, y, n + 1, ans, dir, d);
+    return sm;
 }
-
+void helper(string s, vector<int> board, int &ans)
+{
+    int n = s.size();
+    for (int len = 1; len <= n; len++)
+    {
+        for (int i = 0; i <= n - len; i++)
+        {
+            int j = i + len - 1;
+            string x = "";
+            for (int k = i; k <= j; k++)
+            {
+                x += s[k];
+            }
+            if (mp.find(x) != mp.end())
+            {
+                if (mp[x] % x.size() == 0)
+                {
+                    ans++;
+                }
+            }
+            else
+            {
+                int sm = mp[x] = getSm(x, board);
+                if (sm % x.size() == 0)
+                {
+                    ans++;
+                }
+            }
+        }
+    }
+    return;
+}
+int countSubstrings(string s)
+{
+    vector<int> board;
+    board.push_back(1);
+    board.push_back(1);
+    int x = 2;
+    for (int i = 2; i < 26; i += 3)
+    {
+        board.push_back(x);
+        board.push_back(x);
+        board.push_back(x);
+        x++;
+    }
+    int ans = 0;
+    helper(s, board, ans);
+    return ans;
+}
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<vector<int>> ans(n, vector<int>(n, -1));
-    vector<pair<int, int>> dir{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    int d = 0;
-    helper(0, 0, 1, ans, dir, d);
-    for (auto x : ans)
-    {
-        cout << x;
-    }
+    string s;
+    cin >> s;
+    cout << countSubstrings(s);
 }
 
 signed main()
