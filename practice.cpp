@@ -44,23 +44,17 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void helper(string s, int l, int r, int k, int minSz, map<string, int> mp, map<string, bool> &vis, vector<int> &ans)
+void helper(string s, int l, int r, int k, int minSz, map<string, int> mp, set<int> &ans)
 {
-    if (s.size() < minSz)
+    map<string, int> tempMp = mp;
+    if (r > s.size())
     {
         return;
     }
-    map<string, int> tempMp = mp;
-    if (vis.find(s) != vis.end())
+    cout << l << " " << r << endl;
+    if (ans.find(l) == ans.end())
     {
-        if (vis[s])
-        {
-            ans.push_back(l);
-        }
-    }
-    else
-    {
-        for (int i = 0; i < s.size(); i += k)
+        for (int i = l; i < s.size(); i += k)
         {
             string temp = "";
 
@@ -68,7 +62,6 @@ void helper(string s, int l, int r, int k, int minSz, map<string, int> mp, map<s
             {
                 temp += s[j];
             }
-            cout << temp << endl;
             if (mp.find(temp) != mp.end())
             {
                 mp[temp]--;
@@ -77,25 +70,20 @@ void helper(string s, int l, int r, int k, int minSz, map<string, int> mp, map<s
                     mp.erase(temp);
                 }
             }
-        }
-        cout << mp.size() << endl;
-        cout << mp;
-        if (mp.size() == 0)
-        {
-            ans.push_back(l);
-            vis[s] = true;
-        }
-        else
-        {
-            vis[s] = false;
+            else
+            {
+                break;
+            }
+            if (mp.size() == 0)
+            {
+                ans.insert(l);
+            }
         }
     }
-    // helper(s.substr(0, s.size() - 1), l, r - 1, k, minSz, tempMp, vis, ans);
-    // helper(s.substr(1), l + 1, r, k, minSz, tempMp, vis, ans);
+    helper(s, l + 1, r + 1, k, minSz, tempMp, ans);
 }
 vector<int> findSubstring(string s, vector<string> &words)
 {
-    map<string, bool> vis;
     map<string, int> mp;
     int k = words[0].size();
     int minSz = words[0].size() * words.size();
@@ -103,9 +91,10 @@ vector<int> findSubstring(string s, vector<string> &words)
     {
         mp[x]++;
     }
-    vector<int> ans;
-    helper(s, 0, s.size() - 1, k, minSz, mp, vis, ans);
-    return ans;
+    set<int> ans;
+    helper(s, 0, minSz, k, minSz, mp, ans);
+    vector<int> res(ans.begin(), ans.end());
+    return res;
 }
 void solve()
 {
