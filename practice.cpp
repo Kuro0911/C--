@@ -44,68 +44,166 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void helper(string s, int l, int r, int k, int minSz, map<string, int> mp, set<int> &ans)
+struct node
 {
-    map<string, int> tempMp = mp;
-    if (r > s.size())
+    int data;
+    node *next;
+    node(int val)
     {
+        data = val;
+        next = NULL;
+    }
+};
+
+void insert(node **head_ref, int data)
+{
+    node *new_node = new node(data);
+
+    if (*head_ref == NULL)
+    {
+        *head_ref = new_node;
         return;
     }
-    cout << l << " " << r << endl;
-    if (ans.find(l) == ans.end())
+    node *temp = *head_ref;
+    while (temp->next != NULL)
     {
-        for (int i = l; i < s.size(); i += k)
-        {
-            string temp = "";
+        temp = temp->next;
+    }
+    temp->next = new_node;
+};
+void print(node *head)
+{
+    node *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
 
-            for (int j = i; j < i + k; j++)
-            {
-                temp += s[j];
-            }
-            if (mp.find(temp) != mp.end())
-            {
-                mp[temp]--;
-                if (mp[temp] == 0)
-                {
-                    mp.erase(temp);
-                }
-            }
-            else
-            {
-                break;
-            }
-            if (mp.size() == 0)
-            {
-                ans.insert(l);
-            }
+// q1
+void rotate(node **head_ref)
+{
+    node *prev = *head_ref;
+    node *curr = *head_ref;
+    while (curr->next != NULL)
+    {
+        prev = curr;
+        curr = curr->next;
+    }
+    prev->next = NULL;
+    curr->next = *head_ref;
+    *head_ref = curr;
+}
+
+// q2
+node *merge(node *l_temp, node *r_temp)
+{
+    node *l = l_temp;
+    node *r = r_temp;
+    node *new_head = NULL;
+    while (l != NULL && r != NULL)
+    {
+        if (l->data <= r->data)
+        {
+            insert(&new_head, l->data);
+            l = l->next;
+        }
+        else
+        {
+            insert(&new_head, r->data);
+            r = r->next;
         }
     }
-    helper(s, l + 1, r + 1, k, minSz, tempMp, ans);
-}
-vector<int> findSubstring(string s, vector<string> &words)
-{
-    map<string, int> mp;
-    int k = words[0].size();
-    int minSz = words[0].size() * words.size();
-    for (auto x : words)
+    while (l != NULL)
     {
-        mp[x]++;
+        insert(&new_head, l->data);
+        l = l->next;
     }
-    set<int> ans;
-    helper(s, 0, minSz, k, minSz, mp, ans);
-    vector<int> res(ans.begin(), ans.end());
-    return res;
+    while (r != NULL)
+    {
+        insert(&new_head, r->data);
+        r = r->next;
+    }
+    return new_head;
+}
+node *mergeSort(node *head)
+{
+    if (head->next == NULL)
+        return head;
+    node *slow = head, *fast = head, *curr = head;
+    while (fast->next != NULL && fast->next->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    node *r = mergeSort(slow->next);
+    slow->next = NULL;
+    node *l = mergeSort(head);
+    node *new_head = merge(l, r);
+    return new_head;
+};
+
+// q3
+bool checkPalin(node *head)
+{
+    node *temp = head;
+    stack<int> st;
+    while (temp != NULL)
+    {
+        st.push(temp->data);
+        temp = temp->next;
+    }
+    node *temp1 = head;
+    while (temp1 != NULL)
+    {
+        if (temp1->data != st.top())
+        {
+            return false;
+        }
+        st.pop();
+        temp1 = temp1->next;
+    }
+    return true;
+}
+void delEle(node **head_ref, int pos)
+{
+    node *temp = *head_ref, *prev = *head_ref;
+    while (temp != NULL && pos != 0)
+    {
+        prev = temp;
+        temp = temp->next;
+        pos--;
+    }
+    prev->next = temp->next;
 }
 void solve()
 {
-    vector<string> word(4);
-    string s;
-    cin >> s;
-    for (auto &x : word)
+    node *root = NULL;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
     {
+        int x;
         cin >> x;
+        insert(&root, x);
     }
-    cout << findSubstring(s, word);
+
+    // rotate(&root);
+    // node *sorted = mergeSort(root);
+    // print(sorted);
+    // if (checkPalin(root))
+    // {
+    //     cout << "yes";
+    // }
+    // else
+    // {
+    //     cout << "no";
+    // }
+    // delEle(&root, 2);
+
+    print(root);
 }
 
 signed main()
