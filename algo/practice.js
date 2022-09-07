@@ -29,17 +29,16 @@ const randomQuickSort = ({ arr, low, hi }) => {
   return arr;
 };
 
-const arr = [5, 4, 3, 2, 1];
+let arr = [5, 4, 3, 2, 1];
 
-// console.log(randomQuickSort(arr={arr}, low={0}, hi={5}));
+// console.log(randomQuickSort(arr, 0, 5));
 
 const getStr = () => {
   let n = 0;
   const characters = "rdwpohqydpqkjkdxhoedvccakjmxuy.*";
   var s = "";
   for (let i = 0; i < 100; i++) {
-    // s += characters.charAt(Math.floor(Math.random() * characters.length));
-    s += Math.floor(Math.random() * 50) + ",";
+    s += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return s;
 };
@@ -50,3 +49,25 @@ var str = "STR ,1 2 ";
 str = str.toLowerCase().replace(/\W/g, "");
 var res = str.split("").reverse().join("");
 // console.log(res);
+
+function merge(l, r) {
+  let arr = [];
+  while (l.length && r.length) {
+    if (l[0] < r[0]) {
+      arr.push(l.shift());
+    } else {
+      arr.push(r.shift());
+    }
+  }
+  return [...arr, ...l, ...r];
+}
+function mergeSort(a) {
+  const md = a.length / 2;
+  if (a.length < 2) {
+    return a;
+  }
+  const l = a.splice(0, md);
+  return merge(mergeSort(l), mergeSort(a));
+}
+
+// console.log(mergeSort([5, 4, 3, 2, 1]));

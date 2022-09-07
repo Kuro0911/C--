@@ -44,166 +44,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-struct node
+vector<string> findRepeatedDnaSequences(string s)
 {
-    int data;
-    node *next;
-    node(int val)
+    int l = 0, r = 0;
+    int sz = 10;
+    set<string> st;
+    string temp = "";
+    set<string> ans;
+    while (r < s.size())
     {
-        data = val;
-        next = NULL;
-    }
-};
-
-void insert(node **head_ref, int data)
-{
-    node *new_node = new node(data);
-
-    if (*head_ref == NULL)
-    {
-        *head_ref = new_node;
-        return;
-    }
-    node *temp = *head_ref;
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    temp->next = new_node;
-};
-void print(node *head)
-{
-    node *temp = head;
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    cout << endl;
-}
-
-// q1
-void rotate(node **head_ref)
-{
-    node *prev = *head_ref;
-    node *curr = *head_ref;
-    while (curr->next != NULL)
-    {
-        prev = curr;
-        curr = curr->next;
-    }
-    prev->next = NULL;
-    curr->next = *head_ref;
-    *head_ref = curr;
-}
-
-// q2
-node *merge(node *l_temp, node *r_temp)
-{
-    node *l = l_temp;
-    node *r = r_temp;
-    node *new_head = NULL;
-    while (l != NULL && r != NULL)
-    {
-        if (l->data <= r->data)
+        if (temp.size() == 10)
         {
-            insert(&new_head, l->data);
-            l = l->next;
+            if (st.find(temp) != st.end())
+            {
+                ans.insert(temp);
+            }
+            else
+            {
+                st.insert(temp);
+            }
+            temp = temp.substr(1);
+            l++;
         }
-        else
-        {
-            insert(&new_head, r->data);
-            r = r->next;
-        }
+        temp += s[r];
+        r++;
     }
-    while (l != NULL)
-    {
-        insert(&new_head, l->data);
-        l = l->next;
-    }
-    while (r != NULL)
-    {
-        insert(&new_head, r->data);
-        r = r->next;
-    }
-    return new_head;
-}
-node *mergeSort(node *head)
-{
-    if (head->next == NULL)
-        return head;
-    node *slow = head, *fast = head, *curr = head;
-    while (fast->next != NULL && fast->next->next != NULL)
-    {
-        slow = slow->next;
-        fast = fast->next->next;
-    }
-    node *r = mergeSort(slow->next);
-    slow->next = NULL;
-    node *l = mergeSort(head);
-    node *new_head = merge(l, r);
-    return new_head;
-};
-
-// q3
-bool checkPalin(node *head)
-{
-    node *temp = head;
-    stack<int> st;
-    while (temp != NULL)
-    {
-        st.push(temp->data);
-        temp = temp->next;
-    }
-    node *temp1 = head;
-    while (temp1 != NULL)
-    {
-        if (temp1->data != st.top())
-        {
-            return false;
-        }
-        st.pop();
-        temp1 = temp1->next;
-    }
-    return true;
-}
-void delEle(node **head_ref, int pos)
-{
-    node *temp = *head_ref, *prev = *head_ref;
-    while (temp != NULL && pos != 0)
-    {
-        prev = temp;
-        temp = temp->next;
-        pos--;
-    }
-    prev->next = temp->next;
+    vector<string> res(ans.begin(), ans.end());
+    return res;
 }
 void solve()
 {
-    node *root = NULL;
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        int x;
-        cin >> x;
-        insert(&root, x);
-    }
-
-    // rotate(&root);
-    // node *sorted = mergeSort(root);
-    // print(sorted);
-    // if (checkPalin(root))
-    // {
-    //     cout << "yes";
-    // }
-    // else
-    // {
-    //     cout << "no";
-    // }
-    // delEle(&root, 2);
-
-    print(root);
+    string s;
+    cin >> s;
+    cout << findRepeatedDnaSequences(s);
 }
 
 signed main()
