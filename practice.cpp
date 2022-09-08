@@ -44,39 +44,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-vector<string> findRepeatedDnaSequences(string s)
+int minPathSum(vector<vector<int>> &grid)
 {
-    int l = 0, r = 0;
-    int sz = 10;
-    set<string> st;
-    string temp = "";
-    set<string> ans;
-    while (r < s.size())
+    vector<vector<int>> dp(grid.size(), vector<int>(grid[0].size(), -1));
+    dp[0][0] = grid[0][0];
+    dp[0][1] = grid[1][0] + grid[0][0];
+    dp[1][0] = grid[0][1] + grid[0][0];
+    for (int i = 1; i < dp.size(); i++)
     {
-        if (temp.size() == 10)
+        for (int j = 1; j < dp[i].size(); j++)
         {
-            if (st.find(temp) != st.end())
-            {
-                ans.insert(temp);
-            }
-            else
-            {
-                st.insert(temp);
-            }
-            temp = temp.substr(1);
-            l++;
+            dp[i][j] = grid[i][j] + min(dp[i - 1][j], dp[i][j - 1]);
         }
-        temp += s[r];
-        r++;
     }
-    vector<string> res(ans.begin(), ans.end());
-    return res;
+    for (int i = 0; i < dp.size(); i++)
+    {
+        for (int j = 0; j < dp[i].size(); j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << dp;
+    return -1;
 }
 void solve()
 {
-    string s;
-    cin >> s;
-    cout << findRepeatedDnaSequences(s);
+    vector<vector<int>> grid{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
+    cout << minPathSum(grid);
 }
 
 signed main()
