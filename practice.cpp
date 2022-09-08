@@ -46,27 +46,18 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 int minPathSum(vector<vector<int>> &grid)
 {
-    vector<vector<int>> dp(grid.size(), vector<int>(grid[0].size(), -1));
-    dp[0][0] = grid[0][0];
-    dp[0][1] = grid[1][0] + grid[0][0];
-    dp[1][0] = grid[0][1] + grid[0][0];
-    for (int i = 1; i < dp.size(); i++)
+    int n = grid.size(), m = grid[0].size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+    dp[n][m] = grid[n - 1][m - 1];
+    for (int i = 0; i <= n; i++)
     {
-        for (int j = 1; j < dp[i].size(); j++)
-        {
-            dp[i][j] = grid[i][j] + min(dp[i - 1][j], dp[i][j - 1]);
-        }
-    }
-    for (int i = 0; i < dp.size(); i++)
-    {
-        for (int j = 0; j < dp[i].size(); j++)
+        for (int j = 0; j <= m; j++)
         {
             cout << dp[i][j] << " ";
         }
         cout << endl;
     }
 
-    cout << dp;
     return -1;
 }
 void solve()
