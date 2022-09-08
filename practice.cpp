@@ -48,17 +48,25 @@ int minPathSum(vector<vector<int>> &grid)
 {
     int n = grid.size(), m = grid[0].size();
     vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
-    dp[n][m] = grid[n - 1][m - 1];
-    for (int i = 0; i <= n; i++)
+    dp[n - 1][m - 1] = grid[n - 1][m - 1];
+    for (int i = 0; i <= m; i++)
     {
-        for (int j = 0; j <= m; j++)
-        {
-            cout << dp[i][j] << " ";
-        }
-        cout << endl;
+        dp[n][i] = INT_MAX - 1;
     }
+    for (int i = 0; i < n; i++)
+    {
+        dp[i][m] = INT_MAX - 1;
+    }
+    dp[n][m - 1] = 0;
 
-    return -1;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = m - 1; j >= 0; j--)
+        {
+            dp[i][j] = grid[i][j] + min(dp[i + 1][j], dp[i][j + 1]);
+        }
+    }
+    return dp[0][0];
 }
 void solve()
 {
