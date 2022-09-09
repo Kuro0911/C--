@@ -43,36 +43,23 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int helper(int i, int j, int n, int m, vector<vector<int>> grid, map<pair<int, int>, int> &dp)
+vector<vector<int>> insert(vector<vector<int>> &intervals, vector<int> &newInterval)
 {
-    if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] != 1)
+    vector<vector<int>> ans;
+    int ptr = 0;
+    while (ptr < newInterval.size())
     {
-        if (dp.find({i, j}) != dp.end())
+        if (intervals[ptr][0] <= newInterval[0])
         {
-            return dp[{i, j}];
         }
-        if (i == n - 1 && j == m - 1)
-        {
-            return dp[{i, j}] = 1;
-        }
-        dp[{i, j}] = helper(i + 1, j, n, m, grid, dp) + helper(i, j + 1, n, m, grid, dp);
     }
-    return 0;
+    return ans;
 }
-int uniquePathsWithObstacles(vector<vector<int>> &grid)
-{
-    map<pair<int, int>, int> dp;
-    helper(0, 0, grid.size(), grid[0].size(), grid, dp);
-    return dp[{0, 0}];
-}
-
 void solve()
 {
-    vector<vector<int>> grid{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-    map<pii, int> dp;
-    cout << helper(0, 0, grid.size(), grid[0].size(), grid, dp);
-    cout << dp;
+    vector<vector<int>> intervals;
+    vector<int> newInterval;
+    cout << insert(intervals, newInterval);
 }
 
 signed main()
