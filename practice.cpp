@@ -44,34 +44,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int minPathSum(vector<vector<int>> &grid)
+int helper(int i, int j, int n, int m, vector<vector<int>> grid, map<pair<int, int>, int> &dp)
 {
-    int n = grid.size(), m = grid[0].size();
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
-    dp[n - 1][m - 1] = grid[n - 1][m - 1];
-    for (int i = 0; i <= m; i++)
+    if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] != 1)
     {
-        dp[n][i] = INT_MAX - 1;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        dp[i][m] = INT_MAX - 1;
-    }
-    dp[n][m - 1] = 0;
-
-    for (int i = n - 1; i >= 0; i--)
-    {
-        for (int j = m - 1; j >= 0; j--)
+        if (dp.find({i, j}) != dp.end())
         {
-            dp[i][j] = grid[i][j] + min(dp[i + 1][j], dp[i][j + 1]);
+            return dp[{i, j}];
         }
+        if (i == n - 1 && j == m - 1)
+        {
+            return dp[{i, j}] = 1;
+        }
+        dp[{i, j}] = helper(i + 1, j, n, m, grid, dp) + helper(i, j + 1, n, m, grid, dp);
     }
-    return dp[0][0];
+    return 0;
 }
+int uniquePathsWithObstacles(vector<vector<int>> &grid)
+{
+    map<pair<int, int>, int> dp;
+    helper(0, 0, grid.size(), grid[0].size(), grid, dp);
+    return dp[{0, 0}];
+}
+
 void solve()
 {
-    vector<vector<int>> grid{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
-    cout << minPathSum(grid);
+    vector<vector<int>> grid{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+    map<pii, int> dp;
+    cout << helper(0, 0, grid.size(), grid[0].size(), grid, dp);
+    cout << dp;
 }
 
 signed main()
