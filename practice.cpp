@@ -46,20 +46,32 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 vector<vector<int>> insert(vector<vector<int>> &intervals, vector<int> &newInterval)
 {
     vector<vector<int>> ans;
-    int ptr = 0;
-    while (ptr < newInterval.size())
+    for (int i = 0; i < intervals.size(); i++)
     {
-        if (intervals[ptr][0] <= newInterval[0])
+        if (newInterval[1] < intervals[i][0])
         {
+            ans.push_back(newInterval);
+            for (int j = i; j < intervals.size(); j++)
+            {
+                ans.push_back(intervals[j]);
+            }
+            return ans;
+        }
+        else if (newInterval[0] > intervals[i][1])
+        {
+            ans.push_back(intervals[i]);
+        }
+        else
+        {
+            vector<int> temp{min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])};
+            newInterval = temp;
         }
     }
+    ans.push_back(newInterval);
     return ans;
 }
 void solve()
 {
-    vector<vector<int>> intervals;
-    vector<int> newInterval;
-    cout << insert(intervals, newInterval);
 }
 
 signed main()
