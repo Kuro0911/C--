@@ -43,35 +43,55 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-vector<vector<int>> insert(vector<vector<int>> &intervals, vector<int> &newInterval)
+int fact(int x)
 {
-    vector<vector<int>> ans;
-    for (int i = 0; i < intervals.size(); i++)
+    int res = 1;
+    for (int i = 1; i <= x; i++)
+        res *= i;
+    return res;
+}
+string helper(string s, int k)
+{
+    if (s.size() == 1)
     {
-        if (newInterval[1] < intervals[i][0])
+        string temp;
+        temp.push_back(s[0]);
+        return temp;
+    }
+    int x = s.size() - 1, pos, curr = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (curr >= k)
         {
-            ans.push_back(newInterval);
-            for (int j = i; j < intervals.size(); j++)
-            {
-                ans.push_back(intervals[j]);
-            }
-            return ans;
-        }
-        else if (newInterval[0] > intervals[i][1])
-        {
-            ans.push_back(intervals[i]);
+            break;
         }
         else
         {
-            vector<int> temp{min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])};
-            newInterval = temp;
+            curr += fact(x);
+            pos = i;
         }
     }
-    ans.push_back(newInterval);
-    return ans;
+    curr -= fact(x);
+    string temp;
+    temp.push_back(s[pos]);
+    s.erase(pos, 1);
+    temp += helper(s, k - curr);
+    return temp;
+}
+string getPermutation(int n, int k)
+{
+    string s = "";
+    for (int i = 1; i <= n; i++)
+    {
+        s += to_string(i);
+    }
+    return helper(s, k);
 }
 void solve()
 {
+    int n, k;
+    cin >> n >> k;
+    cout << getPermutation(n, k);
 }
 
 signed main()
