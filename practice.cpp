@@ -44,30 +44,44 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int solution(vector<int> obj, int rad)
+vector<string> solution(string s, int limit)
 {
-    map<int, int> ans;
-    for (int i = 0; i < obj.size(); i++)
+    vector<string> ans;
+    int curr = 1;
+    string temp;
+    map<int, string> mp;
+    for (int i = 0; i < s.size(); i++)
     {
-        int x = obj[i] * 2 * rad;
-        int temp = 1;
-        for (int j = i; j < obj.size(); j++)
+        temp.push_back(s[i]);
+        if (temp.size() == limit - 5)
         {
-            if (obj[j] <= x)
-            {
-                temp++;
-            }
-            else
-            {
-                break;
-            }
+            mp[curr] = temp;
+            curr++;
+            temp.clear();
         }
-        ans[-temp] = obj[i];
     }
-    return ans.begin()->second;
+    if (temp.size() != 0)
+    {
+        mp[curr] = temp;
+        curr++;
+    }
+    for (auto x : mp)
+    {
+        x.second.push_back('<');
+        x.second += to_string(x.first);
+        x.second.push_back('/');
+        x.second += to_string(mp.size());
+        x.second.push_back('>');
+        ans.push_back(x.second);
+    }
+    return ans;
 }
 void solve()
 {
+    string s = "Hello, world!";
+    int n;
+    cin >> n;
+    cout << solution(s, n);
 }
 
 signed main()
