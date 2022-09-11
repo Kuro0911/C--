@@ -43,57 +43,51 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int fact(int x)
+void helper(int i, int j, vector<vector<string>> &grid)
 {
-    int res = 1;
-    for (int i = 1; i <= x; i++)
-        res *= i;
-    return res;
-}
-string helper(string s, int k)
-{
-    if (s.size() == 1)
+    if (i < grid.size() && i >= 0 && j < grid[i].size() && j >= 0 && grid[i][j] != "G" && grid[i][j] != "W")
     {
-        string temp;
-        temp.push_back(s[0]);
-        return temp;
+        grid[i][j] = "#";
+        helper(i + 1, j, grid);
+        helper(i - 1, j, grid);
+        helper(i, j + 1, grid);
+        helper(i, j - 1, grid);
     }
-    int x = s.size() - 1, pos, curr = 0;
-    for (int i = 0; i < s.size(); i++)
+    return;
+};
+int countUnguarded(int n, int m, vector<vector<int>> &guards, vector<vector<int>> &walls)
+{
+    vector<vector<string>> grid(n, vector<string>(m, "."));
+    for (auto x : guards)
     {
-        if (curr >= k)
+        grid[x[0]][x[1]] = "G";
+    }
+    for (auto x : walls)
+    {
+        grid[x[0]][x[1]] = "W";
+    }
+    for (auto x : guards)
+    {
+        helper(x[0], x[1], grid);
+    }
+    for (auto x : grid)
+    {
+        for (auto y : x)
         {
-            break;
+            cout << y << " ";
         }
-        else
-        {
-            curr += fact(x);
-            pos = i;
-        }
+        cout << endl;
     }
-    curr -= fact(x);
-    string temp;
-    temp.push_back(s[pos]);
-    s.erase(pos, 1);
-    temp += helper(s, k - curr);
-    return temp;
-}
-string getPermutation(int n, int k)
-{
-    string s = "";
-    for (int i = 1; i <= n; i++)
-    {
-        s += to_string(i);
-    }
-    return helper(s, k);
+    return 0;
 }
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    cout << getPermutation(n, k);
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> guard{{0, 0}, {1, 1}, {2, 3}};
+    vector<vector<int>> walls{{0, 1}, {2, 2}, {1, 4}};
+    cout << countUnguarded(n, m, guard, walls);
 }
-
 signed main()
 {
 
