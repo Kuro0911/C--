@@ -44,66 +44,32 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-void helper(int i, int j, vector<vector<string>> &grid, set<vector<int>> &vis)
+int solution(vector<int> obj, int rad)
 {
-    if (i < grid.size() && i >= 0 && j < grid[i].size() && j >= 0 && grid[i][j] != "W")
+    map<int, int> ans;
+    for (int i = 0; i < obj.size(); i++)
     {
-        if (grid[i][j] == "G")
+        int x = obj[i] * 2 * rad;
+        int temp = 1;
+        for (int j = i; j < obj.size(); j++)
         {
-            if (vis.find({i, j}) != vis.end())
+            if (obj[j] <= x)
             {
-                return;
+                temp++;
             }
             else
             {
-                vis.insert({i, j});
+                break;
             }
         }
-        else
-        {
-            grid[i][j] = "#";
-        }
-        helper(i + 1, j, grid, vis);
-        helper(i - 1, j, grid, vis);
-        helper(i, j + 1, grid, vis);
-        helper(i, j - 1, grid, vis);
+        ans[-temp] = obj[i];
     }
-    return;
-};
-int countUnguarded(int n, int m, vector<vector<int>> &guards, vector<vector<int>> &walls)
-{
-    vector<vector<string>> grid(n, vector<string>(m, "."));
-    for (auto x : guards)
-    {
-        grid[x[0]][x[1]] = "G";
-    }
-    for (auto x : walls)
-    {
-        grid[x[0]][x[1]] = "W";
-    }
-    set<vector<int>> vis;
-    for (auto x : guards)
-    {
-        helper(x[0], x[1], grid, vis);
-    }
-    for (auto x : grid)
-    {
-        for (auto y : x)
-        {
-            cout << y << " ";
-        }
-        cout << endl;
-    }
-    return 0;
+    return ans.begin()->second;
 }
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> guard{{0, 0}, {1, 1}, {2, 3}};
-    vector<vector<int>> walls{{0, 1}, {2, 2}, {1, 4}};
-    cout << countUnguarded(n, m, guard, walls);
 }
+
 signed main()
 {
 
