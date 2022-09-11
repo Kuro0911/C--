@@ -43,15 +43,30 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(int i, int j, vector<vector<string>> &grid)
+
+void helper(int i, int j, vector<vector<string>> &grid, set<vector<int>> &vis)
 {
-    if (i < grid.size() && i >= 0 && j < grid[i].size() && j >= 0 && grid[i][j] != "G" && grid[i][j] != "W")
+    if (i < grid.size() && i >= 0 && j < grid[i].size() && j >= 0 && grid[i][j] != "W")
     {
-        grid[i][j] = "#";
-        helper(i + 1, j, grid);
-        helper(i - 1, j, grid);
-        helper(i, j + 1, grid);
-        helper(i, j - 1, grid);
+        if (grid[i][j] == "G")
+        {
+            if (vis.find({i, j}) != vis.end())
+            {
+                return;
+            }
+            else
+            {
+                vis.insert({i, j});
+            }
+        }
+        else
+        {
+            grid[i][j] = "#";
+        }
+        helper(i + 1, j, grid, vis);
+        helper(i - 1, j, grid, vis);
+        helper(i, j + 1, grid, vis);
+        helper(i, j - 1, grid, vis);
     }
     return;
 };
@@ -66,9 +81,10 @@ int countUnguarded(int n, int m, vector<vector<int>> &guards, vector<vector<int>
     {
         grid[x[0]][x[1]] = "W";
     }
+    set<vector<int>> vis;
     for (auto x : guards)
     {
-        helper(x[0], x[1], grid);
+        helper(x[0], x[1], grid, vis);
     }
     for (auto x : grid)
     {
