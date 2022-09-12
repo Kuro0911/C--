@@ -44,44 +44,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-vector<string> solution(string s, int limit)
-{
-    vector<string> ans;
-    int curr = 1;
-    string temp;
-    map<int, string> mp;
-    for (int i = 0; i < s.size(); i++)
-    {
-        temp.push_back(s[i]);
-        if (temp.size() == limit - 5)
-        {
-            mp[curr] = temp;
-            curr++;
-            temp.clear();
-        }
-    }
-    if (temp.size() != 0)
-    {
-        mp[curr] = temp;
-        curr++;
-    }
-    for (auto x : mp)
-    {
-        x.second.push_back('<');
-        x.second += to_string(x.first);
-        x.second.push_back('/');
-        x.second += to_string(mp.size());
-        x.second.push_back('>');
-        ans.push_back(x.second);
-    }
-    return ans;
-}
 void solve()
 {
-    string s = "Hello, world!";
     int n;
     cin >> n;
-    cout << solution(s, n);
+    cout << n;
 }
 
 signed main()
