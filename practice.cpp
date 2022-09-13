@@ -44,8 +44,63 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+vector<int> helper(int T, vector<int> N, vector<int> K, vector<vector<int>> C)
+{
+    vector<int> ans;
+    for (int i = 0; i < T; i++)
+    {
+        if (N[i] == 1)
+        {
+            if (C[i][0] >= K[i])
+            {
+                ans.push_back(1);
+            }
+            else
+            {
+                ans.push_back(0);
+            }
+        }
+        else
+        {
+            sort(C[i].begin(), C[i].end(), greater<int>());
+            int x = 0, res = 0;
+            while (K[i] > 0)
+            {
+                K[i] -= C[i][x];
+                x = !x;
+                res++;
+            }
+            ans.push_back(res);
+        }
+    }
+    return ans;
+}
 void solve()
 {
+    int T;
+    vector<int> N(100), K(100);
+    vector<vector<int>> C(1000);
+    cin >> T;
+    for (int i = 0; i < T; i++)
+    {
+        int x, y;
+        cin >> x >> y;
+        N[i] = x;
+        K[i] = y;
+        for (int j = 0; j < x; j++)
+        {
+            int z;
+            cin >> z;
+            C[i].push_back(z);
+        }
+    }
+
+    vector<int> res = helper(T, N, K, C);
+    for (auto x : res)
+    {
+        cout << x << " ";
+    }
+    cout << endl;
 }
 
 signed main()
