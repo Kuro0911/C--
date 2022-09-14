@@ -148,9 +148,9 @@ int main()
         insert(&root, x);
     }
 
-    rotate(&root);
-    node *sorted = mergeSort(root);
-    print(sorted);
+    // rotate(&root);
+    // node *sorted = mergeSort(root);
+    // print(sorted);
     if (checkPalindrome(root))
     {
         cout << "yes";
@@ -159,8 +159,8 @@ int main()
     {
         cout << "no";
     }
-    delElement(&root, 2);
+    // delElement(&root, 2);
 
-    print(root);
+    // print(root);
     return 0;
 }
