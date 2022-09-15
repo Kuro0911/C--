@@ -44,59 +44,55 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-struct Json
+int check(string s)
 {
-    string keys;
-    vector<Json> val;
-    bool isKey;
-};
-void dfs(string s, vector<string> q, vector<string> &ans)
-{
-    return;
-}
-vector<string> helper(string text, int Q, vector<string> queries)
-{
-    vector<string> ans;
-    stack<string> st;
-    int ptr = 0;
-    while (ptr < text.size())
+    if (s.size() < 4)
     {
+        return 0;
     }
-    for (auto x : queries)
+    set<char> st;
+    st.insert('e');
+    st.insert('i');
+    st.insert('o');
+    st.insert('u');
+    int ans = 1;
+    for (int i = 1; i < s.size(); i++)
     {
-        vector<string> q;
-        string temp = "";
-        for (int i = 0; i < x.size(); i++)
-        {
-            if (x[i] == '.')
-            {
-                q.push_back(temp);
-                temp.clear();
-            }
-            else
-            {
-                temp += x[i];
-            }
-        }
-        q.push_back(temp);
-        dfs(text, q, ans);
-    }
 
+        if (s[i - 1] > s[i])
+        {
+            break;
+        }
+        if (st.find(s[i]) != st.end())
+        {
+            st.erase(s[i]);
+        }
+        ans++;
+    }
+    cout << s << " " << ans << " " << st.size() << endl;
+    return st.size() == 0 ? ans : 0;
+}
+int longestBeautifulSubstring(string s)
+{
+    int ans = 0;
+    if (s.size() < 5)
+    {
+        return ans;
+    }
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == 'a')
+        {
+            ans = max(ans, check(s.substr(i)));
+        }
+    }
     return ans;
 }
-
 void solve()
 {
     string s;
     cin >> s;
-    int q;
-    cin >> q;
-    vector<string> queries(q);
-    for (auto &x : queries)
-    {
-        cin >> x;
-    };
-    cout << helper(s, q, queries);
+    cout << longestBeautifulSubstring(s);
 }
 
 signed main()
