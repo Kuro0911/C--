@@ -44,14 +44,59 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+struct Json
+{
+    string keys;
+    vector<Json> val;
+    bool isKey;
+};
+void dfs(string s, vector<string> q, vector<string> &ans)
+{
+    return;
+}
+vector<string> helper(string text, int Q, vector<string> queries)
+{
+    vector<string> ans;
+    stack<string> st;
+    int ptr = 0;
+    while (ptr < text.size())
+    {
+    }
+    for (auto x : queries)
+    {
+        vector<string> q;
+        string temp = "";
+        for (int i = 0; i < x.size(); i++)
+        {
+            if (x[i] == '.')
+            {
+                q.push_back(temp);
+                temp.clear();
+            }
+            else
+            {
+                temp += x[i];
+            }
+        }
+        q.push_back(temp);
+        dfs(text, q, ans);
+    }
+
+    return ans;
+}
+
 void solve()
 {
-    int x = 11;
-    for (int i = 0; i < 32; i++)
+    string s;
+    cin >> s;
+    int q;
+    cin >> q;
+    vector<string> queries(q);
+    for (auto &x : queries)
     {
-        x *= 11;
-    }
-    cout << abs(x) % 33;
+        cin >> x;
+    };
+    cout << helper(s, q, queries);
 }
 
 signed main()

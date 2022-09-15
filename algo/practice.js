@@ -43,7 +43,7 @@ const getStr = () => {
   return s;
 };
 
-console.log(getStr());
+// console.log(getStr());
 
 var str = "STR ,1 2 ";
 str = str.toLowerCase().replace(/\W/g, "");
@@ -71,3 +71,6 @@ function mergeSort(a) {
 }
 
 // console.log(mergeSort([5, 4, 3, 2, 1]));
+
+var temp = JSON.parse("Student":{"Name":"Jhon","age":"15"},"Class":"10")
+console.log(temp);
