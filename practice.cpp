@@ -44,49 +44,49 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int check(string s)
-{
-    if (s.size() < 4)
-    {
-        return 0;
-    }
-    set<char> st;
-    st.insert('e');
-    st.insert('i');
-    st.insert('o');
-    st.insert('u');
-    int ans = 1;
-    for (int i = 1; i < s.size(); i++)
-    {
-
-        if (s[i - 1] > s[i])
-        {
-            break;
-        }
-        if (st.find(s[i]) != st.end())
-        {
-            st.erase(s[i]);
-        }
-        ans++;
-    }
-    cout << s << " " << ans << " " << st.size() << endl;
-    return st.size() == 0 ? ans : 0;
-}
-int longestBeautifulSubstring(string s)
+int getSum(map<int, int> mp, int target)
 {
     int ans = 0;
-    if (s.size() < 5)
+    for (auto x : mp)
     {
-        return ans;
-    }
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i] == 'a')
+        if (x.first > target)
         {
-            ans = max(ans, check(s.substr(i)));
+            ans += target * x.second;
+        }
+        else
+        {
+            ans += x.first * x.second;
         }
     }
     return ans;
+}
+int findBestValue(vector<int> &arr, int target)
+{
+    map<int, int> mp;
+    for (auto x : arr)
+    {
+        mp[x]++;
+    }
+    int l = 0, r = target;
+    int mid;
+    while (l <= r)
+    {
+        mid = (l + r) / 2;
+        int sm = getSum(mp, mid);
+        if (sm < target)
+        {
+            l = mid;
+        }
+        else if (sm > target)
+        {
+            r = mid;
+        }
+        else
+        {
+            return mid;
+        }
+    }
+    return mid;
 }
 void solve()
 {
