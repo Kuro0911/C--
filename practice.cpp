@@ -43,56 +43,50 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int getSum(map<int, int> mp, int target)
+void helper(vector<int> &players, vector<int> &trainers, int &ans)
 {
-    int ans = 0;
-    for (auto x : mp)
+    if (players.size() == 0)
     {
-        if (x.first > target)
-        {
-            ans += target * x.second;
-        }
-        else
-        {
-            ans += x.first * x.second;
-        }
+        return;
     }
+    cout << players;
+    cout << trainers;
+    if (players[0] < trainers[0] and trainers.size() > 0)
+    {
+        players.erase(players.begin());
+        trainers.erase(trainers.begin());
+        ans++;
+        helper(players, trainers, ans);
+    }
+    else
+    {
+        while (trainers.size() > 0 and players[0] < trainers[0])
+        {
+            trainers.erase(trainers.begin());
+        }
+        if (trainers.size() == 0)
+        {
+            return;
+        }
+        ans++;
+        players.erase(players.begin());
+        helper(players, trainers, ans);
+    }
+}
+int matchPlayersAndTrainers(vector<int> &players, vector<int> &trainers)
+{
+    sort(players.begin(), players.end());
+    sort(trainers.begin(), trainers.end());
+    int ans = 0;
+    helper(players, trainers, ans);
     return ans;
 }
-int findBestValue(vector<int> &arr, int target)
-{
-    map<int, int> mp;
-    for (auto x : arr)
-    {
-        mp[x]++;
-    }
-    int l = 0, r = target;
-    int mid;
-    while (l <= r)
-    {
-        mid = (l + r) / 2;
-        int sm = getSum(mp, mid);
-        if (sm < target)
-        {
-            l = mid;
-        }
-        else if (sm > target)
-        {
-            r = mid;
-        }
-        else
-        {
-            return mid;
-        }
-    }
-    return mid;
-}
+
 void solve()
 {
-    string s;
-    cin >> s;
-    cout << longestBeautifulSubstring(s);
+    vector<int> temp{1, 2, 3, 4, 5};
+    vector<int> temp1{2, 3, 4, 5, 1};
+    cout << matchPlayersAndTrainers(temp, temp1) << endl;
 }
 
 signed main()

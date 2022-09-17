@@ -35,15 +35,15 @@ let arr = [5, 4, 3, 2, 1];
 
 const getStr = () => {
   let n = 0;
-  const characters = "rdwpohqydpqkjkdxhoedvccakjmxuy.*";
+  const characters = "ADT";
   var s = "";
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1; i++) {
     s += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return s;
 };
 
-// console.log(getStr());
+console.log(getStr());
 
 var str = "STR ,1 2 ";
 str = str.toLowerCase().replace(/\W/g, "");
@@ -71,6 +71,3 @@ function mergeSort(a) {
 }
 
 // console.log(mergeSort([5, 4, 3, 2, 1]));
-
-var temp = JSON.parse("Student":{"Name":"Jhon","age":"15"},"Class":"10")
-console.log(temp);
