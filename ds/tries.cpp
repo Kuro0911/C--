@@ -165,52 +165,84 @@ public:
         }
         temp->isEnd = true;
     }
-    bool dfs(node *curr, int st, string word)
-    {
-        node *temp = curr;
-        for (int i = st; i < word.size(); i++)
-        {
-            if (word[i] == '.')
-            {
-                for (auto y : temp->chars)
-                {
-                    if (dfs(y.second, i + 1, word))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else
-            {
-                if (!temp->chars[word[i]])
-                {
-                    return false;
-                }
-                temp = temp->chars[word[i]];
-            }
-        }
-        return temp->isEnd;
-    }
-    bool search(string word)
+    // bool dfs(node *curr, int st, string word)
+    // {
+    //     node *temp = curr;
+    //     for (int i = st; i < word.size(); i++)
+    //     {
+    //         if (word[i] == '.')
+    //         {
+    //             for (auto y : temp->chars)
+    //             {
+    //                 if (dfs(y.second, i + 1, word))
+    //                 {
+    //                     return true;
+    //                 }
+    //             }
+    //             return false;
+    //         }
+    //         else
+    //         {
+    //             if (!temp->chars[word[i]])
+    //             {
+    //                 return false;
+    //             }
+    //             temp = temp->chars[word[i]];
+    //         }
+    //     }
+    //     return temp->isEnd;
+    // }
+    int dfs(node *root, string s)
     {
         node *temp = root;
-        return dfs(temp, 0, word);
+        int ans = 0;
+        // cout << s << endl;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (temp->chars.find(s[i]) != temp->chars.end())
+            {
+                if (s.size() == 1)
+                {
+                    ans += temp->chars[s[i]]->chars.size();
+                    if (temp->chars[s[i]]->isEnd)
+                    {
+                        ans++;
+                    }
+                    for (auto y : temp->chars[s[i]]->chars)
+                    {
+                        cout << y.first << " ";
+                    }
+                    cout << endl;
+                }
+                for (auto y : temp->chars)
+                {
+                    ans += dfs(y.second, s.substr(1));
+                }
+            }
+        }
+        return ans;
+    }
+    // bool search(string word)
+    // {
+    //     node *temp = root;
+    //     return dfs(temp, 0, word);
+    // }
+    int helper(string s)
+    {
+        node *temp = root;
+        return dfs(temp, s);
     }
 };
 
 void solve()
 {
     WordDictionary trie;
-    trie.addWord("hello");
-    if (trie.search(".h"))
+    vector<string> vec{"abc", "ab", "bc", "b"};
+    for (auto x : vec)
     {
-        cout << "\nfound\n";
+        trie.addWord(x);
     }
-    else
-    {
-        cout << "NF\n";
-    }
+    cout << trie.helper("abc");
 }
 
 signed main()

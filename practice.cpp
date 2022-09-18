@@ -43,50 +43,28 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(vector<int> &players, vector<int> &trainers, int &ans)
+int longestContinuousSubstring(string s)
 {
-    if (players.size() == 0)
+    int ans = 1, temp = 0;
+    char curr = s[0];
+    for (int i = 0; i < s.size(); i++)
     {
-        return;
-    }
-    cout << players;
-    cout << trainers;
-    if (players[0] < trainers[0] and trainers.size() > 0)
-    {
-        players.erase(players.begin());
-        trainers.erase(trainers.begin());
-        ans++;
-        helper(players, trainers, ans);
-    }
-    else
-    {
-        while (trainers.size() > 0 and players[0] < trainers[0])
+        cout << s[i] << " " << curr << endl;
+        if (s[i] != curr)
         {
-            trainers.erase(trainers.begin());
+            ans = max(temp, ans);
+            temp = 0;
+            curr = s[i];
         }
-        if (trainers.size() == 0)
-        {
-            return;
-        }
-        ans++;
-        players.erase(players.begin());
-        helper(players, trainers, ans);
+        temp++;
+        curr++;
     }
-}
-int matchPlayersAndTrainers(vector<int> &players, vector<int> &trainers)
-{
-    sort(players.begin(), players.end());
-    sort(trainers.begin(), trainers.end());
-    int ans = 0;
-    helper(players, trainers, ans);
     return ans;
 }
 
 void solve()
 {
-    vector<int> temp{1, 2, 3, 4, 5};
-    vector<int> temp1{2, 3, 4, 5, 1};
-    cout << matchPlayersAndTrainers(temp, temp1) << endl;
+    cout << longestContinuousSubstring("abcde");
 }
 
 signed main()
