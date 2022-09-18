@@ -11,82 +11,92 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-//#####################################################
+struct TrieNode
+{
 
-template <typename T>
-ostream &operator<<(ostream &os, const vector<T> &v)
+    map<char, TrieNode *> children;
+
+    bool isEndOfWord;
+    map<char, int> num;
+};
+struct TrieNode *root;
+
+struct TrieNode *getNewTrieNode()
 {
-    for (auto &x : v)
-        os << x << " ";
-    os << endl;
-    return os;
-}
-template <typename T>
-ostream &operator<<(ostream &os, const set<T> &v)
-{
-    for (auto it : v)
-        os << it << " ";
-    return os;
-}
-template <typename T, typename S>
-ostream &operator<<(ostream &os, const map<T, S> &v)
-{
-    for (auto it : v)
-        os << it.first << " : " << it.second << endl;
-    return os;
-}
-template <typename T, typename S>
-ostream &operator<<(ostream &os, const pair<T, S> &v)
-{
-    os << v.first << " : " << v.second << endl;
-    return os;
+    struct TrieNode *pNode = new TrieNode;
+    pNode->isEndOfWord = false;
+    return pNode;
 }
 
-//#####################################################
-int longestContinuousSubstring(string s)
+void insertWord(string word)
 {
-    int ans = 1, temp = 0;
-    char curr = s[0];
-    for (int i = 0; i < s.size(); i++)
+    struct TrieNode *current = root;
+
+    char s;
+
+    for (int i = 0; i < word.length(); i++)
     {
-        cout << s[i] << " " << curr << endl;
-        if (s[i] != curr)
+        s = word[i];
+        if (current->children.find(s) == current->children.end())
         {
-            ans = max(temp, ans);
-            temp = 0;
-            curr = s[i];
+
+            struct TrieNode *p = getNewTrieNode();
+
+            (current->children)[s] = p;
+            (current->num)[s] = 1;
         }
-        temp++;
-        curr++;
+        else
+        {
+            current->num[s] = (current->num)[s] + 1;
+        }
+
+        current = (current->children)[s];
     }
-    return ans;
+    current->isEndOfWord = true;
 }
 
-void solve()
+int countWords(vector<string> &words,
+               string prefix)
 {
-    cout << longestContinuousSubstring("abcde");
+    root = getNewTrieNode();
+
+    int n = words.size();
+
+    for (int i = 0; i < n; i++)
+    {
+        insertWord(words[i]);
+    }
+
+    struct TrieNode *current = root;
+    char s;
+    int wordCount = 0;
+
+    for (int i = 0; prefix[i]; i++)
+    {
+        s = prefix[i];
+
+        if (current->children.find(s) == current->children.end())
+        {
+
+            wordCount = 0;
+            break;
+        }
+
+        wordCount = (current->num)[s];
+
+        current = (current->children)[s];
+    }
+
+    return wordCount;
 }
 
 signed main()
 {
+    vector<string> words;
+    words = {"abc", "ab", "bc", "b"};
 
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    string prefix = "a";
 
-    int t = 1;
-    // cin>>t;
-    while (t--)
-    {
-        solve();
-    }
-// for (int i = 1; i <= t; i++)
-//{
-// cout << "Case #" << i << ": " ;
-// solve();
-//}
-#ifndef ONLINE_JUDGE
-    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
-#endif
+    cout << countWords(words, prefix);
     return 0;
 }
