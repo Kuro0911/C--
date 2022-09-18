@@ -11,92 +11,64 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-struct TrieNode
+//#####################################################
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
 {
-
-    map<char, TrieNode *> children;
-
-    bool isEndOfWord;
-    map<char, int> num;
-};
-struct TrieNode *root;
-
-struct TrieNode *getNewTrieNode()
+    for (auto &x : v)
+        os << x << " ";
+    os << endl;
+    return os;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const set<T> &v)
 {
-    struct TrieNode *pNode = new TrieNode;
-    pNode->isEndOfWord = false;
-    return pNode;
+    for (auto it : v)
+        os << it << " ";
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const map<T, S> &v)
+{
+    for (auto it : v)
+        os << it.first << " : " << it.second << endl;
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const pair<T, S> &v)
+{
+    os << v.first << " : " << v.second << endl;
+    return os;
 }
 
-void insertWord(string word)
+//#####################################################
+
+void solve()
 {
-    struct TrieNode *current = root;
-
-    char s;
-
-    for (int i = 0; i < word.length(); i++)
-    {
-        s = word[i];
-        if (current->children.find(s) == current->children.end())
-        {
-
-            struct TrieNode *p = getNewTrieNode();
-
-            (current->children)[s] = p;
-            (current->num)[s] = 1;
-        }
-        else
-        {
-            current->num[s] = (current->num)[s] + 1;
-        }
-
-        current = (current->children)[s];
-    }
-    current->isEndOfWord = true;
-}
-
-int countWords(vector<string> &words,
-               string prefix)
-{
-    root = getNewTrieNode();
-
-    int n = words.size();
-
-    for (int i = 0; i < n; i++)
-    {
-        insertWord(words[i]);
-    }
-
-    struct TrieNode *current = root;
-    char s;
-    int wordCount = 0;
-
-    for (int i = 0; prefix[i]; i++)
-    {
-        s = prefix[i];
-
-        if (current->children.find(s) == current->children.end())
-        {
-
-            wordCount = 0;
-            break;
-        }
-
-        wordCount = (current->num)[s];
-
-        current = (current->children)[s];
-    }
-
-    return wordCount;
+    cout << "lmao";
 }
 
 signed main()
 {
-    vector<string> words;
-    words = {"abc", "ab", "bc", "b"};
 
-    string prefix = "a";
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    cout << countWords(words, prefix);
+    int t = 1;
+    // cin>>t;
+    while (t--)
+    {
+        solve();
+    }
+// for (int i = 1; i <= t; i++)
+//{
+// cout << "Case #" << i << ": " ;
+// solve();
+//}
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
     return 0;
 }
