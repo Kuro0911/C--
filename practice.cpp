@@ -43,9 +43,49 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
 void solve()
 {
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> mat(n, vector<int>(m));
+    map<int, int> mp;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cin >> mat[i][j];
+        }
+    }
+    for (int j = 0; j < m; j++)
+    {
+        int mn = INT_MAX;
+        for (int i = 0; i < n; i++)
+        {
+            if (mat[i][j] != -1 and mat[i][j] < mn)
+            {
+                mn = mat[i][j];
+            }
+        }
+        mp[j] = mn;
+    }
+    for (auto x : mp)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (mat[i][x.first] == -1)
+            {
+                mat[i][x.first] = x.second;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cout << mat[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
 
 signed main()
