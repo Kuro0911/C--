@@ -43,49 +43,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct TreeNode
-{
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-class Solution
-{
-public:
-    bool helper(int &ind, TreeNode *root, vector<int> &v, vector<int> &res)
-    {
-        if (!root || ind == v.size())
-        {
-            ind--;
-            return true;
-        }
 
-        if (root->val != v[ind])
-        {
-            res.clear();
-            res.push_back(-1);
-            return false;
-        }
-
-        if (root->left and root->left->val != v[ind + 1])
-        {
-            swap(root->left, root->right);
-            res.push_back(root->val);
-        }
-
-        return helper(++ind, root->left, v, res) and helper(++ind, root->right, v, res);
-    }
-    vector<int> flipMatchVoyage(TreeNode *root, vector<int> &voyage)
-    {
-        vector<int> res;
-        int ind = 0;
-        helper(ind, root, voyage, res);
-        return res;
-    }
-};
 void solve()
 {
 }
