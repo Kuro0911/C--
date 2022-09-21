@@ -54,19 +54,18 @@ void solve()
         for (int j = 0; j < m; j++)
         {
             cin >> mat[i][j];
-        }
-    }
-    for (int j = 0; j < m; j++)
-    {
-        int mn = INT_MAX;
-        for (int i = 0; i < n; i++)
-        {
-            if (mat[i][j] != -1 and mat[i][j] < mn)
+            if (mat[i][j] != -1)
             {
-                mn = mat[i][j];
+                if (mp.find(j) != mp.end())
+                {
+                    mp[j] = min(mat[i][j], mp[j]);
+                }
+                else
+                {
+                    mp[j] = mat[i][j];
+                }
             }
         }
-        mp[j] = mn;
     }
     for (auto x : mp)
     {
