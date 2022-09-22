@@ -44,53 +44,36 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-string decodeString(string s)
+bool helper(string s, set<string> dict)
 {
-    int i, loop, n = s.size(), j;
-    stack<char> stk;
-    string temp, temp1, ans;
-    for (i = 0; i < n; i++)
+    if (s.size() == 0)
     {
-        if (s[i] != ']')
-            stk.push(s[i]);
-        else
+        return true;
+    }
+    string temp = "";
+    cout << s << endl;
+    for (int i = 0; i < s.size(); i++)
+    {
+        temp += s[i];
+        if (dict.find(temp) != dict.end())
         {
-            temp = "";
-            while (stk.top() != '[')
+            if (helper(s.substr(i + 1), dict))
             {
-                temp += stk.top();
-                stk.pop();
-            }
-            stk.pop();
-            temp1 = "";
-            while (!stk.empty() && (stk.top() > 47 && stk.top() < 58))
-            {
-                temp1 += stk.top();
-                stk.pop();
-            }
-            reverse(temp1.begin(), temp1.end());
-            reverse(temp.begin(), temp.end());
-            loop = stoi(temp1);
-            while (loop--)
-            {
-                for (j = 0; j < temp.size(); j++)
-                    stk.push(temp[j]);
+                return true;
             }
         }
     }
-    while (!stk.empty())
-    {
-        ans += stk.top();
-        stk.pop();
-    }
-    reverse(ans.begin(), ans.end());
-    return ans;
+    return false;
+}
+bool wordBreak(string s, vector<string> &wordDict)
+{
+    set<string> dict(wordDict.begin(), wordDict.end());
+    return helper(s, dict);
 }
 void solve()
 {
-    string s;
-    cin >> s;
-    cout << decodeString(s);
+    vector<string> vec{"leet", "code"};
+    cout << wordBreak("leetcode", vec);
 }
 
 signed main()
@@ -101,7 +84,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin >> t;
+    // cin>>t;
     while (t--)
     {
         solve();
