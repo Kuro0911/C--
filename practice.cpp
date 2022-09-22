@@ -43,48 +43,25 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+
+int missingMarble(int input1, int input2[])
+{
+    int n = input1 - 1;
+    int sm = input2[0] + input2[n];
+    int md = (n) / 2;
+    return sm - input2[md];
+}
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> mat(n, vector<int>(m));
-    map<int, int> mp;
+    int n;
+    cin >> n;
+    int arr[n];
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; j++)
-        {
-            cin >> mat[i][j];
-            if (mat[i][j] != -1)
-            {
-                if (mp.find(j) != mp.end())
-                {
-                    mp[j] = min(mat[i][j], mp[j]);
-                }
-                else
-                {
-                    mp[j] = mat[i][j];
-                }
-            }
-        }
+        cin >> arr[i];
     }
-    for (auto x : mp)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            if (mat[i][x.first] == -1)
-            {
-                mat[i][x.first] = x.second;
-            }
-        }
-    }
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            cout << mat[i][j] << " ";
-        }
-        cout << endl;
-    }
+
+    cout << missingMarble(n, arr) << endl;
 }
 
 signed main()
@@ -95,7 +72,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin>>t;
+    cin >> t;
     while (t--)
     {
         solve();
