@@ -44,58 +44,44 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-bool closeStrings(string word1, string word2)
+bool possibleBipartition(int n, vector<vector<int>> &dislikes)
 {
-    map<char, int> mp1, mp2;
-
-    if (word1.size() != word2.size())
+    set<int> l, r;
+    map<int, vector<int>> mp;
+    for (auto x : dislikes)
     {
-        return false;
+        mp[x[0]].push_back(x[1]);
     }
-    for (auto x : word1)
+    for (int i = 1; i <= n; i++)
     {
-        mp1[x]++;
-    }
-    for (auto x : word2)
-    {
-        mp2[x]++;
-    }
-    if (mp1.size() != mp2.size())
-        return false;
-
-    for (auto x : mp2)
-    {
-        if (mp1.find(x.first) == mp1.end())
+        bool check = true;
+        for (auto x : mp[i])
         {
-            return false;
+            if (l.find(x) != l.end())
+            {
+                check = false;
+            };
         }
-    }
-    vector<int> f(26, 0), f1(26, 0);
-
-    for (auto x : word1)
-    {
-        f[x - 'a']++;
-    }
-    for (auto x : word2)
-    {
-        f1[x - 'a']++;
-    }
-    sort(f.begin(), f.end());
-    sort(f1.begin(), f1.end());
-    for (int i = 0; i < 26; i++)
-    {
-        if (f[i] != f1[i])
+        if (check)
         {
-            return false;
+            l.insert(i);
+            continue;
         }
+        for (auto x : mp[i])
+        {
+            if (r.find(x) == r.end())
+            {
+                check = true;
+            };
+        }
+        if (!check)
+            return false;
+        r.insert(i);
     }
     return true;
 }
 void solve()
 {
-    string s1, s2;
-    cin >> s1 >> s2;
-    cout << closeStrings(s1, s2);
 }
 
 signed main()
