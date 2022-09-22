@@ -44,31 +44,33 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-bool helper(string s, set<string> dict)
+void helper(string s, set<string> dict, vector<string> &ans, string temp)
 {
     if (s.size() == 0)
     {
-        return true;
+        ans.push_back(temp);
+        return;
     }
-    string temp = "";
-    cout << s << endl;
+    string x = "";
     for (int i = 0; i < s.size(); i++)
     {
-        temp += s[i];
-        if (dict.find(temp) != dict.end())
+        x += s[i];
+        if (dict.find(x) != dict.end())
         {
-            if (helper(s.substr(i + 1), dict))
-            {
-                return true;
-            }
+            string tempStr = temp;
+            tempStr += x;
+            tempStr += " ";
+            helper(s.substr(i + 1), dict, ans, tempStr);
         }
     }
-    return false;
+    return;
 }
-bool wordBreak(string s, vector<string> &wordDict)
+vector<string> wordBreak(string s, vector<string> &wordDict)
 {
+    vector<string> ans;
     set<string> dict(wordDict.begin(), wordDict.end());
-    return helper(s, dict);
+    helper(s, dict, ans, "");
+    return ans;
 }
 void solve()
 {
