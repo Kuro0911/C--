@@ -44,50 +44,53 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-bool possibleBipartition(int n, vector<vector<int>> &dislikes)
+string decodeString(string s)
 {
-    set<int> l, r;
-    map<int, vector<int>> mp;
-    for (auto x : dislikes)
+    int i, loop, n = s.size(), j;
+    stack<char> stk;
+    string temp, temp1, ans;
+    for (i = 0; i < n; i++)
     {
-        mp[x[0]].push_back(x[1]);
-    }
-    for (int i = 1; i <= n; i++)
-    {
-        bool check = true;
-        for (auto x : mp[i])
-        {
-            if (l.find(x) != l.end())
-            {
-                check = false;
-            };
-        }
-        if (check)
-        {
-            l.insert(i);
-            continue;
-        }
-        for (auto x : mp[i])
-        {
-            if (r.find(x) == r.end())
-            {
-                check = true;
-            };
-        }
-        if (!check)
-        {
-            return false;
-        }
+        if (s[i] != ']')
+            stk.push(s[i]);
         else
         {
-            r.insert(i);
+            temp = "";
+            while (stk.top() != '[')
+            {
+                temp += stk.top();
+                stk.pop();
+            }
+            stk.pop();
+            temp1 = "";
+            while (!stk.empty() && (stk.top() > 47 && stk.top() < 58))
+            {
+                temp1 += stk.top();
+                stk.pop();
+            }
+            reverse(temp1.begin(), temp1.end());
+            reverse(temp.begin(), temp.end());
+            loop = stoi(temp1);
+            while (loop--)
+            {
+                for (j = 0; j < temp.size(); j++)
+                    stk.push(temp[j]);
+            }
         }
     }
-    return true;
+    while (!stk.empty())
+    {
+        ans += stk.top();
+        stk.pop();
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
 }
 void solve()
 {
-    cout << "\n";
+    string s;
+    cin >> s;
+    cout << decodeString(s);
 }
 
 signed main()
