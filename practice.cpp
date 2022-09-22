@@ -44,24 +44,58 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-int missingMarble(int input1, int input2[])
+bool closeStrings(string word1, string word2)
 {
-    int n = input1 - 1;
-    int sm = input2[0] + input2[n];
-    int md = (n) / 2;
-    return sm - input2[md];
+    map<char, int> mp1, mp2;
+
+    if (word1.size() != word2.size())
+    {
+        return false;
+    }
+    for (auto x : word1)
+    {
+        mp1[x]++;
+    }
+    for (auto x : word2)
+    {
+        mp2[x]++;
+    }
+    if (mp1.size() != mp2.size())
+        return false;
+
+    for (auto x : mp2)
+    {
+        if (mp1.find(x.first) == mp1.end())
+        {
+            return false;
+        }
+    }
+    vector<int> f(26, 0), f1(26, 0);
+
+    for (auto x : word1)
+    {
+        f[x - 'a']++;
+    }
+    for (auto x : word2)
+    {
+        f1[x - 'a']++;
+    }
+    sort(f.begin(), f.end());
+    sort(f1.begin(), f1.end());
+    for (int i = 0; i < 26; i++)
+    {
+        if (f[i] != f1[i])
+        {
+            return false;
+        }
+    }
+    return true;
 }
 void solve()
 {
-    int n;
-    cin >> n;
-    int arr[n];
-    for (int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
-    }
-
-    cout << missingMarble(n, arr) << endl;
+    string s1, s2;
+    cin >> s1 >> s2;
+    cout << closeStrings(s1, s2);
 }
 
 signed main()
@@ -72,7 +106,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--)
     {
         solve();
