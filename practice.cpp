@@ -75,13 +75,19 @@ bool possibleBipartition(int n, vector<vector<int>> &dislikes)
             };
         }
         if (!check)
+        {
             return false;
-        r.insert(i);
+        }
+        else
+        {
+            r.insert(i);
+        }
     }
     return true;
 }
 void solve()
 {
+    cout << "\n";
 }
 
 signed main()
