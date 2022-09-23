@@ -46,12 +46,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    char x = 'a';
-    for (int i = 0; i < 10; i++)
-    {
-        cout << x;
-        x++;
-    }
+    string s = "";
+    string a = "a";
+    s.push_back(a[0]);
+    // s.pop_back();
+    cout << s;
 }
 
 signed main()
