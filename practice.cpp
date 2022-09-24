@@ -46,11 +46,13 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string s = "";
-    string a = "a";
-    s.push_back(a[0]);
-    // s.pop_back();
-    cout << s;
+    vector<int> vec(10);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+
+    cout << accumulate(all(vec), 0);
 }
 
 signed main()
