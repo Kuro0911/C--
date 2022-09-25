@@ -43,46 +43,69 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int dfs(int i, int j, int curr, vector<vector<int>> mat)
+struct node
 {
-    if (i >= 0 && i < mat.size() && j >= 0 && j < mat[i].size())
+    int data;
+    node *link;
+    node(int val)
     {
-        if (i == mat.size() - 1 && j == mat[i].size() - 1)
-        {
-            return curr;
-        }
-        int down = i + 1 < mat.size() ? curr + mat[i + 1][j] : -1;
-        int right = j + 1 < mat[i].size() ? curr + mat[i][j + 1] : -1;
-        return max(dfs(i + 1, j, down, mat), dfs(i, j + 1, right, mat));
+        data = val;
+        link = NULL;
     }
-    return -1;
+};
+void insert(node **head_ref, int data)
+{
+    node *new_node = new node(data);
+    if (*head_ref == NULL)
+    {
+        *head_ref = new_node;
+        return;
+    }
+    node *temp = *head_ref;
+    while (temp->link)
+    {
+        temp = temp->link;
+    }
+    temp->link = new_node;
+    return;
 }
-int CollectMoney(int input1, int input2[101][101])
+void print(node *head)
 {
-    vector<vector<int>> dp(input1 + 1, vector<int>(input1 + 1, 0));
-    for (int i = 1; i <= input1; i++)
+    while (head)
     {
-        for (int j = 1; j <= input1; j++)
-        {
-            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + input2[i - 1][j - 1];
-        }
+        cout << head->data << " ";
+        head = head->link;
     }
-    return dp[input1][input1];
+    cout << endl;
+    return;
+}
+node *reverse(node *start, node *end)
+{
+    node *temp = end->link;
+    node *curr = start, *prev = temp, *next;
+    while (curr != temp)
+    {
+        next = curr->link;
+        curr->link = prev;
+        prev = curr;
+        curr = next;
+    }
+    print(prev);
+    start = prev;
+    return start;
 }
 void solve()
 {
-    int n;
-    cin >> n;
-    int a[101][101];
-    for (int i = 0; i < n; i++)
+    node *root = NULL;
+    for (int i = 0; i < 5; i++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            cin >> a[i][j];
-        }
+        int x;
+        cin >> x;
+        insert(&root, x);
     }
-    cout << CollectMoney(n, a);
+    cout << root->data << "  " << root->link->link->data << endl;
+    root = reverse(root, root->link->link);
+    print(root);
 }
 
 signed main()
