@@ -44,15 +44,45 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+int dfs(int i, int j, int curr, vector<vector<int>> mat)
+{
+    if (i >= 0 && i < mat.size() && j >= 0 && j < mat[i].size())
+    {
+        if (i == mat.size() - 1 && j == mat[i].size() - 1)
+        {
+            return curr;
+        }
+        int down = i + 1 < mat.size() ? curr + mat[i + 1][j] : -1;
+        int right = j + 1 < mat[i].size() ? curr + mat[i][j + 1] : -1;
+        return max(dfs(i + 1, j, down, mat), dfs(i, j + 1, right, mat));
+    }
+    return -1;
+}
+int CollectMoney(int input1, int input2[101][101])
+{
+    vector<vector<int>> dp(input1 + 1, vector<int>(input1 + 1, 0));
+    for (int i = 1; i <= input1; i++)
+    {
+        for (int j = 1; j <= input1; j++)
+        {
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + input2[i - 1][j - 1];
+        }
+    }
+    return dp[input1][input1];
+}
 void solve()
 {
-    vector<int> vec(10);
-    for (auto &x : vec)
+    int n;
+    cin >> n;
+    int a[101][101];
+    for (int i = 0; i < n; i++)
     {
-        cin >> x;
+        for (int j = 0; j < n; j++)
+        {
+            cin >> a[i][j];
+        }
     }
-
-    cout << accumulate(all(vec), 0);
+    cout << CollectMoney(n, a);
 }
 
 signed main()
