@@ -54,7 +54,7 @@ struct TreeNode
 vector<vector<int>> levelOrderBottom(TreeNode *root)
 {
     queue<TreeNode *> q;
-    vector<int> ans;
+    vector<vector<int>> ans;
     ans.push_back({root->val});
     q.push(root);
     while (!q.empty())
@@ -80,16 +80,6 @@ vector<vector<int>> levelOrderBottom(TreeNode *root)
 }
 void solve()
 {
-    node *root = NULL;
-    for (int i = 0; i < 5; i++)
-    {
-        int x;
-        cin >> x;
-        insert(&root, x);
-    }
-    cout << root->data << "  " << root->link->link->data << endl;
-    root = reverse(root, root->link->link);
-    print(root);
 }
 
 signed main()
