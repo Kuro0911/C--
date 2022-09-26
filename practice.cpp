@@ -43,7 +43,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+int minDepth(TreeNode *root)
+{
+    queue<TreeNode *> q;
+    q.push(root);
+    int curr = 1;
+    while (!q.empty())
+    {
+        int sz = q.size();
+        TreeNode *temp = q.front();
+        for (int i = 0; i < sz; i++)
+        {
+            if (temp->left == NULL and temp->right == NULL)
+            {
+                return curr;
+            }
+            if (temp->left)
+            {
+                q.push(temp->left);
+            }
+            if (temp->right)
+            {
+                q.push(temp->right);
+            }
+            q.pop();
+        }
+        curr++;
+    }
+    return curr;
+}
 void solve()
 {
 }
