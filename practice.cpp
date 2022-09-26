@@ -43,41 +43,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct TreeNode
-{
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr){} * TreeNode(int x) : val(x), left(nullptr), right(nullptr){} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right){}
-                                                                                                                                                                                                  *
-};
-vector<vector<int>> levelOrderBottom(TreeNode *root)
-{
-    queue<TreeNode *> q;
-    vector<vector<int>> ans;
-    ans.push_back({root->val});
-    q.push(root);
-    while (!q.empty())
-    {
-        vector<int> lvl;
-        int sz = q.size();
-        for (int i = 0; i < sz; i++)
-        {
-            TreeNode *temp = q.front();
-            if (temp->left)
-            {
-                q.push(temp->left);
-            }
-            else if (temp->right)
-            {
-                q.push(temp->right);
-            }
-            lvl.push_back(temp->val);
-            q.pop();
-        }
-        ans.push_back(lvl);
-    }
-}
+
 void solve()
 {
 }
