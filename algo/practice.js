@@ -43,7 +43,7 @@ const getStr = () => {
   return s;
 };
 
-console.log(getStr());
+// console.log(getStr());
 
 var str = "STR ,1 2 ";
 str = str.toLowerCase().replace(/\W/g, "");
@@ -70,4 +70,7 @@ function mergeSort(a) {
   return merge(mergeSort(l), mergeSort(a));
 }
 
-// console.log(mergeSort([5, 4, 3, 2, 1]));
+var veggies = [];
+veggies.push("parsley");
+veggies.push("carrot");
+console.log(veggies[2]);
