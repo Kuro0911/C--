@@ -43,56 +43,40 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct node
+struct TreeNode
 {
-    int data;
-    node *link;
-    node(int val)
-    {
-        data = val;
-        link = NULL;
-    }
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr){} * TreeNode(int x) : val(x), left(nullptr), right(nullptr){} * TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right){}
+                                                                                                                                                                                                  *
 };
-void insert(node **head_ref, int data)
+vector<vector<int>> levelOrderBottom(TreeNode *root)
 {
-    node *new_node = new node(data);
-    if (*head_ref == NULL)
+    queue<TreeNode *> q;
+    vector<int> ans;
+    ans.push_back({root->val});
+    q.push(root);
+    while (!q.empty())
     {
-        *head_ref = new_node;
-        return;
+        vector<int> lvl;
+        int sz = q.size();
+        for (int i = 0; i < sz; i++)
+        {
+            TreeNode *temp = q.front();
+            if (temp->left)
+            {
+                q.push(temp->left);
+            }
+            else if (temp->right)
+            {
+                q.push(temp->right);
+            }
+            lvl.push_back(temp->val);
+            q.pop();
+        }
+        ans.push_back(lvl);
     }
-    node *temp = *head_ref;
-    while (temp->link)
-    {
-        temp = temp->link;
-    }
-    temp->link = new_node;
-    return;
-}
-void print(node *head)
-{
-    while (head)
-    {
-        cout << head->data << " ";
-        head = head->link;
-    }
-    cout << endl;
-    return;
-}
-node *reverse(node *start, node *end)
-{
-    node *temp = end->link;
-    node *curr = start, *prev = temp, *next;
-    while (curr != temp)
-    {
-        next = curr->link;
-        curr->link = prev;
-        prev = curr;
-        curr = next;
-    }
-    print(prev);
-    start = prev;
-    return start;
 }
 void solve()
 {
