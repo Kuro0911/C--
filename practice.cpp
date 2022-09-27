@@ -55,9 +55,36 @@ int helper(int arr[], int len, int n)
 }
 void solve()
 {
-    int n = 10;
-    int a[n] = {7, 88, 12, 4, 15, 71, 22, 23, 20, 16};
-    cout << helper(a, n, 4);
+    string pattern, s;
+    cin >> pattern >> s;
+    map<char, string> mp;
+    vector<string> vec;
+    stringstream str(s);
+    string word;
+    while (str >> word)
+    {
+        vec.push_back(word);
+    }
+    cout << vec.size();
+    // if (vec.size() != pattern.size())
+    // {
+    //     cout << "no";
+    // }
+    // for (int i = 0; i < pattern.size(); i++)
+    // {
+    //     if (mp.find(pattern[i]) != mp.end())
+    //     {
+    //         if (mp[pattern[i]] != vec[i])
+    //         {
+    //             cout << "no";
+    //         }
+    //     }
+    //     else
+    //     {
+    //         mp[pattern[i]] = vec[i];
+    //     }
+    // }
+    // cout << "yea";
 }
 
 signed main()
