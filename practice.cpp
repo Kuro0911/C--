@@ -43,53 +43,24 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-bool isPalindrome(int left, int right, string &s)
+void helper(string b, string e, vector<string> temp, set<string> dict, vector<vector<string>> &ans)
 {
-    while (left < right)
+    if (b == e)
     {
-        if (s[left] != s[right])
-            return false;
-        left++;
-        right--;
+        ans.push_back(temp);
+        return;
     }
-    return true;
+    /*
+    now do a search for all the next possible words and then recurse
+    should probaby work
+    */
 }
-int solve(string s, int left, int right, vector<int> &dp)
+vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
 {
-    int sz = (int)s.size();
-
-    if (right == sz - 1)
-        return 0;
-    if (dp[right] != -1)
-        return dp[right];
-
-    int op = 0;
-    int temp = INT_MAX - 1;
-    for (int i = sz - 1; i > right; i--)
-    {
-
-        if (isPalindrome(right + 1, i, s))
-        {
-            temp = min(temp, 1 + solve(s, right + 1, i, dp));
-        }
-    }
-    op = temp;
-    return dp[right] = op;
-}
-int minCut(string s)
-{
-    int sz = (int)s.size();
-    vector<int> dp(sz + 1, -1);
-    int ans = INT_MAX;
-
-    for (int i = sz - 1; i >= 0; i--)
-    {
-        if (isPalindrome(0, i, s))
-        {
-            ans = min(ans, solve(s, 0, i, dp));
-        }
-    }
-    return ans;
+    vector<vector<string>> ans;
+    vector<string> temp;
+    set<string> dict(wordList.begin(), wordList.end());
+    helper(beginWord, endWord, temp, dict, ans) return ans;
 }
 void solve()
 {
