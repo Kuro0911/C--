@@ -43,37 +43,41 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(string b, string e, vector<string> temp, set<string> dict, vector<vector<string>> &ans)
-{
-    if (b == e)
+    void helper(string b, string e, vector<string> temp, set<string> dict, map<int,vector<vector<string>>> &ans)
     {
-        ans.push_back(temp);
-        return;
-    }
-    string x = b;
-    dict.erase(x);
-    for (int k = 0; k < b.size(); k++)
-    {
-        for (int i = 0; i < 26; i++)
+        if (b == e)
         {
-            x[k] = i + 'a';
-            if (dict.find(x) != dict.end())
+            ans[temp.size()].push_back(temp);
+            return;
+        }
+        dict.erase(b);
+        for (int k = 0; k < b.size(); k++)
+        {
+            for (int i = 0; i < 26; i++)
             {
-                dict.erase(x);
-                helper(x, e, temp, dict, ans);
-                dict.insert(x);
+                char y = b[k];
+                b[k] = i + 'a';
+                if (dict.find(b) != dict.end())
+                {
+                    dict.erase(b);
+                    temp.push_back(b);
+                    helper(b, e, temp, dict, ans);
+                    temp.pop_back();
+                    // dict.insert(b);
+                }
+                b[k] = y;
             }
         }
     }
-}
-vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
-{
-    vector<vector<string>> ans;
-    vector<string> temp;
-    set<string> dict(wordList.begin(), wordList.end());
-    helper(beginWord, endWord, temp, dict, ans);
-    return ans;
-}
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
+    {
+        map<int,vector<vector<string>>> ans;
+        vector<string> temp{beginWord};
+        set<string> dict(wordList.begin(), wordList.end());
+        helper(beginWord, endWord, temp, dict, ans);
+        auto x = ans.begin();
+        return x->second;
+    }
 void solve()
 {
     string s;
