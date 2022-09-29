@@ -50,17 +50,29 @@ void helper(string b, string e, vector<string> temp, set<string> dict, vector<ve
         ans.push_back(temp);
         return;
     }
-    /*
-    now do a search for all the next possible words and then recurse
-    should probaby work
-    */
+    string x = b;
+    dict.erase(x);
+    for (int k = 0; k < b.size(); k++)
+    {
+        for (int i = 0; i < 26; i++)
+        {
+            x[k] = i + 'a';
+            if (dict.find(x) != dict.end())
+            {
+                dict.erase(x);
+                helper(x, e, temp, dict, ans);
+                dict.insert(x);
+            }
+        }
+    }
 }
 vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
 {
     vector<vector<string>> ans;
     vector<string> temp;
     set<string> dict(wordList.begin(), wordList.end());
-    helper(beginWord, endWord, temp, dict, ans) return ans;
+    helper(beginWord, endWord, temp, dict, ans);
+    return ans;
 }
 void solve()
 {
