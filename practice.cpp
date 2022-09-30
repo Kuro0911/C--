@@ -43,45 +43,66 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-    void helper(string b, string e, vector<string> temp, set<string> dict, map<int,vector<vector<string>>> &ans)
+void helper(string b, string e, set<string> dict, vector<vector<string>> &ans)
+{
+    unordered_map<string, vector<vector<string>>> mp;
+    queue<string> q;
+    q.push(b);
+    dict.erase(b);
+    mp[b].push_back({b});
+    while (!mp.empty())
     {
-        if (b == e)
+        unordered_map<string, vector<vector<string>>> new_mp;
+        for (auto [x, paths] : mp)
         {
-            ans[temp.size()].push_back(temp);
-            return;
-        }
-        dict.erase(b);
-        for (int k = 0; k < b.size(); k++)
-        {
-            for (int i = 0; i < 26; i++)
+            if (x == e)
             {
-                char y = b[k];
-                b[k] = i + 'a';
-                if (dict.find(b) != dict.end())
+                ans = mp[x];
+                return;
+            }
+            vector<string> nei;
+            for (int k = 0; k < x.size(); k++)
+            {
+                string temp = x;
+                char y = temp[k];
+                for (int j = 0; j < 26; j++)
                 {
-                    dict.erase(b);
-                    temp.push_back(b);
-                    helper(b, e, temp, dict, ans);
-                    temp.pop_back();
-                    // dict.insert(b);
+                    temp[k] = j + 'a';
+                    if (dict.find(temp) != dict.end())
+                    {
+                        nei.push_back(temp);
+                        dict.erase(temp);
+                    }
                 }
-                b[k] = y;
+                temp[k] = y;
+            }
+            for (auto n : nei)
+            {
+                for (auto path : paths)
+                {
+                    path.push_back(n);
+                    new_mp[n].push_back(path);
+                }
             }
         }
+        mp.swap(new_mp);
     }
-    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
-    {
-        map<int,vector<vector<string>>> ans;
-        vector<string> temp{beginWord};
-        set<string> dict(wordList.begin(), wordList.end());
-        helper(beginWord, endWord, temp, dict, ans);
-        auto x = ans.begin();
-        return x->second;
-    }
+    return;
+}
+vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
+{
+    vector<vector<string>> ans;
+    vector<string> temp;
+    set<string> dict(wordList.begin(), wordList.end());
+    helper(beginWord, endWord, dict, ans);
+    return ans;
+}
 void solve()
 {
-    string s;
-    cin >> s;
+    string b, e;
+    cin >> b >> e;
+    vector<string> vec{"hot", "dot", "dog", "lot", "log", "cog"};
+    cout << findLadders(b, e, vec);
 }
 
 signed main()
