@@ -43,66 +43,23 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-void helper(string b, string e, set<string> dict, vector<vector<string>> &ans)
+vector<int> canSeePersonsCount(vector<int> &heights)
 {
-    unordered_map<string, vector<vector<string>>> mp;
-    queue<string> q;
-    q.push(b);
-    dict.erase(b);
-    mp[b].push_back({b});
-    while (!mp.empty())
+    vector<int> mono;
+    for (int i = heights.size() - 1; i >= 0; --i)
     {
-        unordered_map<string, vector<vector<string>>> new_mp;
-        for (auto [x, paths] : mp)
-        {
-            if (x == e)
-            {
-                ans = mp[x];
-                return;
-            }
-            vector<string> nei;
-            for (int k = 0; k < x.size(); k++)
-            {
-                string temp = x;
-                char y = temp[k];
-                for (int j = 0; j < 26; j++)
-                {
-                    temp[k] = j + 'a';
-                    if (dict.find(temp) != dict.end())
-                    {
-                        nei.push_back(temp);
-                        dict.erase(temp);
-                    }
-                }
-                temp[k] = y;
-            }
-            for (auto n : nei)
-            {
-                for (auto path : paths)
-                {
-                    path.push_back(n);
-                    new_mp[n].push_back(path);
-                }
-            }
-        }
-        mp.swap(new_mp);
+        int h = heights[i], cnt = 0;
+        for (; !mono.empty() && mono.back() < h; ++cnt)
+            mono.pop_back();
+        heights[i] = cnt + !mono.empty();
+        mono.push_back(h);
     }
-    return;
-}
-vector<vector<string>> findLadders(string beginWord, string endWord, vector<string> &wordList)
-{
-    vector<vector<string>> ans;
-    vector<string> temp;
-    set<string> dict(wordList.begin(), wordList.end());
-    helper(beginWord, endWord, dict, ans);
-    return ans;
+    return heights;
 }
 void solve()
 {
-    string b, e;
-    cin >> b >> e;
-    vector<string> vec{"hot", "dot", "dog", "lot", "log", "cog"};
-    cout << findLadders(b, e, vec);
+    vector<int> vec{10, 6, 8, 5, 11, 9};
+    cout << canSeePersonsCount(vec);
 }
 
 signed main()
