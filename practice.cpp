@@ -43,42 +43,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-bool check(map<char, int> mp)
+int xorAllNums(vector<int> &nums1, vector<int> &nums2)
 {
-    auto x = *max_element(mp.begin(), mp.end());
-    int val = x.second;
-    for (auto x : mp)
+    int ans = 0;
+    vector<int> res;
+    for (int i = 0; i < nums1.size(); i++)
     {
-        if (x.second != val and x.second != 0)
-        {
-            return false;
-        }
+        ans = ans ^ nums1[i];
     }
-    return true;
-}
-bool equalFrequency(string word)
-{
-    map<char, int> mp;
-    set<char> st;
-    for (auto x : word)
+    res.push_back(ans);
+    ans = 0;
+    for (int j = 0; j < nums2.size(); j++)
     {
-        mp[x]++;
-        st.insert(x);
+        ans = ans ^ nums2[j];
     }
-    for (auto x : st)
-    {
-        mp[x]--;
-        if (check(mp))
-        {
-            return true;
-        }
-        mp[x]++;
-    }
-    return false;
+    cout << res[0] << " " << ans;
+    return ans xor res[0];
 }
 void solve()
 {
-    cout << equalFrequency("abbcc");
+    int x = 1;
+    int y = 2;
+    int ans = x ^ (y ^ x);
+    cout << ans;
 }
 
 signed main()
