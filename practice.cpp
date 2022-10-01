@@ -43,27 +43,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
+bool check(map<char, int> mp)
 {
-public:
-    int numOfWays(int n)
+    auto x = *max_element(mp.begin(), mp.end());
+    int val = x.second;
+    for (auto x : mp)
     {
-        long three = 6, two = 6;
-        long mod = 10e9 + 7;
-        for (int i = 2; i <= n; i++)
+        if (x.second != val and x.second != 0)
         {
-            long temp = three;
-            three = (2 * two + 2 * three) % mod;
-            two = (2 * temp + 3 * two) % mod;
+            return false;
         }
-        return (two + three) % mod;
     }
-};
+    return true;
+}
+bool equalFrequency(string word)
+{
+    map<char, int> mp;
+    set<char> st;
+    for (auto x : word)
+    {
+        mp[x]++;
+        st.insert(x);
+    }
+    for (auto x : st)
+    {
+        mp[x]--;
+        if (check(mp))
+        {
+            return true;
+        }
+        mp[x]++;
+    }
+    return false;
+}
 void solve()
 {
-    string str = "{xyz: abc}";
-    int i = str.find_first_of(':');
-    cout << i;
+    cout << equalFrequency("abbcc");
 }
 
 signed main()
