@@ -64,8 +64,12 @@ void solve()
 {
     int x = 1;
     int y = 2;
-    int ans = x ^ (y ^ x);
-    cout << ans;
+    int a = 3;
+    int b = 4;
+
+    
+    int ans2 = (a ^ x) ^ (a ^ y) ^ (b ^ x) ^ (b ^ y);
+    cout << ans << " " << ans2;
 }
 
 signed main()
