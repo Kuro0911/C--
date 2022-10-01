@@ -43,42 +43,27 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-struct TreeNode
+class Solution
 {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr){};
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr){};
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right){};
-};
-int i = 0;
-TreeNode *dfs(string &s, int prev)
-{
-    int next = s.find_first_of("1234567890", i);
-    if (next - i != prev)
+public:
+    int numOfWays(int n)
     {
-        return NULL;
+        long three = 6, two = 6;
+        long mod = 10e9 + 7;
+        for (int i = 2; i <= n; i++)
+        {
+            long temp = three;
+            three = (2 * two + 2 * three) % mod;
+            two = (2 * temp + 3 * two) % mod;
+        }
+        return (two + three) % mod;
     }
-    int nextDash = s.find_first_of("-", next);
-    int rootVal = stoi(s.substr(next, nextDash - next));
-    TreeNode *root = new TreeNode(rootVal);
-    i = nextDash;
-    root->left = dfs(s, prev + 1);
-    root->right = dfs(s, prev + 1);
-    return root;
-}
-TreeNode *recoverFromPreorder(string traversal)
-{
-    TreeNode *root = dfs(traversal, 0);
-    return root;
-}
-
+};
 void solve()
 {
-    string s;
-    cin >> s;
-    TreeNode *root = recoverFromPreorder(s);
+    string str = "{xyz: abc}";
+    int i = str.find_first_of(':');
+    cout << i;
 }
 
 signed main()
