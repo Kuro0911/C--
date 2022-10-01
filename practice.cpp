@@ -43,23 +43,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-vector<int> canSeePersonsCount(vector<int> &heights)
+struct TreeNode
 {
-    vector<int> mono;
-    for (int i = heights.size() - 1; i >= 0; --i)
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr){};
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr){};
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right){};
+};
+int i = 0;
+TreeNode *dfs(string &s, int prev)
+{
+    int next = s.find_first_of("1234567890", i);
+    if (next - i != prev)
     {
-        int h = heights[i], cnt = 0;
-        for (; !mono.empty() && mono.back() < h; ++cnt)
-            mono.pop_back();
-        heights[i] = cnt + !mono.empty();
-        mono.push_back(h);
+        return NULL;
     }
-    return heights;
+    int nextDash = s.find_first_of("-", next);
+    int rootVal = stoi(s.substr(next, nextDash - next));
+    TreeNode *root = new TreeNode(rootVal);
+    i = nextDash;
+    root->left = dfs(s, prev + 1);
+    root->right = dfs(s, prev + 1);
+    return root;
 }
+TreeNode *recoverFromPreorder(string traversal)
+{
+    TreeNode *root = dfs(traversal, 0);
+    return root;
+}
+
 void solve()
 {
-    vector<int> vec{10, 6, 8, 5, 11, 9};
-    cout << canSeePersonsCount(vec);
+    string s;
+    cin >> s;
+    TreeNode *root = recoverFromPreorder(s);
 }
 
 signed main()
