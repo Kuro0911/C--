@@ -43,33 +43,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int xorAllNums(vector<int> &nums1, vector<int> &nums2)
-{
-    int ans = 0;
-    vector<int> res;
-    for (int i = 0; i < nums1.size(); i++)
-    {
-        ans = ans ^ nums1[i];
-    }
-    res.push_back(ans);
-    ans = 0;
-    for (int j = 0; j < nums2.size(); j++)
-    {
-        ans = ans ^ nums2[j];
-    }
-    cout << res[0] << " " << ans;
-    return ans xor res[0];
-}
 void solve()
 {
-    int x = 1;
-    int y = 2;
-    int a = 3;
-    int b = 4;
-
-    
-    int ans2 = (a ^ x) ^ (a ^ y) ^ (b ^ x) ^ (b ^ y);
-    cout << ans << " " << ans2;
+    vector<int> vec{1, 2, 3, 4};
+    cout << accumulate(vec.begin(), vec.end(), 0);
 }
 
 signed main()
