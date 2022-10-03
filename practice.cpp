@@ -45,8 +45,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 void solve()
 {
-    vector<int> vec{1, 2, 3, 4};
-    cout << accumulate(vec.begin(), vec.end(), 0);
+    string s = "0123";
+    int x = stoi(s);
+    cout << x;
 }
 
 signed main()
