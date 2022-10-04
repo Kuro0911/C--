@@ -43,11 +43,55 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+class Solution
+{
+public:
+    void inOrder(TreeNode *root, vector<int> &vec)
+    {
+        if (root)
+        {
+            inOrder(root->left, vec);
+            vec.push_back(root->val);
+            inOrder(root->right, vec);
+        }
+        return;
+    }
+    TreeNode *helper(int st, int ed, vector<int> vec)
+    {
+        if (st <= ed)
+        {
+            int md = (st + ed) / 2;
+            TreeNode *new_node = new TreeNode(vec[md]);
+            new_node->left = helper(st, md - 1, vec);
+            new_node->right = helper(md + 1, ed, vec);
+            return new_node;
+        }
+        return NULL;
+    }
+    TreeNode *balanceBST(TreeNode *root)
+    {
+        if (!root)
+        {
+            return NULL;
+        }
+        vector<int> vec;
+        inOrder(root, vec);
+        TreeNode *new_node = helper(0, vec.size() - 1, vec);
+        return new_node;
+    }
+};
 void solve()
 {
-    string s = "0123";
-    int x = stoi(s);
-    cout << x;
 }
 
 signed main()
