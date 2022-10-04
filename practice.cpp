@@ -72,8 +72,31 @@ public:
         return ans;
     }
 };
+int uniqueLetterString(string s)
+{
+    vector<int> g[26];
+    int n = s.length(), ans = 0;
+    for (int i = 0; i < n; i++)
+        g[s[i] - 'A'].push_back(i);
+
+    cout << g;
+    for (int i = 0; i < 26; i++)
+    {
+        int prev, nxt;
+        for (int j = 0; j < g[i].size(); j++)
+        {
+            prev = (j == 0) ? g[i][j] + 1 : g[i][j] - g[i][j - 1];
+            nxt = (j + 1) == g[i].size() ? (n - g[i][j]) : g[i][j + 1] - g[i][j];
+            ans = ans + (nxt * prev);
+        }
+    }
+    return ans;
+}
 void solve()
 {
+    string s = "abaa";
+    set<char> st(s.begin(), s.end());
+    cout << st.size();
 }
 
 signed main()
