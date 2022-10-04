@@ -56,38 +56,20 @@ struct TreeNode
 class Solution
 {
 public:
-    void inOrder(TreeNode *root, vector<int> &vec)
+    int numIdenticalPairs(vector<int> &nums)
     {
-        if (root)
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            inOrder(root->left, vec);
-            vec.push_back(root->val);
-            inOrder(root->right, vec);
+            for (int j = i + 1; j < nums.size(); j++)
+            {
+                if (nums[i] == nums[j])
+                {
+                    ans++;
+                }
+            }
         }
-        return;
-    }
-    TreeNode *helper(int st, int ed, vector<int> vec)
-    {
-        if (st <= ed)
-        {
-            int md = (st + ed) / 2;
-            TreeNode *new_node = new TreeNode(vec[md]);
-            new_node->left = helper(st, md - 1, vec);
-            new_node->right = helper(md + 1, ed, vec);
-            return new_node;
-        }
-        return NULL;
-    }
-    TreeNode *balanceBST(TreeNode *root)
-    {
-        if (!root)
-        {
-            return NULL;
-        }
-        vector<int> vec;
-        inOrder(root, vec);
-        TreeNode *new_node = helper(0, vec.size() - 1, vec);
-        return new_node;
+        return ans;
     }
 };
 void solve()
