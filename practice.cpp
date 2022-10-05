@@ -74,13 +74,26 @@ public:
         else
         {
             new_node->val = root->val;
+            if (!root->right and !root->left and curr_depth == depth - 1)
+            {
+                new_node->left = new TreeNode(val);
+                new_node->right = new TreeNode(val);
+            }
             if (root->left)
             {
                 new_node->left = helper(root->left, val, curr_depth + 1, depth, false);
             }
+            else if (!root->left and curr_depth == depth - 1)
+            {
+                new_node->left = new TreeNode(val);
+            }
             if (root->right)
             {
                 new_node->right = helper(root->right, val, curr_depth + 1, depth, true);
+            }
+            else if (!root->right and curr_depth == depth - 1)
+            {
+                new_node->right = new TreeNode(val);
             }
         }
         return new_node;
@@ -91,7 +104,7 @@ public:
         if (depth == 1)
         {
             new_root->val = val;
-            new_root->right = root;
+            new_root->left = root;
         }
         else
         {
