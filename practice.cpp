@@ -56,42 +56,50 @@ struct TreeNode
 class Solution
 {
 public:
-    int numIdenticalPairs(vector<int> &nums)
+    TreeNode *helper(TreeNode *root, int val, int curr_depth, int depth, bool side)
     {
-        int ans = 0;
-        for (int i = 0; i < nums.size(); i++)
+        TreeNode *new_node = new TreeNode();
+        if (curr_depth == depth)
         {
-            for (int j = i + 1; j < nums.size(); j++)
+            new_node->val = val;
+            if (side)
             {
-                if (nums[i] == nums[j])
-                {
-                    ans++;
-                }
+                new_node->right = root;
+            }
+            else
+            {
+                new_node->left = root;
             }
         }
-        return ans;
+        else
+        {
+            new_node->val = root->val;
+            if (root->left)
+            {
+                new_node->left = helper(root->left, val, curr_depth + 1, depth, false);
+            }
+            if (root->right)
+            {
+                new_node->right = helper(root->right, val, curr_depth + 1, depth, true);
+            }
+        }
+        return new_node;
+    }
+    TreeNode *addOneRow(TreeNode *root, int val, int depth)
+    {
+        TreeNode *new_root = new TreeNode();
+        if (depth == 1)
+        {
+            new_root->val = val;
+            new_root->right = root;
+        }
+        else
+        {
+            new_root = helper(root, val, 1, depth, false);
+        }
+        return new_root;
     }
 };
-int uniqueLetterString(string s)
-{
-    vector<int> g[26];
-    int n = s.length(), ans = 0;
-    for (int i = 0; i < n; i++)
-        g[s[i] - 'A'].push_back(i);
-
-    cout << g;
-    for (int i = 0; i < 26; i++)
-    {
-        int prev, nxt;
-        for (int j = 0; j < g[i].size(); j++)
-        {
-            prev = (j == 0) ? g[i][j] + 1 : g[i][j] - g[i][j - 1];
-            nxt = (j + 1) == g[i].size() ? (n - g[i][j]) : g[i][j + 1] - g[i][j];
-            ans = ans + (nxt * prev);
-        }
-    }
-    return ans;
-}
 void solve()
 {
     string s = "abaa";
