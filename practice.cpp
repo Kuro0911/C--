@@ -58,7 +58,7 @@ class Solution
 public:
     bool dfs(int i, int j, vector<vector<int>> mat)
     {
-        if (i >= 0 and i < mat.size() and j >= 0 and mat[i].size() and mat[i][j] == 0)
+        if (i >= 0 and i < mat.size() and j >= 0 and j < mat[i].size() and mat[i][j] == 0)
         {
             if (i == mat.size() - 1)
             {
@@ -76,24 +76,22 @@ public:
     int latestDayToCross(int row, int col, vector<vector<int>> &cells)
     {
         vector<vector<int>> mat(row, vector<int>(col, 0));
-        int ans = 0;
         for (auto x : cells)
         {
             mat[x[0] - 1][x[1] - 1] = 1;
-            bool flag = false;
+        }
+        int ans = cells.size();
+        for (int i = cells.size() - 1; i >= 0; i--)
+        {
             for (int j = 0; j < mat[0].size(); j++)
             {
                 if (dfs(0, j, mat))
                 {
-                    flag = true;
-                    ans++;
-                    break;
+                    return ans;
                 }
             }
-            if (!flag)
-            {
-                break;
-            }
+            ans--;
+            mat[cells[i][0] - 1][cells[i][1] - 1] = 0;
         }
         return ans;
     }
