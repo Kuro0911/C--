@@ -56,68 +56,47 @@ struct TreeNode
 class Solution
 {
 public:
-    TreeNode *helper(TreeNode *root, int val, int curr_depth, int depth, bool side)
+    bool dfs(int i, int j, vector<vector<int>> mat)
     {
-        TreeNode *new_node = new TreeNode();
-        if (curr_depth == depth)
+        if (i >= 0 and i < mat.size() and j >= 0 and mat[i].size() and mat[i][j] == 0)
         {
-            new_node->val = val;
-            if (side)
+            if (i == mat.size() - 1)
             {
-                new_node->right = root;
+                return true;
+            }
+
+            mat[i][j] = -1;
+            bool u = dfs(i + 1, j, mat);
+            bool d = dfs(i - 1, j, mat);
+            bool r = dfs(i, j + 1, mat);
+            bool l = dfs(i, j - 1, mat);
+            return u || d || l || r;
+        }
+        return false;
+    }
+    int latestDayToCross(int row, int col, vector<vector<int>> &cells)
+    {
+        vector<vector<int>> mat(row, vector<int>(col, 0));
+        int ans = 0;
+        for (auto x : cells)
+        {
+            mat[x[0] - 1][x[1] - 1] = 1;
+            if (dfs(0, 0, mat))
+            {
+                ans++;
             }
             else
             {
-                new_node->left = root;
+                break;
             }
         }
-        else
-        {
-            new_node->val = root->val;
-            if (!root->right and !root->left and curr_depth == depth - 1)
-            {
-                new_node->left = new TreeNode(val);
-                new_node->right = new TreeNode(val);
-            }
-            if (root->left)
-            {
-                new_node->left = helper(root->left, val, curr_depth + 1, depth, false);
-            }
-            else if (!root->left and curr_depth == depth - 1)
-            {
-                new_node->left = new TreeNode(val);
-            }
-            if (root->right)
-            {
-                new_node->right = helper(root->right, val, curr_depth + 1, depth, true);
-            }
-            else if (!root->right and curr_depth == depth - 1)
-            {
-                new_node->right = new TreeNode(val);
-            }
-        }
-        return new_node;
-    }
-    TreeNode *addOneRow(TreeNode *root, int val, int depth)
-    {
-        TreeNode *new_root = new TreeNode();
-        if (depth == 1)
-        {
-            new_root->val = val;
-            new_root->left = root;
-        }
-        else
-        {
-            new_root = helper(root, val, 1, depth, false);
-        }
-        return new_root;
+        return ans;
     }
 };
 void solve()
 {
-    string s = "abaa";
-    set<char> st(s.begin(), s.end());
-    cout << st.size();
+    vector<vector<int>> mat(2, vector<int>(2, 0));
+    cout << mat;
 }
 
 signed main()
