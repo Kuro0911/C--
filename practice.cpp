@@ -44,54 +44,55 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-struct TreeNode
+class DSU
 {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+public:
+    map<pair<int, int>, pair<int, int>> parent;
+
+    void make(int i, int j)
+    {
+        parent[{i, j}] = {i, j};
+    };
+
+    pair<int, int> find(pair<int, int> x)
+    {
+        if (x == parent[x])
+            return x;
+        return find(parent[x]);
+    };
+
+    void Union(pair<int, int> a, pair<int, int> b)
+    {
+        a = find(a);
+        b = find(b);
+
+        if (a != b)
+        {
+            parent[b] = a;
+        }
+    }
 };
 class Solution
 {
 public:
-    bool dfs(int i, int j, vector<vector<int>> mat)
-    {
-        if (i >= 0 and i < mat.size() and j >= 0 and j < mat[i].size() and mat[i][j] == 0)
-        {
-            if (i == mat.size() - 1)
-            {
-                return true;
-            }
-            mat[i][j] = -1;
-            bool u = dfs(i + 1, j, mat);
-            bool d = dfs(i - 1, j, mat);
-            bool r = dfs(i, j + 1, mat);
-            bool l = dfs(i, j - 1, mat);
-            return u || d || l || r;
-        }
-        return false;
-    }
     int latestDayToCross(int row, int col, vector<vector<int>> &cells)
     {
-        vector<vector<int>> mat(row, vector<int>(col, 0));
-        for (auto x : cells)
+        DSU node;
+        int ans = 0;
+        node.make(cells[0][0], cells[0][1]);
+        cout << node.parent << "next\n";
+        for (int i = 1; i < cells.size(); i++)
         {
-            mat[x[0] - 1][x[1] - 1] = 1;
-        }
-        int ans = cells.size();
-        for (int i = cells.size() - 1; i >= 0; i--)
-        {
-            for (int j = 0; j < mat[0].size(); j++)
+            pair<int, int> tempX = {cells[i][0], cells[i][1]}, tempY = {cells[i - 1][0], cells[i - 1][1]};
+            node.make(tempX.first, tempY.second);
+            node.Union(tempX, tempY);
+            pair<int, int> x = node.find(tempX);
+            if (x.first == 1 and tempX.first == row)
             {
-                if (dfs(0, j, mat))
-                {
-                    return ans;
-                }
+                return ans;
             }
-            ans--;
-            mat[cells[i][0] - 1][cells[i][1] - 1] = 0;
+            ans++;
+            cout << node.parent << "next\n";
         }
         return ans;
     }
