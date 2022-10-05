@@ -64,7 +64,6 @@ public:
             {
                 return true;
             }
-
             mat[i][j] = -1;
             bool u = dfs(i + 1, j, mat);
             bool d = dfs(i - 1, j, mat);
@@ -81,11 +80,17 @@ public:
         for (auto x : cells)
         {
             mat[x[0] - 1][x[1] - 1] = 1;
-            if (dfs(0, 0, mat))
+            bool flag = false;
+            for (int j = 0; j < mat[0].size(); j++)
             {
-                ans++;
+                if (dfs(0, j, mat))
+                {
+                    flag = true;
+                    ans++;
+                    break;
+                }
             }
-            else
+            if (!flag)
             {
                 break;
             }
@@ -95,8 +100,10 @@ public:
 };
 void solve()
 {
-    vector<vector<int>> mat(2, vector<int>(2, 0));
-    cout << mat;
+    Solution x;
+    vector<vector<int>> vec{
+        {1, 1}, {2, 1}, {1, 2}, {2, 2}};
+    cout << x.latestDayToCross(2, 2, vec);
 }
 
 signed main()
