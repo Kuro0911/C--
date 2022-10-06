@@ -56,8 +56,8 @@ public:
 
     pair<int, int> find(pair<int, int> x)
     {
-        if (x == parent[x])
-            return x;
+        if (x != parent[x])
+            parent[x] = find(parent[x]);
         return parent[x];
     };
 
@@ -65,11 +65,7 @@ public:
     {
         a = find(a);
         b = find(b);
-
-        if (a != b)
-        {
-            parent[b] = a;
-        }
+        parent[a] = b;
     }
 };
 class Solution
@@ -80,9 +76,9 @@ public:
         DSU node;
         int ans = 0;
 
-        for (int i = 1; i <= row; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (int j = 1; j <= col; j++)
+            for (int j = 0; j < col; j++)
             {
                 node.parent[{i, j}] = {i, j};
             }
@@ -92,17 +88,15 @@ public:
         node.parent[l] = l;
         node.parent[r] = r;
 
-        vector<pair<int, int>> dir{{1, 0}, {1, 1}, {1, -1}, {0, -1}, {-1, 1}, {-1, 0}, {-1, -1}};
+        vector<pair<int, int>> dir{{1, 0}, {1, 1}, {1, -1}, {0, -1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}};
         set<pair<int, int>> vis;
 
         for (auto &c : cells)
         {
-            int x = c[0]--, y = c[1]--;
-            cout << node.parent << "#################\n";
+            int x = c[0] - 1, y = c[1] - 1;
             for (auto d : dir)
             {
                 int nx = x + d.first, ny = y + d.second;
-
                 if (nx >= 0 and nx < row)
                 {
                     if (ny >= 0 and ny < col)
@@ -118,13 +112,14 @@ public:
                         {
                             node.Union({x, y}, l);
                         }
-                        else if (ny == col)
+                        if (ny == col)
                         {
                             node.Union({x, y}, r);
                         }
                     }
                 }
-                if (node.find(l) == node.find(r))
+                pair<int, int> tempL = node.find(l), tempR = node.find(r);
+                if (tempL == tempR)
                 {
                     return ans;
                 };
