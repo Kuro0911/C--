@@ -58,7 +58,7 @@ public:
     {
         if (x == parent[x])
             return x;
-        return find(parent[x]);
+        return parent[x];
     };
 
     void Union(pair<int, int> a, pair<int, int> b)
@@ -79,20 +79,58 @@ public:
     {
         DSU node;
         int ans = 0;
-        node.make(cells[0][0], cells[0][1]);
-        cout << node.parent << "next\n";
-        for (int i = 1; i < cells.size(); i++)
+
+        for (int i = 1; i <= row; i++)
         {
-            pair<int, int> tempX = {cells[i][0], cells[i][1]}, tempY = {cells[i - 1][0], cells[i - 1][1]};
-            node.make(tempX.first, tempY.second);
-            node.Union(tempX, tempY);
-            pair<int, int> x = node.find(tempX);
-            if (x.first == 1 and tempX.first == row)
+            for (int j = 1; j <= col; j++)
             {
-                return ans;
+                node.parent[{i, j}] = {i, j};
+            }
+        }
+        pair<int, int> l = {-1, -1}, r = {-2, -2};
+
+        node.parent[l] = l;
+        node.parent[r] = r;
+
+        vector<pair<int, int>> dir{{1, 0}, {1, 1}, {1, -1}, {0, -1}, {-1, 1}, {-1, 0}, {-1, -1}};
+        set<pair<int, int>> vis;
+
+        for (auto &c : cells)
+        {
+            int x = c[0]--, y = c[1]--;
+            cout << node.parent << "#################\n";
+            for (auto d : dir)
+            {
+                int nx = x + d.first, ny = y + d.second;
+
+                if (nx >= 0 and nx < row)
+                {
+                    if (ny >= 0 and ny < col)
+                    {
+                        if (vis.find({nx, ny}) != vis.end())
+                        {
+                            node.Union({x, y}, {nx, ny});
+                        }
+                    }
+                    else
+                    {
+                        if (ny == -1)
+                        {
+                            node.Union({x, y}, l);
+                        }
+                        else if (ny == col)
+                        {
+                            node.Union({x, y}, r);
+                        }
+                    }
+                }
+                if (node.find(l) == node.find(r))
+                {
+                    return ans;
+                };
+                vis.insert({x, y});
             }
             ans++;
-            cout << node.parent << "next\n";
         }
         return ans;
     }
