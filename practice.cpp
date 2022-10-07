@@ -47,28 +47,22 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    void helper(vector<int> nums, int curr, int target, int &ans)
+    int helper(vector<int> nums, int i, int curr, int target, map<pair<int, int>, int> &mp)
     {
-        if (nums.size() == 0)
+        if (i == nums.size())
         {
-            if (curr == target)
-            {
-                ans++;
-            }
-            return;
+            return curr == target ? 1 : 0;
         }
-        int x = nums[0];
-        nums.erase(nums.begin());
-
-        helper(nums, curr + x, target, ans);
-        helper(nums, curr - x, target, ans);
-
-        return;
+        if (mp.find({i, curr}) != mp.end())
+        {
+            return mp[{i, curr}];
+        }
+        return mp[{i, curr}] = helper(nums, i + 1, curr + nums[i], target, mp) + helper(nums, i + 1, curr - nums[i], target, mp);
     }
     int findTargetSumWays(vector<int> &nums, int target)
     {
-        int ans = 0;
-        helper(nums, 0, target, ans);
+        map<pair<int, int>, int> mp;
+        int ans = helper(nums, 0, 0, target, mp);
         return ans;
     }
 };
