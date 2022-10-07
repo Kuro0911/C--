@@ -44,31 +44,37 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+class Solution
+{
+public:
+    void helper(vector<int> nums, int curr, int target, int &ans)
+    {
+        if (nums.size() == 0)
+        {
+            if (curr == target)
+            {
+                ans++;
+            }
+            return;
+        }
+        int x = nums[0];
+        nums.erase(nums.begin());
+
+        helper(nums, curr + x, target, ans);
+        helper(nums, curr - x, target, ans);
+
+        return;
+    }
+    int findTargetSumWays(vector<int> &nums, int target)
+    {
+        int ans = 0;
+        helper(nums, 0, target, ans);
+        return ans;
+    }
+};
+
 void solve()
 {
-    string s1, s2;
-    cin >> s1 >> s2;
-    vector<int> vec(26, 0);
-    for (auto x : s1)
-    {
-        vec[x - 'a']++;
-    }
-    cout << vec;
-    int i = 0, j = 0, cnt = s1.size();
-    while (j < s2.size())
-    {
-        if (vec[s2.at(j++) - 'a']-- > 0)
-        {
-            cnt--;
-        }
-        if (cnt == 0)
-            cout << "true";
-        if (j - i == s1.size() and vec[s2.at(i++) - 'a']++ >= 0)
-        {
-            cnt++;
-        }
-    }
-    cout << "false";
 }
 
 signed main()
