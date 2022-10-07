@@ -46,14 +46,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    map<int, int> mp;
-    mp[1] = 0;
-    mp[2] = 0;
-    if (mp[1] == 0)
+    string s1, s2;
+    cin >> s1 >> s2;
+    vector<int> vec(26, 0);
+    for (auto x : s1)
     {
-        mp.erase(1);
+        vec[x - 'a']++;
     }
-    cout << mp;
+    cout << vec;
+    int i = 0, j = 0, cnt = s1.size();
+    while (j < s2.size())
+    {
+        if (vec[s2.at(j++) - 'a']-- > 0)
+        {
+            cnt--;
+        }
+        if (cnt == 0)
+            cout << "true";
+        if (j - i == s1.size() and vec[s2.at(i++) - 'a']++ >= 0)
+        {
+            cnt++;
+        }
+    }
+    cout << "false";
 }
 
 signed main()
