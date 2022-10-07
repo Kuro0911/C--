@@ -75,6 +75,9 @@ public:
 
 void solve()
 {
+    Solution x;
+    vector<int> vec{1, 1, 1, 1, 1};
+    cout << x.findTargetSumWays(vec, 3);
 }
 
 signed main()
