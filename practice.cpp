@@ -47,31 +47,31 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int helper(vector<int> nums, int i, int curr, int target, map<pair<int, int>, int> &mp)
+    long long minimumMoney(vector<vector<int>> &transactions)
     {
-        if (i == nums.size())
+        int op1, op2;
+        sort(transactions.begin(), transactions.end(), [&](vector<int> &a, vector<int> &b)
+             {
+            op1 = min(-a[0], -a[0] + a[1] - b[0]);
+            op2 = min(-b[0], -b[0] + b[1] - a[0]);
+            if(op1 != op2){
+                return op1 < op2;
+            }
+            return a[0] > b[0]; });
+
+        long long curr = 0, ans = 0;
+        for (auto x : transactions)
         {
-            return curr == target ? 1 : 0;
+            curr -= x[0];
+            ans = min(ans, curr);
+            curr += x[1];
         }
-        if (mp.find({i, curr}) != mp.end())
-        {
-            return mp[{i, curr}];
-        }
-        return mp[{i, curr}] = helper(nums, i + 1, curr + nums[i], target, mp) + helper(nums, i + 1, curr - nums[i], target, mp);
-    }
-    int findTargetSumWays(vector<int> &nums, int target)
-    {
-        map<pair<int, int>, int> mp;
-        int ans = helper(nums, 0, 0, target, mp);
-        return ans;
+        return abs(ans);
     }
 };
 
 void solve()
 {
-    Solution x;
-    vector<int> vec{1, 1, 1, 1, 1};
-    cout << x.findTargetSumWays(vec, 3);
 }
 
 signed main()
