@@ -43,9 +43,22 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+int thirdMax(vector<int> &nums)
+{
+    set<int> st(nums.begin(), nums.end());
+    vector<int> temp(st.begin(), st.end());
+    reverse(temp.begin(), temp.end());
+    cout << temp;
+    if (temp.size() < 3)
+    {
+        return temp[0];
+    }
+    return temp[2];
+}
 void solve()
 {
+    vector<int> nums{2, 2, 3, 1};
+    cout << thirdMax(nums);
 }
 
 signed main()
