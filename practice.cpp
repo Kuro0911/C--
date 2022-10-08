@@ -43,43 +43,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    vector<vector<int>> getSkyline(vector<vector<int>> &buildings)
-    {
-        vector<vector<int>> ans;
-        priority_queue<pair<int, int>> max_heap;
-        int i = 0, len = buildings.size();
-        int curr_x, curr_h;
-        while (i < len || !max_heap.empty())
-        {
-            if (max_heap.empty() || i < len && buildings[i][0] <= max_heap.top().second)
-            {
-                curr_x = buildings[i][0];
-                while (i < len && curr_x == buildings[i][0])
-                {
-                    max_heap.emplace(buildings[i][2], buildings[i][1]);
-                    i++;
-                }
-            }
-            else
-            {
-                curr_x = max_heap.top().second;
-                while (!max_heap.empty() && curr_x >= max_heap.top().second)
-                {
-                    max_heap.pop();
-                }
-            }
-            curr_h = (max_heap.empty() ? 0 : max_heap.top().first);
-            if (ans.empty() || curr_h != ans.back()[1])
-            {
-                ans.push_back({curr_x, curr_h});
-            }
-        }
-        return ans;
-    }
-};
+
 void solve()
 {
 }
