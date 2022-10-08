@@ -43,33 +43,43 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
 class Solution
 {
 public:
-    long long minimumMoney(vector<vector<int>> &transactions)
+    vector<vector<int>> getSkyline(vector<vector<int>> &buildings)
     {
-        int op1, op2;
-        sort(transactions.begin(), transactions.end(), [&](vector<int> &a, vector<int> &b)
-             {
-            op1 = min(-a[0], -a[0] + a[1] - b[0]);
-            op2 = min(-b[0], -b[0] + b[1] - a[0]);
-            if(op1 != op2){
-                return op1 < op2;
-            }
-            return a[0] > b[0]; });
-
-        long long curr = 0, ans = 0;
-        for (auto x : transactions)
+        vector<vector<int>> ans;
+        priority_queue<pair<int, int>> max_heap;
+        int i = 0, len = buildings.size();
+        int curr_x, curr_h;
+        while (i < len || !max_heap.empty())
         {
-            curr -= x[0];
-            ans = min(ans, curr);
-            curr += x[1];
+            if (max_heap.empty() || i < len && buildings[i][0] <= max_heap.top().second)
+            {
+                curr_x = buildings[i][0];
+                while (i < len && curr_x == buildings[i][0])
+                {
+                    max_heap.emplace(buildings[i][2], buildings[i][1]);
+                    i++;
+                }
+            }
+            else
+            {
+                curr_x = max_heap.top().second;
+                while (!max_heap.empty() && curr_x >= max_heap.top().second)
+                {
+                    max_heap.pop();
+                }
+            }
+            curr_h = (max_heap.empty() ? 0 : max_heap.top().first);
+            if (ans.empty() || curr_h != ans.back()[1])
+            {
+                ans.push_back({curr_x, curr_h});
+            }
         }
-        return abs(ans);
+        return ans;
     }
 };
-
 void solve()
 {
 }
