@@ -43,49 +43,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int getWinner(vector<int> &arr, int k)
+class Solution
 {
-    vector<int> temp = arr;
-    sort(begin(temp), end(temp), greater<int>());
-    if (k >= arr.size())
+public:
+    string evaluate(string s, vector<vector<string>> &knowledge)
     {
-        return temp[0];
-    }
-    int ans = 0;
-    deque<int> q(arr.begin(), arr.end());
-    int x = q.front();
-    while (!q.empty())
-    {
-        q.pop_front();
-        while (q.front() <= x)
+        map<string, string> mp;
+        for (auto x : knowledge)
         {
-            ans++;
-            q.push_back(q.front());
-            q.pop_front();
-            if (ans == k)
+            mp[x[0]] = x[1];
+        }
+
+        string ans;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] == '(')
             {
-                return x;
+                int j = s.find_first_of(')', i);
+                string temp;
+                for (int k = i + 1; k < j; k++)
+                {
+                    temp.push_back(s[k]);
+                }
+                ans += mp[temp];
+                i = j;
+            }
+            else
+            {
+                ans.push_back(s[i]);
             }
         }
-        if (ans != k)
-        {
-            ans = 1;
-            q.push_back(x);
-            x = q.front();
-        }
-        else
-        {
-            break;
-        }
-        cout << x << " " << ans << endl;
+        return ans;
     }
-    return x;
-}
-
+};
 void solve()
 {
-    vector<int> nums{2, 1, 3, 5, 4, 6, 7};
-    cout << getWinner(nums, 3);
+    Solution x;
+    string s;
+    cin >> s;
+    vector<vector<string>> vec{{"name", "bob"}, {"age", "two"}};
+    cout << x.evaluate(s, vec);
 }
 
 signed main()
