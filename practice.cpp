@@ -43,22 +43,49 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int thirdMax(vector<int> &nums)
+int getWinner(vector<int> &arr, int k)
 {
-    set<int> st(nums.begin(), nums.end());
-    vector<int> temp(st.begin(), st.end());
-    reverse(temp.begin(), temp.end());
-    cout << temp;
-    if (temp.size() < 3)
+    vector<int> temp = arr;
+    sort(begin(temp), end(temp), greater<int>());
+    if (k >= arr.size())
     {
         return temp[0];
     }
-    return temp[2];
+    int ans = 0;
+    deque<int> q(arr.begin(), arr.end());
+    int x = q.front();
+    while (!q.empty())
+    {
+        q.pop_front();
+        while (q.front() <= x)
+        {
+            ans++;
+            q.push_back(q.front());
+            q.pop_front();
+            if (ans == k)
+            {
+                return x;
+            }
+        }
+        if (ans != k)
+        {
+            ans = 1;
+            q.push_back(x);
+            x = q.front();
+        }
+        else
+        {
+            break;
+        }
+        cout << x << " " << ans << endl;
+    }
+    return x;
 }
+
 void solve()
 {
-    vector<int> nums{2, 2, 3, 1};
-    cout << thirdMax(nums);
+    vector<int> nums{2, 1, 3, 5, 4, 6, 7};
+    cout << getWinner(nums, 3);
 }
 
 signed main()
