@@ -43,47 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    string evaluate(string s, vector<vector<string>> &knowledge)
-    {
-        map<string, string> mp;
-        for (auto x : knowledge)
-        {
-            mp[x[0]] = x[1];
-        }
 
-        string ans;
-        for (int i = 0; i < s.size(); i++)
-        {
-            if (s[i] == '(')
-            {
-                int j = s.find_first_of(')', i);
-                string temp;
-                for (int k = i + 1; k < j; k++)
-                {
-                    temp.push_back(s[k]);
-                }
-                ans += mp[temp];
-                i = j;
-            }
-            else
-            {
-                ans.push_back(s[i]);
-            }
-        }
-        return ans;
-    }
-};
 void solve()
 {
-    vector<int> vec{1, 2, 3};
-    for (auto &x : vec)
-    {
-        x++;
-    }
-    cout << vec;
 }
 
 signed main()
