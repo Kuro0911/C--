@@ -1,6 +1,6 @@
 {
-	title: 'Daily One Happy Act',
-	items: {
+	"title": "Daily One Happy Act",
+	"items": {
 		"0": {
 			"title": "cooking",
 			"active": false

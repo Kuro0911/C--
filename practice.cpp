@@ -78,11 +78,12 @@ public:
 };
 void solve()
 {
-    Solution x;
-    string s;
-    cin >> s;
-    vector<vector<string>> vec{{"name", "bob"}, {"age", "two"}};
-    cout << x.evaluate(s, vec);
+    vector<int> vec{1, 2, 3};
+    for (auto &x : vec)
+    {
+        x++;
+    }
+    cout << vec;
 }
 
 signed main()
