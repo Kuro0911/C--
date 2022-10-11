@@ -43,40 +43,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class MyCalendarThree
-{
-private:
-    unordered_map<int, int> vals;
-    unordered_map<int, int> lazy;
 
-public:
-    MyCalendarThree() {}
-    void update(int start, int end, int l, int r, int idx)
+map<pair<int, int>, int> tree;
+void build(int start, int end, int idx, int val)
+{
+    if (start > end or start == end and start != idx)
     {
-        if (start > r || end < l)
-            return;
-        if (l >= start and r <= end)
-        {
-            lazy[idx]++;
-            vals[idx]++;
-        }
-        else
-        {
-            int md = (l + r) / 2;
-            update(start, end, l, md - 1, idx * 2);
-            update(start, end, md + 1, r, idx * 2 + 1);
-            vals[idx] = lazy[idx] + max(vals[idx * 2], vals[idx * 2 + 1]);
-        }
-    };
-    int book(int start, int end)
-    {
-        update(start, end - 1, 1, 1e9, 1);
-        return vals[1];
+        return;
     }
-};
+    if (start == end and start == idx)
+    {
+        cout << "yes\n";
+        tree[{idx, idx}] = val;
+    }
+    else
+    {
+        int md = (start + end) / 2;
+        pii l = {start, md}, r = {md + 1, end};
+        build(start, md, idx, val);
+        build(md + 1, end, idx, val);
+        if (tree.find(l) != tree.end() and tree.find(r) != tree.end())
+        {
+            tree[{start, end}] = tree[l] + tree[r];
+        }
+    }
+    return;
+}
+// void update(int i) {}
+// void query(int l, int r) {}
 
 void solve()
 {
+    vector<int> vec{1, 2, 3, 4, 5};
+    for (int i = 1; i <= vec.size(); i++)
+    {
+        build(1, 5, i, vec[i - 1]);
+    }
+    for (auto x : tree)
+    {
+        cout << x.first.first << " : " << x.first.second << " == " << x.second << endl;
+    }
 }
 
 signed main()
