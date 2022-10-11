@@ -43,6 +43,37 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+class MyCalendarThree
+{
+private:
+    unordered_map<int, int> vals;
+    unordered_map<int, int> lazy;
+
+public:
+    MyCalendarThree() {}
+    void update(int start, int end, int l, int r, int idx)
+    {
+        if (start > r || end < l)
+            return;
+        if (l >= start and r <= end)
+        {
+            lazy[idx]++;
+            vals[idx]++;
+        }
+        else
+        {
+            int md = (l + r) / 2;
+            update(start, end, l, md - 1, idx * 2);
+            update(start, end, md + 1, r, idx * 2 + 1);
+            vals[idx] = lazy[idx] + max(vals[idx * 2], vals[idx * 2 + 1]);
+        }
+    };
+    int book(int start, int end)
+    {
+        update(start, end - 1, 1, 1e9, 1);
+        return vals[1];
+    }
+};
 
 void solve()
 {
