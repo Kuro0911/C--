@@ -70,7 +70,7 @@ void build(int start, int end, int idx, int val)
     return;
 }
 // void update(int i) {}
-void query(int l, int r) {}
+// void query(int l, int r) {}
 
 void solve()
 {
