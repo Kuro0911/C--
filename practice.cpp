@@ -43,46 +43,27 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-map<pair<int, int>, int> tree;
-void build(int start, int end, int idx, int val)
+int BinSearch(int st, int ed, int val, vector<int> arr)
 {
-    if (start > end or start == end and start != idx)
+    if (st > ed)
     {
-        return;
+        return -1;
     }
-    if (start == end and start == idx)
+    int md = (st + ed) / 2;
+    if (arr[md] == val)
     {
-        cout << "yes\n";
-        tree[{idx, idx}] = val;
+        return md;
     }
-    else
+    if (arr[md] >= val)
     {
-        int md = (start + end) / 2;
-        pii l = {start, md}, r = {md + 1, end};
-        build(start, md, idx, val);
-        build(md + 1, end, idx, val);
-        if (tree.find(l) != tree.end() and tree.find(r) != tree.end())
-        {
-            tree[{start, end}] = tree[l] + tree[r];
-        }
+        return BinSearch(st, md - 1, val, arr);
     }
-    return;
+    return BinSearch(md + 1, ed, val, arr);
 }
-// void update(int i) {}
-// void query(int l, int r) {}
-
 void solve()
 {
     vector<int> vec{1, 2, 3, 4, 5};
-    for (int i = 1; i <= vec.size(); i++)
-    {
-        build(1, 5, i, vec[i - 1]);
-    }
-    for (auto x : tree)
-    {
-        cout << x.first.first << " : " << x.first.second << " == " << x.second << endl;
-    }
+    cout << BinSearch(0, vec.size() - 1, 4, vec);
 }
 
 signed main()
