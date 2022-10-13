@@ -64,7 +64,6 @@ public:
 void solve()
 {
     vector<int> vec{1, 2, 3, 4, 5};
-    cout << BinSearch(0, vec.size() - 1, 4, vec);
 }
 
 signed main()
