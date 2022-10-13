@@ -43,23 +43,24 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-int BinSearch(int st, int ed, int val, vector<int> arr)
+class Solution
 {
-    if (st > ed)
+public:
+    int earliestFullBloom(vector<int> &plantTime, vector<int> &growTime)
     {
-        return -1;
+        vector<int> ind(plantTime.size());
+        iota(ind.begin(), ind.end(), 0);
+        sort(ind.begin(), ind.end(), [&](int i, int j)
+             { return growTime[i] > growTime[j]; });
+        int res = 0, curr = 0;
+        for (int i : ind)
+        {
+            curr += plantTime[i];
+            res = max(res, curr + growTime[i]);
+        }
+        return res;
     }
-    int md = (st + ed) / 2;
-    if (arr[md] == val)
-    {
-        return md;
-    }
-    if (arr[md] >= val)
-    {
-        return BinSearch(st, md - 1, val, arr);
-    }
-    return BinSearch(md + 1, ed, val, arr);
-}
+};
 void solve()
 {
     vector<int> vec{1, 2, 3, 4, 5};
