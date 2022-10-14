@@ -48,34 +48,35 @@ class Solution
 public:
     int helper(int row, int col1, int col2, vector<vector<int>> grid, map<pair<int, pair<int, int>>, int> &dp)
     {
-        if (col1 < 0 or col1 >= grid[0].size() or col2 < 0 or col2 > grid[0].size())
+        if (col1 >= 0 and col1 < grid[0].size() and col2 >= 0 and col2 < grid[0].size())
         {
-            return 0;
-        }
-        if (dp.find({row, {col1, col2}}) != dp.end())
-        {
-            return dp[{row, {col1, col2}}];
-        }
-        int res = 0;
-        res += grid[row][col1];
-        if (col1 != col2)
-        {
-            res += grid[row][col2];
-        }
-        if (row != grid.size())
-        {
-            int mx = 0;
-            for (int newCol1 = col1 - 1; newCol1 <= col1 + 1; newCol1++)
+            if (dp.find({row, {col1, col2}}) != dp.end())
             {
-                for (int newCol2 = col2 - 1; newCol2 <= col2 + 1; newCol2++)
-                {
-                    mx = max(mx, helper(row + 1, newCol1, newCol2, grid, dp));
-                }
+                return dp[{row, {col1, col2}}];
             }
-            res += mx;
+            int res = 0;
+            res += grid[row][col1];
+            if (col1 != col2)
+            {
+                res += grid[row][col2];
+            }
+            if (row != grid.size())
+            {
+                int mx = 0;
+                for (int newCol1 = col1 - 1; newCol1 <= col1 + 1; newCol1++)
+                {
+                    for (int newCol2 = col2 - 1; newCol2 <= col2 + 1; newCol2++)
+                    {
+                        mx = max(mx, helper(row + 1, newCol1, newCol2, grid, dp));
+                    }
+                }
+                res += mx;
+            }
+
+            return dp[{row, {col1, col2}}] = res;
         }
 
-        return dp[{row, {col1, col2}}] = res;
+        return 0;
     }
     int cherryPickup(vector<vector<int>> &grid)
     {
