@@ -46,24 +46,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int earliestFullBloom(vector<int> &plantTime, vector<int> &growTime)
+    int helper(int row, int col1, int col2, vector<vector<int>> grid, map<pair<int, pair<int, int>>, int> &dp)
     {
-        vector<int> ind(plantTime.size());
-        iota(ind.begin(), ind.end(), 0);
-        sort(ind.begin(), ind.end(), [&](int i, int j)
-             { return growTime[i] > growTime[j]; });
-        int res = 0, curr = 0;
-        for (int i : ind)
+        if (col1 < 0 or col1 >= grid[0].size() or col2 < 0 or col2 > grid[0].size())
         {
-            curr += plantTime[i];
-            res = max(res, curr + growTime[i]);
+            return 0;
         }
+        if (dp.find({row, {col1, col2}}) != dp.end())
+        {
+            return dp[{row, {col1, col2}}];
+        }
+        int res = 0;
+        res += grid[row][col1];
+        if (col1 != col2)
+        {
+            res += grid[row][col2];
+        }
+        if (row != grid.size())
+        {
+            int mx = 0;
+            for (int newCol1 = col1 - 1; newCol1 <= col1 + 1; newCol1++)
+            {
+                for (int newCol2 = col2 - 1; newCol2 <= col2 + 1; newCol2++)
+                {
+                    mx = max(mx, helper(row + 1, newCol1, newCol2, grid, dp));
+                }
+            }
+            res += mx;
+        }
+
+        return dp[{row, {col1, col2}}] = res;
+    }
+    int cherryPickup(vector<vector<int>> &grid)
+    {
+        map<pair<int, pair<int, int>>, int> dp;
+        int res = helper(0, 0, grid[0].size() - 1, grid, dp);
         return res;
     }
 };
+
 void solve()
 {
-    vector<int> vec{1, 2, 3, 4, 5};
 }
 
 signed main()
