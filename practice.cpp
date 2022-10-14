@@ -46,53 +46,30 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int helper(int row, int col1, int col2, vector<vector<int>> grid, map<pair<int, pair<int, int>>, int> &dp)
+    int memo[70][70][70];
+    int n, m;
+    int cherryPickup(vector<vector<int>> &A)
     {
-        if (col1 >= 0 and col1 < grid[0].size() and col2 >= 0 and col2 < grid[0].size())
-        {
-            if (dp[{row, {col1, col2}}] != -1)
-            {
-                return dp[{row, {col1, col2}}];
-            }
-            int res = 0;
-            res += grid[row][col1];
-            if (col1 != col2)
-            {
-                res += grid[row][col2];
-            }
-            if (row != grid.size() - 1)
-            {
-                int mx = 0;
-                for (int newCol1 = col1 - 1; newCol1 <= col1 + 1; newCol1++)
-                {
-                    for (int newCol2 = col2 - 1; newCol2 <= col2 + 1; newCol2++)
-                    {
-                        mx = max(mx, helper(row + 1, newCol1, newCol2, grid, dp));
-                    }
-                }
-                res += mx;
-            }
-
-            return dp[{row, {col1, col2}}] = res;
-        }
-
-        return 0;
+        n = A.size(), m = A[0].size();
+        for (int i = 0; i < 70; i++)
+            for (int j = 0; j < 70; j++)
+                for (int k = 0; k < 70; k++)
+                    memo[i][j][k] = -1;
+        return max(0, dp(A, 0, 0, m - 1));
     }
-    int cherryPickup(vector<vector<int>> &grid)
+    int dp(vector<vector<int>> &A, int r, int c1, int c2)
     {
-        map<pair<int, pair<int, int>>, int> dp;
-        for (int i = 0; i < grid.size(); i++)
-        {
-            for (int j = 0; j < grid[0].size(); j++)
-            {
-                for (int k = 0; k < grid[0].size(); k++)
-                {
-                    dp[{i, {j, k}}] = -1;
-                }
-            }
-        }
-        int res = helper(0, 0, grid[0].size() - 1, grid, dp);
-        return res;
+        if (c1 < 0 || c1 == m || c2 < 0 || c2 == m)
+            return -1e9;
+        if (r == n)
+            return 0;
+        if (memo[r][c1][c2] != -1)
+            return memo[r][c1][c2];
+        int best = 0;
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                best = max(best, dp(A, r + 1, c1 + i, c2 + j));
+        return memo[r][c1][c2] = best + (c1 == c2 ? A[r][c1] : A[r][c1] + A[r][c2]);
     }
 };
 
