@@ -50,7 +50,7 @@ public:
     {
         if (col1 >= 0 and col1 < grid[0].size() and col2 >= 0 and col2 < grid[0].size())
         {
-            if (dp.find({row, {col1, col2}}) != dp.end())
+            if (dp[{row, {col1, col2}}] != -1)
             {
                 return dp[{row, {col1, col2}}];
             }
@@ -60,7 +60,7 @@ public:
             {
                 res += grid[row][col2];
             }
-            if (row != grid.size())
+            if (row != grid.size() - 1)
             {
                 int mx = 0;
                 for (int newCol1 = col1 - 1; newCol1 <= col1 + 1; newCol1++)
@@ -81,6 +81,16 @@ public:
     int cherryPickup(vector<vector<int>> &grid)
     {
         map<pair<int, pair<int, int>>, int> dp;
+        for (int i = 0; i < grid.size(); i++)
+        {
+            for (int j = 0; j < grid[0].size(); j++)
+            {
+                for (int k = 0; k < grid[0].size(); k++)
+                {
+                    dp[{i, {j, k}}] = -1;
+                }
+            }
+        }
         int res = helper(0, 0, grid[0].size() - 1, grid, dp);
         return res;
     }
