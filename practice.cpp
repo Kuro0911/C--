@@ -43,7 +43,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+class Solution
+{
+public:
+    int helper(string s, int k)
+    {
+        if (k == 0)
+        {
+            return s.size();
+        }
+        string new_str;
+        for (int i = 0; i < s.size(); i++)
+        {
+            int cnt = 0;
+            for (int j = i + 1; j < s.size(); j++)
+            {
+                if (s[i] != s[j])
+                {
+                    break;
+                }
+                else
+                {
+                    cnt++;
+                }
+            }
+            new_str.push_back(s[j]);
+            new_str.push_back(cnt);
+        }
+        cout << new_str << endl;
+        return min(helper(s.substr(1), k - 1), helper(s.substr(1), k - 1));
+    }
+    int getLengthOfOptimalCompression(string s, int k)
+    {
+        int res = helper(s, k);
+        return res;
+    }
+};
 void solve()
 {
 }
