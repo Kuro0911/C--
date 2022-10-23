@@ -46,41 +46,60 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int helper(string s, int k)
+    int n, m;
+    string convert(vector<vector<int>> board)
     {
-        if (k == 0)
+        string str = "";
+        for (auto x : board)
         {
-            return s.size();
-        }
-        string new_str;
-        for (int i = 0; i < s.size(); i++)
-        {
-            int cnt = 0;
-            for (int j = i + 1; j < s.size(); j++)
+            for (auto y : x)
             {
-                if (s[i] != s[j])
-                {
-                    break;
-                }
-                else
-                {
-                    cnt++;
-                }
+                str += to_string(y);
             }
-            new_str.push_back(s[j]);
-            new_str.push_back(cnt);
         }
-        cout << new_str << endl;
-        return min(helper(s.substr(1), k - 1), helper(s.substr(1), k - 1));
+        return str;
     }
-    int getLengthOfOptimalCompression(string s, int k)
+    vector<vector<int>> reset(string s)
     {
-        int res = helper(s, k);
-        return res;
+        vector<vector<int>> board(n, vector<int>(m, 0));
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                board[i][j] = s[0] - '0';
+                s.erase(s.begin());
+            }
+        }
+        return board;
+    }
+    int slidingPuzzle(vector<vector<int>> &board)
+    {
+        n = board.size();
+        m = board[0].size();
+        string root = convert(board);
+        queue<string> q;
+        set<string> st;
+        q.push(root);
+        st.insert(root);
+        vector<vector<int>> test = reset(root);
+        for (auto x : test)
+        {
+            for (auto y : x)
+            {
+                cout << y << " ";
+            }
+            cout << endl;
+        }
+        cout << endl
+             << root << endl;
+        return 0;
     }
 };
 void solve()
 {
+    vector<vector<int>> board{{1, 2, 3}, {4, 0, 5}};
+    Solution x;
+    cout << x.slidingPuzzle(board);
 }
 
 signed main()
