@@ -47,6 +47,7 @@ class Solution
 {
 public:
     int n, m;
+    vector<pair<int, int>> dir{{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
     string convert(vector<vector<int>> board)
     {
         string str = "";
@@ -72,6 +73,40 @@ public:
         }
         return board;
     }
+    pair<int, int> findZero(vector<vector<int>> &board)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                if (board[i][j] == 0)
+                {
+                    return {i, j};
+                }
+            }
+        }
+        return {-1, -1};
+    }
+    bool check(string s)
+    {
+        for (int i = 1; i < s.size(); i++)
+        {
+            int curr = s[i] - '0';
+            int prev = s[i - 1] - '0';
+            if (curr != prev + 1)
+            {
+                if (curr == 0)
+                {
+                    if (i != s.size() - 1)
+                        return false;
+                    else
+                        return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
     int slidingPuzzle(vector<vector<int>> &board)
     {
         n = board.size();
@@ -81,17 +116,38 @@ public:
         set<string> st;
         q.push(root);
         st.insert(root);
-        vector<vector<int>> test = reset(root);
-        for (auto x : test)
+        int ans = 0;
+        while (!q.empty())
         {
-            for (auto y : x)
+            int sz = q.size();
+            ans++;
+            for (int i = 0; i < sz; i++)
             {
-                cout << y << " ";
+                vector<vector<int>> temp = reset(q.front());
+                pair<int, int> z = findZero(temp);
+                for (auto d : dir)
+                {
+                    int x = d.first + z.first;
+                    int y = d.second + z.second;
+                    if (x >= 0 and x < n and y >= 0 and y < m)
+                    {
+                        vector<vector<int>> new_temp = temp;
+                        swap(new_temp[x][y], new_temp[z.first][z.second]);
+                        string new_str = convert(new_temp);
+                        if (check(new_str))
+                        {
+                            return ans;
+                        }
+                        if (st.find(new_str) == st.end())
+                        {
+                            q.push(new_str);
+                            st.insert(new_str);
+                        }
+                    }
+                }
+                q.pop();
             }
-            cout << endl;
         }
-        cout << endl
-             << root << endl;
         return 0;
     }
 };
