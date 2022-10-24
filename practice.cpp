@@ -46,19 +46,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<int> height;
-    int l = 0, r = height.size() - 1;
-    int ans = INT_MIN;
-    while (l < r)
-    {
-        int temp = min(height[l], height[r]) * (r - l);
-        ans = max(temp, ans);
-        if (height[l] < height[r])
-            l++;
-        else
-            r--;
-    }
-    cout << ans;
+    string A = "ABC", B = "DEF";
+    string X = A + B;
+    cout << X.substr(0, X.size() - B.size());
 }
 
 signed main()
