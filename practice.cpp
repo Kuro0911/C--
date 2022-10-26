@@ -46,22 +46,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int lb = 1, up;
-    for (int i = 0; i < n - 1; i++)
-    {
-        lb *= 10;
-    }
-    up = (lb * 10) - 1;
-    for (int i = lb; i <= up; i++)
-    {
-        if (i % 3 == 0 and i % 9 != 0 and i % 2 != 0)
-        {
-            cout << i << "\n";
-            return;
-        }
-    }
+    vector<int> temp;
+    cout << accumulate(temp.begin(), temp.end(), 0);
 }
 
 signed main()
@@ -71,8 +57,8 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin>>t;
     while (t--)
     {
         solve();
