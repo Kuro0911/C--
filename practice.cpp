@@ -46,8 +46,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<int> temp;
-    cout << accumulate(temp.begin(), temp.end(), 0);
+    string w1 = "", w2 = "abc";
+    int x = w1 or w2;
+    cout << x;
 }
 
 signed main()
