@@ -46,9 +46,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string w1 = "", w2 = "abc";
-    int x = w1 or w2;
-    cout << x;
+    string s = "0.1.2.3";
+    for (int i = 0; i < 3; i++)
+    {
+        cout << s.substr(i + 1) << endl;
+    }
 }
 
 signed main()
