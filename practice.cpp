@@ -46,70 +46,44 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    bool check(vector<int> nums, int st, int ed)
+    int getAns(int c, vector<int> color, map<int, vector<int>> mp)
     {
-        int sz = (ed - st) + 1;
-        if (sz == 2)
+        int ans = INT_MIN;
+        for (auto x : color)
         {
-            for (int i = st; i < ed; i++)
+            for (auto y : mp)
             {
-                if (nums[i] != nums[i + 1])
+                if (y.first != c)
                 {
-                    return false;
+                    for (auto z : y.second)
+                    {
+                        ans = max(ans, abs(x - z));
+                    }
                 }
             }
-            return true;
         }
-        else if (sz == 3)
-        {
-            bool flag1 = true, flag2 = true;
-            for (int i = st; i < ed; i++)
-            {
-                if (nums[i] != nums[i + 1])
-                {
-                    flag1 = false;
-                    break;
-                }
-            }
-            for (int i = st; i < ed; i++)
-            {
-                if (nums[i] != nums[i + 1] - 1)
-                {
-                    flag2 = false;
-                    break;
-                }
-            }
-            return flag1 or flag2;
-        }
-        return false;
+        return ans;
     }
-    bool helper(int st, int ed, vector<int> nums)
+    int maxDistance(vector<int> &colors)
     {
-        if (st >= nums.size())
+        map<int, vector<int>> mp;
+        for (int i = 0; i < colors.size(); i++)
         {
-            return true;
+            mp[colors[i]].push_back(i);
         }
-        for (int i = st; i <= ed; i++)
+        int ans = INT_MIN;
+        for (auto x : mp)
         {
-            if (check(nums, st, i))
-            {
-                return helper(i + 1, ed, nums);
-            }
+            ans = max(ans, getAns(x.first, x.second, mp));
         }
-        return false;
-    }
-    bool validPartition(vector<int> &nums)
-    {
-        return helper(0, nums.size() - 1, nums);
+        return ans;
     }
 };
 void solve()
 {
-    string s = "0.1.2.3";
-    for (int i = 0; i < 3; i++)
-    {
-        cout << s.substr(i + 1) << endl;
-    }
+    Solution x;
+    vector<int> temp{1, 1, 1, 6, 1, 1, 1};
+    cout << x.maxDistance(temp);
 }
 
 signed main()
