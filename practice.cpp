@@ -43,47 +43,12 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    int getAns(int c, vector<int> color, map<int, vector<int>> mp)
-    {
-        int ans = INT_MIN;
-        for (auto x : color)
-        {
-            for (auto y : mp)
-            {
-                if (y.first != c)
-                {
-                    for (auto z : y.second)
-                    {
-                        ans = max(ans, abs(x - z));
-                    }
-                }
-            }
-        }
-        return ans;
-    }
-    int maxDistance(vector<int> &colors)
-    {
-        map<int, vector<int>> mp;
-        for (int i = 0; i < colors.size(); i++)
-        {
-            mp[colors[i]].push_back(i);
-        }
-        int ans = INT_MIN;
-        for (auto x : mp)
-        {
-            ans = max(ans, getAns(x.first, x.second, mp));
-        }
-        return ans;
-    }
-};
+
 void solve()
 {
-    Solution x;
-    vector<int> temp{1, 1, 1, 6, 1, 1, 1};
-    cout << x.maxDistance(temp);
+    string x = "";
+    x.push_back(1);
+    cout << x;
 }
 
 signed main()
