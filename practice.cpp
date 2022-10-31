@@ -72,11 +72,8 @@ public:
 };
 void solve()
 {
-    char x = '9';
-    int y = x - '0';
-    string st = "sb";
-    st += to_string(10);
-    cout << st.substr(0, 1) << " " << st.substr(1);
+    char x = 'h';
+    cout << x - 'a' + 1;
 }
 
 signed main()
