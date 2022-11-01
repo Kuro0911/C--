@@ -28,15 +28,21 @@ struct hostent
 };
 struct servant
 {
-
-}
+    char *s_name;     // official name of the service
+    char **s_aliases; // Alias
+    int s_port;       // port numbers
+    char *s_proto;    // protocols
+};
 // system calls
-int
-socket(int fam, int type, int prot);                          // create endpont
+int socket(int fam, int type, int prot);                      // create endpont
 int bind(int sockid, struct sockaddr *maddr, int addr);       // assign a unique address
 int listen(int sockid, int backlog);                          // wait for connection
 int connect(int sockid, struct sockaddr *maddr, int addrlen); // connect to address
 int accept(int sockid, struct sockaddr *peer, int *addrlen);  // accept a connection
+int send(int sockId, const void *msg);
+int recv(int sockid, void *buf, int len, int flags);
+int close(int sockid);
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
 
 int main()
 {

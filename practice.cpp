@@ -46,6 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    set<int> st;
 }
 
 signed main()
