@@ -43,37 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    string maxValue(string s, int x)
-    {
-        string str = "";
-        int i;
-        if (s[0] != '-')
-        {
-            i = 0;
-            while (s[i] - '0' >= x and i < s.size())
-            {
-                i++;
-            }
-        }
-        else
-        {
-            i = 1;
-            while (s[i] - '0' <= x and i < s.size())
-            {
-                i++;
-            }
-        }
-        str = s.substr(0, i) + to_string(x) + s.substr(i);
-        return str;
-    }
-};
+
 void solve()
 {
-    char x = 'h';
-    cout << x - 'a' + 1;
 }
 
 signed main()
