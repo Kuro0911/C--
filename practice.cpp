@@ -43,43 +43,17 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
-int getSum(string s)
+class Solution
 {
-    int ans = 0;
-    for (auto x : s)
+public:
+    bool isPerfectSquare(int num)
     {
-        ans += x - '0';
+        int sq = sqrt(num);
+        return sq * sq == num;
     }
-    return ans;
-}
-int helper(string a, string b)
-{
-    int ans = 0;
-    int sum_A = getSum(a);
-    int sum_B = getSum(b);
-    if (sum_A > sum_B)
-    {
-        swap(a, b);
-    }
-    for (int i = 0; i < a.size(); i++)
-    {
-        if (a[i] != b[i])
-        {
-            ans++;
-        }
-    }
-
-    return ans;
-}
+};
 void solve()
 {
-    string str;
-    cin >> str;
-    int n = str.size() / 2;
-    string a = str.substr(0, n), b = str.substr(n);
-    int ans = helper(a, b);
-    cout << ans;
 }
 
 signed main()
