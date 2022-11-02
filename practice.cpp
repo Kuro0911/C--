@@ -55,32 +55,21 @@ int getSum(string s)
 }
 int helper(string a, string b)
 {
+    int ans = 0;
     int sum_A = getSum(a);
     int sum_B = getSum(b);
     if (sum_A > sum_B)
     {
         swap(a, b);
-        swap(sum_A, sum_B);
     }
-    if (sum_A == sum_B)
+    for (int i = 0; i < a.size(); i++)
     {
-        return 0;
+        if (a[i] != b[i])
+        {
+            ans++;
+        }
     }
-    int ans = INT_MIN;
-    char x = a[0];
-    for (int i = x - '0' + 1; i <= 9; i++)
-    {
-        int new_num = i + '0';
-        ans = min(helper(a, b) + 1, ans);
-        a[0] = x;
-    }
-    x = b[0];
-    for (int i = 0; i <= x - '0' + 1; i++)
-    {
-        int new_num = i + '0';
-        ans = min(helper(a, b) + 1, ans);
-        b[0] = x;
-    }
+
     return ans;
 }
 void solve()
