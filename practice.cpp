@@ -48,20 +48,40 @@ class Solution
 public:
     int longestPalindrome(vector<string> &words)
     {
-        set<string> st(words.begin(), words.end());
-        int ans = 0;
+        map<string, int> mp;
         for (auto x : words)
         {
-            string temp = x;
-            reverse(x.begin(), x.end());
-            if (st.find(x) != st.end())
+            mp[x]++;
+        }
+        int ans = 0;
+        bool center = false;
+
+        for (auto x : mp)
+        {
+            string rx = x.first;
+            reverse(rx.begin(), rx.end());
+            if (rx == x.first)
             {
-                if (temp != x)
-                    st.erase(x);
-                ans += 2;
+                if (x.second % 2 == 0)
+                {
+                    ans += x.second;
+                }
+                else
+                {
+                    ans += x.second - 1;
+                    center = true;
+                }
+            }
+            else if (x.first[0] < x.first[1] and mp.count(rx))
+            {
+                ans += 2 * min(x.second, mp[rx]);
             }
         }
-        return ans;
+        if (center)
+        {
+            ans++;
+        }
+        return 2 * ans;
     }
 };
 void solve()
