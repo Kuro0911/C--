@@ -46,10 +46,22 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    bool isPerfectSquare(int num)
+    int longestPalindrome(vector<string> &words)
     {
-        int sq = sqrt(num);
-        return sq * sq == num;
+        set<string> st(words.begin(), words.end());
+        int ans = 0;
+        for (auto x : words)
+        {
+            string temp = x;
+            reverse(x.begin(), x.end());
+            if (st.find(x) != st.end())
+            {
+                if (temp != x)
+                    st.erase(x);
+                ans += 2;
+            }
+        }
+        return ans;
     }
 };
 void solve()
