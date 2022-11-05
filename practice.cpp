@@ -43,11 +43,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+class Solution
+{
+public:
+    int n, m;
+    int helper(int i, int j, int k, int curr, vector<vector<int>> grid, map<pair<int, int>, int> &dp)
+    {
+        if (dp.find({i, j}) != dp.end())
+        {
+            return dp[{i, j}];
+        }
+        if (i >= 0 and i < n and j >= 0 and j < m and grid[i][j] != -1)
+        {
+            int x = (curr + grid[i][j]) % k;
+            if (i == n - 1 and j == m - 1 and x == 0)
+            {
+                return 1;
+            }
+            int num = grid[i][j];
+            grid[i][j] = -1;
+            int l = helper(i + 1, j, k, x, grid, dp);
+            int r = helper(i - 1, j, k, x, grid, dp);
+            int u = helper(i, j + 1, k, x, grid, dp);
+            int d = helper(i, j - 1, k, x, grid, dp);
+            grid[i][j] = num;
+            return dp[{i, j}] = l + r + u + d;
+        }
+        return 0;
+    }
+    int numberOfPaths(vector<vector<int>> &grid, int k)
+    {
+        map<pair<int, int>, int> dp;
+        n = grid.size(), m = grid[0].size();
+        return helper(0, 0, k, 0, grid, dp);
+    }
+};
 void solve()
 {
-    string st = "asd";
-    cout << st;
+    Solution x;
+    int k = 3;
+    vector<vector<int>> vec{{5, 2, 4}, {3, 0, 5}, {0, 7, 2}};
+    cout << x.numberOfPaths(vec, k);
 }
 
 signed main()
