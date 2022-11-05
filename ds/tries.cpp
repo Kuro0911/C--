@@ -120,6 +120,149 @@ signed main()
 }
 */
 
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// #define int long long
+// #define tb ' '
+// #define all(a) (a).begin(), (a).end()
+// #define sz(x) ((int)x.size())
+// #define MOD (int)(1e9 + 7)
+// typedef pair<int, int> pii;
+// typedef pair<pii, int> ppi;
+// typedef pair<int, pii> pip;
+// typedef pair<pii, pii> ppp;
+
+// class node
+// {
+// public:
+//     map<char, node *> chars;
+//     bool isEnd;
+//     node()
+//     {
+//         isEnd = false;
+//     }
+// };
+// class WordDictionary
+// {
+// public:
+//     node *root;
+//     WordDictionary()
+//     {
+//         root = new node();
+//     }
+
+//     void addWord(string word)
+//     {
+//         node *temp = root;
+//         for (auto x : word)
+//         {
+//             if (!temp->chars[x])
+//             {
+//                 temp->chars[x] = new node();
+//             }
+//             temp = temp->chars[x];
+//         }
+//         temp->isEnd = true;
+//     }
+// bool dfs(node *curr, int st, string word)
+// {
+//     node *temp = curr;
+//     for (int i = st; i < word.size(); i++)
+//     {
+//         if (word[i] == '.')
+//         {
+//             for (auto y : temp->chars)
+//             {
+//                 if (dfs(y.second, i + 1, word))
+//                 {
+//                     return true;
+//                 }
+//             }
+//             return false;
+//         }
+//         else
+//         {
+//             if (!temp->chars[word[i]])
+//             {
+//                 return false;
+//             }
+//             temp = temp->chars[word[i]];
+//         }
+//     }
+//     return temp->isEnd;
+// }
+//     int dfs(node *root, string s)
+//     {
+//         node *temp = root;
+//         int ans = 0;
+//         // cout << s << endl;
+//         for (int i = 0; i < s.size(); i++)
+//         {
+//             if (temp->chars.find(s[i]) != temp->chars.end())
+//             {
+//                 if (s.size() == 1)
+//                 {
+//                     ans += temp->chars[s[i]]->chars.size();
+//                     if (temp->chars[s[i]]->isEnd)
+//                     {
+//                         ans++;
+//                     }
+//                     for (auto y : temp->chars[s[i]]->chars)
+//                     {
+//                         cout << y.first << " ";
+//                     }
+//                     cout << endl;
+//                 }
+//                 for (auto y : temp->chars)
+//                 {
+//                     ans += dfs(y.second, s.substr(1));
+//                 }
+//             }
+//         }
+//         return ans;
+//     }
+//     // bool search(string word)
+//     // {
+//     //     node *temp = root;
+//     //     return dfs(temp, 0, word);
+//     // }
+//     int helper(string s)
+//     {
+//         node *temp = root;
+//         return dfs(temp, s);
+//     }
+// };
+
+// void solve()
+// {
+//     WordDictionary trie;
+//     vector<string> vec{"abc", "ab", "bc", "b"};
+//     for (auto x : vec)
+//     {
+//         trie.addWord(x);
+//     }
+//     cout << trie.helper("abc");
+// }
+
+// signed main()
+// {
+
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(NULL);
+//     cout.tie(NULL);
+
+//     int t = 1;
+//     // cin>>t;
+//     while (t--)
+//     {
+//         solve();
+//     }
+// #ifndef ONLINE_JUDGE
+//     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+// #endif
+//     return 0;
+// }
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -133,116 +276,108 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-class node
+//#####################################################
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
+{
+    for (auto &x : v)
+        os << x << " ";
+    os << endl;
+    return os;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const set<T> &v)
+{
+    for (auto it : v)
+        os << it << " ";
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const map<T, S> &v)
+{
+    for (auto it : v)
+        os << it.first << " : " << it.second << endl;
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const pair<T, S> &v)
+{
+    os << v.first << " : " << v.second << endl;
+    return os;
+}
+
+//#####################################################
+class Solution
 {
 public:
-    map<char, node *> chars;
-    bool isEnd;
-    node()
+    vector<string> findWords(vector<vector<char>> &board, vector<string> &words)
     {
-        isEnd = false;
-    }
-};
-class WordDictionary
-{
-public:
-    node *root;
-    WordDictionary()
-    {
-        root = new node();
+        for (auto x : words)
+        {
+            insert(x);
+        }
+
+        node *temp = root;
+        vector<string> res;
+        for (int i = 0; i < board.size(); i++)
+        {
+            for (int j = 0; j < board[i].size(); j++)
+            {
+                search(board, i, j, temp, "", res);
+            }
+        }
+        return res;
     }
 
-    void addWord(string word)
+private:
+    node *root = new node();
+
+    void insert(string word)
     {
         node *temp = root;
-        for (auto x : word)
+        int curr = 0;
+        for (int i = 0; i < word.size(); i++)
         {
-            if (!temp->chars[x])
+            curr = word[i] - 'a';
+            if (temp->children[curr] == NULL)
             {
-                temp->chars[x] = new node();
+                temp->children[curr] = new node();
             }
-            temp = temp->chars[x];
+            temp = temp->children[curr];
         }
         temp->isEnd = true;
     }
-    // bool dfs(node *curr, int st, string word)
-    // {
-    //     node *temp = curr;
-    //     for (int i = st; i < word.size(); i++)
-    //     {
-    //         if (word[i] == '.')
-    //         {
-    //             for (auto y : temp->chars)
-    //             {
-    //                 if (dfs(y.second, i + 1, word))
-    //                 {
-    //                     return true;
-    //                 }
-    //             }
-    //             return false;
-    //         }
-    //         else
-    //         {
-    //             if (!temp->chars[word[i]])
-    //             {
-    //                 return false;
-    //             }
-    //             temp = temp->chars[word[i]];
-    //         }
-    //     }
-    //     return temp->isEnd;
-    // }
-    int dfs(node *root, string s)
+    void search(vector<vector<char>> &board, int i, int j, node *temp, string word, vector<string> &res)
     {
-        node *temp = root;
-        int ans = 0;
-        // cout << s << endl;
-        for (int i = 0; i < s.size(); i++)
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[i].size() || board[i][j] == '#')
         {
-            if (temp->chars.find(s[i]) != temp->chars.end())
-            {
-                if (s.size() == 1)
-                {
-                    ans += temp->chars[s[i]]->chars.size();
-                    if (temp->chars[s[i]]->isEnd)
-                    {
-                        ans++;
-                    }
-                    for (auto y : temp->chars[s[i]]->chars)
-                    {
-                        cout << y.first << " ";
-                    }
-                    cout << endl;
-                }
-                for (auto y : temp->chars)
-                {
-                    ans += dfs(y.second, s.substr(1));
-                }
-            }
+            return;
         }
-        return ans;
-    }
-    // bool search(string word)
-    // {
-    //     node *temp = root;
-    //     return dfs(temp, 0, word);
-    // }
-    int helper(string s)
-    {
-        node *temp = root;
-        return dfs(temp, s);
+        char c = board[i][j];
+        temp = temp->children[c - 'a'];
+        if (temp == NULL)
+        {
+            return;
+        }
+        word += c;
+        if (temp->isEnd)
+        {
+            res.push_back(word);
+            temp->isEnd = false;
+        }
+        board[i][j] = '#';
+
+        search(board, i + 1, j, temp, word, res);
+        search(board, i - 1, j, temp, word, res);
+        search(board, i, j + 1, temp, word, res);
+        search(board, i, j - 1, temp, word, res);
+
+        board[i][j] = c;
     }
 };
-
 void solve()
 {
-    WordDictionary trie;
-    vector<string> vec{"abc", "ab", "bc", "b"};
-    for (auto x : vec)
-    {
-        trie.addWord(x);
-    }
-    cout << trie.helper("abc");
 }
 
 signed main()
@@ -258,8 +393,27 @@ signed main()
     {
         solve();
     }
+// for (int i = 1; i <= t; i++)
+//{
+// cout << "Case #" << i << ": " ;
+// solve();
+//}
 #ifndef ONLINE_JUDGE
     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
 #endif
     return 0;
 }
+class node
+{
+public:
+    node *children[26];
+    bool isEnd;
+    node()
+    {
+        for (int i = 0; i < 26; i++)
+        {
+            children[i] = NULL;
+        }
+        isEnd = false;
+    }
+};
