@@ -46,13 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    deque<int> dq;
-    for (int i = 0; i < 5; i++)
-    {
-        dq.push_back(i);
-    }
-    set<int> st(dq.begin(), dq.end());
-    cout << *max_element(dq.begin(), dq.end());
+    cout << 8.67 + 8.40;
 }
 
 signed main()
@@ -78,3 +72,11 @@ signed main()
 #endif
     return 0;
 }
+
+/*
+
+FORMAL LANGUAGE AND AUTOMATA 	6.00 / 10.00
+COMPUTER NETWORKS 	4.33 / 5.00         37 / 50
+DISCRETE MATHEMATICS FOR ENGINEERS    	8.67 / 10.00     8.40 / 15.00 =>   / 25 !!!
+
+*/
