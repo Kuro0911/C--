@@ -46,37 +46,39 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    string originalDigits(string s)
+    vector<char> dict{'A', 'C', 'G', 'T'};
+    int minMutation(string startGene, string endGene, vector<string> &b)
     {
-        vector<int> num(10, 0);
-        vector<int> count(26, 0);
-
-        for (auto c : s)
-            count[c - 'a']++;
-
-        num[0] = count['z' - 'a'];
-        num[2] = count['w' - 'a'];
-        num[4] = count['u' - 'a'];
-        num[6] = count['x' - 'a'];
-        num[8] = count['g' - 'a'];
-
-        num[1] = count['o' - 'a'] - num[0] - num[2] - num[4];
-        num[3] = count['h' - 'a'] - num[8];
-        num[5] = count['f' - 'a'] - num[4];
-        num[7] = count['s' - 'a'] - num[6];
-        num[9] = count['i' - 'a'] - num[5] - num[6] - num[8];
-
-        string res;
-        for (int i = 0; i < 10; i++)
+        set<string> bank(b.begin(), b.end());
+        queue<string> q;
+        int ans = 0;
+        q.push(startGene);
+        while (!q.empty())
         {
-            int c = num[i];
-            while (c > 0)
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
             {
-                res += to_string(i);
-                c--;
+                string temp = q.front();
+                for (int j = 0; j < temp.size(); j++)
+                {
+                    for (auto y : dict)
+                    {
+                        temp[j] = y;
+                        if (bank.find(temp) != bank.end())
+                        {
+                            if (temp == endGene)
+                            {
+                                return ans;
+                            }
+                            q.push(temp);
+                        }
+                    }
+                    q.pop();
+                }
+                ans++;
             }
         }
-        return res;
+        return -1;
     }
 };
 void solve()
