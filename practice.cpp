@@ -83,6 +83,8 @@ public:
 };
 void solve()
 {
+    int x = 'd' - 'a';
+    cout << (x + 25) % 26;
 }
 
 signed main()
