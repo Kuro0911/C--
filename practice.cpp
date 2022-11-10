@@ -1,112 +1,156 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+#include <algorithm>
+#include <set>
+#include <cassert>
 using namespace std;
 
-#define int long long
-#define tb ' '
-#define all(a) (a).begin(), (a).end()
-#define sz(x) ((int)x.size())
-#define MOD (int)(1e9 + 7)
-typedef pair<int, int> pii;
-typedef pair<pii, int> ppi;
-typedef pair<int, pii> pip;
-typedef pair<pii, pii> ppp;
+struct Node
+{
+    Node *next;
+    Node *prev;
+    int value;
+    int key;
+    Node(Node *p, Node *n, int k, int val) : prev(p), next(n), key(k), value(val){};
+    Node(int k, int val) : prev(NULL), next(NULL), key(k), value(val){};
+};
 
-//#####################################################
+class Cache
+{
 
-template <typename T>
-ostream &operator<<(ostream &os, const vector<T> &v)
-{
-    for (auto &x : v)
-        os << x << " ";
-    os << endl;
-    return os;
-}
-template <typename T>
-ostream &operator<<(ostream &os, const set<T> &v)
-{
-    for (auto it : v)
-        os << it << " ";
-    return os;
-}
-template <typename T, typename S>
-ostream &operator<<(ostream &os, const map<T, S> &v)
-{
-    for (auto it : v)
-        os << it.first << " : " << it.second << endl;
-    return os;
-}
-template <typename T, typename S>
-ostream &operator<<(ostream &os, const pair<T, S> &v)
-{
-    os << v.first << " : " << v.second << endl;
-    return os;
-}
+protected:
+    map<int, Node *> mp;            // map the key to the node in the linked list
+    int cp;                         // capacity
+    Node *tail;                     // double linked list tail pointer
+    Node *head;                     // double linked list head pointer
+    virtual void set(int, int) = 0; // set function
+    virtual int get(int) = 0;       // get function
+};
 
-//#####################################################
-class Solution
+class LRUCache : public Cache
 {
 public:
-    vector<char> dict{'A', 'C', 'G', 'T'};
-    int minMutation(string startGene, string endGene, vector<string> &b)
+    LRUCache(int cap)
     {
-        set<string> bank(b.begin(), b.end());
-        queue<string> q;
-        int ans = 0;
-        q.push(startGene);
-        while (!q.empty())
+        cp = cap;
+        head = NULL;
+        tail = NULL;
+    }
+    void print()
+    {
+        Node *temp = head;
+        cout << "\nPRINT => \n";
+        cout << "HEAD : " << head->key << " , " << head->value << endl;
+        cout << "TAIL : " << tail->key << " , " << tail->value << endl;
+
+        while (temp)
         {
-            int sz = q.size();
-            for (int i = 0; i < sz; i++)
+            cout << temp->key << " , " << temp->value << endl;
+            temp = temp->next;
+        }
+    }
+    void insert(int key, int val)
+    {
+        Node *new_node = new Node(key, val);
+        new_node->prev = NULL;
+        if (head)
+        {
+            mp[head->key]->prev = new_node;
+            new_node->next = mp[head->key];
+        }
+        else
+        {
+            tail = new_node;
+        }
+
+        mp[key] = new_node;
+        head = mp[key];
+    }
+    void pop(int key)
+    {
+        tail = mp[key]->prev;
+        mp[key]->prev->next = NULL;
+        mp.erase(key);
+    }
+    void move(int key)
+    {
+        if (head == mp[key])
+        {
+            return;
+        }
+        Node *prev = mp[key]->prev, *next = mp[key]->next;
+        if (prev)
+        {
+            prev->next = next;
+        }
+        if (next)
+        {
+            next->prev = prev;
+        }
+        if (tail == mp[key])
+        {
+            if (next)
             {
-                string temp = q.front();
-                for (int j = 0; j < temp.size(); j++)
-                {
-                    for (auto y : dict)
-                    {
-                        temp[j] = y;
-                        if (bank.find(temp) != bank.end())
-                        {
-                            if (temp == endGene)
-                            {
-                                return ans;
-                            }
-                            q.push(temp);
-                        }
-                    }
-                    q.pop();
-                }
-                ans++;
+                tail = next;
             }
+            else
+            {
+                tail = prev;
+            }
+        }
+        mp[key]->prev = NULL;
+        mp[key]->next = head;
+        head = mp[key];
+    }
+    virtual int get(int key)
+    {
+        if (mp.find(key) != mp.end())
+        {
+            return mp[key]->value;
         }
         return -1;
     }
-};
-void solve()
-{
-    int x = 'd' - 'a';
-    cout << (x + 25) % 26;
-}
-
-signed main()
-{
-
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
-    int t = 1;
-    // cin>>t;
-    while (t--)
+    virtual void set(int key, int val)
     {
-        solve();
+        if (mp.find(key) != mp.end())
+        {
+            mp[key]->value = val;
+            move(key);
+        }
+        else
+        {
+            int sz = mp.size();
+            if (sz == cp)
+            {
+                pop(tail->key);
+            }
+            insert(key, val);
+        }
     }
-// for (int i = 1; i <= t; i++)
-//{
-// cout << "Case #" << i << ": " ;
-// solve();
-//}
-#ifndef ONLINE_JUDGE
-    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
-#endif
+};
+int main()
+{
+    int n, capacity, i;
+    cin >> n >> capacity;
+    LRUCache l(capacity);
+    for (i = 0; i < n; i++)
+    {
+        string command;
+        cin >> command;
+        if (command == "get")
+        {
+            int key;
+            cin >> key;
+            cout << l.get(key) << endl;
+        }
+        else if (command == "set")
+        {
+            int key, value;
+            cin >> key >> value;
+            l.set(key, value);
+        }
+    }
     return 0;
 }
