@@ -53,11 +53,12 @@ public:
             return 0;
         }
         curr %= ring.size();
+
         if (ring[curr] == '#')
         {
             return INT_MAX;
         }
-        int tot = 1;
+        int tot = 0;
         if (ring[curr] == key[0])
         {
             tot++;
@@ -68,7 +69,8 @@ public:
         int l = helper(ring, key, curr + 1);
         int r = helper(ring, key, curr + ring.size() - 1);
         ring[curr] = x;
-        tot += min(l, r);
+        cout << l << " " << r << endl;
+        tot += min(l, r) + 1;
         return tot;
     }
     int findRotateSteps(string ring, string key)
