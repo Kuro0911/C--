@@ -43,9 +43,55 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+class Solution
+{
+public:
+    vector<string> topKFrequent(vector<string> &words, int k)
+    {
+        map<string, int> mp;
+        for (auto x : words)
+        {
+            mp[x]++;
+        }
+        map<int, vector<string>> mp2;
+        for (auto x : mp)
+        {
+            mp2[-x.second].push_back(x.first);
+        }
 
+        vector<string> ans;
+        for (auto x : mp2)
+        {
+            if (x.second.size() < k)
+            {
+                for (auto x : x.second)
+                {
+                    ans.push_back(x);
+                }
+                k -= x.second.size();
+            }
+            else
+            {
+                for (int i = 0; i <= k; i++)
+                {
+                    ans.push_back(x.second[i]);
+                }
+                return ans;
+            }
+            cout << k << endl;
+            if (k == 0)
+            {
+                return ans;
+            }
+        }
+        return ans;
+    }
+};
 void solve()
 {
+    Solution x;
+    vector<string> vec{"i", "love", "leetcode", "i", "love", "coding"};
+    cout << x.topKFrequent(vec, 2);
 }
 
 signed main()
