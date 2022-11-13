@@ -46,52 +46,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    vector<string> topKFrequent(vector<string> &words, int k)
+    string decodeMessage(string key, string message)
     {
-        map<string, int> mp;
-        for (auto x : words)
+        set<char> vis;
+        map<char, char> mp;
+        char x = 'a';
+        int ptr = 0;
+        while (x <= 'z' and ptr < key.size())
         {
-            mp[x]++;
+            cout << key[ptr] << " " << ptr << endl;
+            // if (vis.find(key[ptr]) == vis.end() and key[ptr] != ' ')
+            // {
+            //     mp[key[ptr]] = x;
+            //     x++;
+            // }
+            // vis.insert(key[ptr]);
+            ptr++;
         }
-        map<int, vector<string>> mp2;
-        for (auto x : mp)
-        {
-            mp2[-x.second].push_back(x.first);
-        }
-
-        vector<string> ans;
-        for (auto x : mp2)
-        {
-            if (x.second.size() < k)
-            {
-                for (auto x : x.second)
-                {
-                    ans.push_back(x);
-                }
-                k -= x.second.size();
-            }
-            else
-            {
-                for (int i = 0; i <= k; i++)
-                {
-                    ans.push_back(x.second[i]);
-                }
-                return ans;
-            }
-            cout << k << endl;
-            if (k == 0)
-            {
-                return ans;
-            }
-        }
-        return ans;
+        cout << mp;
+        string res = "";
+        // stringstream str(message);
+        // string q;
+        // while (str << q)
+        // {
+        //     res += " ";
+        //     for (auto &y : q)
+        //     {
+        //         y = mp[y];
+        //     }
+        //     res += q;
+        // }
+        return res;
     }
 };
 void solve()
 {
     Solution x;
-    vector<string> vec{"i", "love", "leetcode", "i", "love", "coding"};
-    cout << x.topKFrequent(vec, 2);
+    string s1, s2;
+    cin >> s1 >> s2;
+
+    cout << x.decodeMessage(s1, s2);
 }
 
 signed main()
