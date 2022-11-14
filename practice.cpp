@@ -46,37 +46,44 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    string decodeMessage(string key, string message)
+    bool check(vector<int> x, vector<int> y)
     {
-        set<char> vis;
-        map<char, char> mp;
-        char x = 'a';
-        int ptr = 0;
-        while (x <= 'z' and ptr < key.size())
+        if (x[0] == y[0])
         {
-            cout << key[ptr] << " " << ptr << endl;
-            // if (vis.find(key[ptr]) == vis.end() and key[ptr] != ' ')
-            // {
-            //     mp[key[ptr]] = x;
-            //     x++;
-            // }
-            // vis.insert(key[ptr]);
-            ptr++;
+            return true;
         }
-        cout << mp;
-        string res = "";
-        // stringstream str(message);
-        // string q;
-        // while (str << q)
-        // {
-        //     res += " ";
-        //     for (auto &y : q)
-        //     {
-        //         y = mp[y];
-        //     }
-        //     res += q;
-        // }
-        return res;
+        if (x[1] == y[1])
+        {
+            return true;
+        }
+        return false;
+    }
+    void helper(int curr, vector<vector<int>> stones, vector<bool> &vis)
+    {
+        vis[curr] = true;
+        for (int i = 0; i < stones.size(); i++)
+        {
+            if (vis[i])
+                continue;
+            if (check(stones[curr], stones[i]))
+                helper(i, stones, vis);
+        }
+    }
+    int removeStones(vector<vector<int>> &stones)
+    {
+        int n = stones.size();
+        vector<bool> vis(n, false);
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (vis[i])
+            {
+                continue;
+            }
+            helper(i, stones, vis);
+            ans++;
+        }
+        return (n - ans);
     }
 };
 void solve()
