@@ -89,10 +89,6 @@ public:
 void solve()
 {
     Solution x;
-    string s1, s2;
-    cin >> s1 >> s2;
-
-    cout << x.decodeMessage(s1, s2);
 }
 
 signed main()
