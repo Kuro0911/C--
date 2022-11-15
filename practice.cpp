@@ -46,49 +46,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    bool check(vector<int> x, vector<int> y)
+    int countNodes(TreeNode *root)
     {
-        if (x[0] == y[0])
-        {
-            return true;
-        }
-        if (x[1] == y[1])
-        {
-            return true;
-        }
-        return false;
-    }
-    void helper(int curr, vector<vector<int>> stones, vector<bool> &vis)
-    {
-        vis[curr] = true;
-        for (int i = 0; i < stones.size(); i++)
-        {
-            if (vis[i])
-                continue;
-            if (check(stones[curr], stones[i]))
-                helper(i, stones, vis);
-        }
-    }
-    int removeStones(vector<vector<int>> &stones)
-    {
-        int n = stones.size();
-        vector<bool> vis(n, false);
+        queue<TreeNode *> q;
         int ans = 0;
-        for (int i = 0; i < n; i++)
+        if (!root)
         {
-            if (vis[i])
-            {
-                continue;
-            }
-            helper(i, stones, vis);
-            ans++;
+            return ans;
         }
-        return (n - ans);
+        ans++;
+        q.push(root);
+        while (!q.empty())
+        {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
+            {
+                TreeNode *temp = q.;
+                if (temp->left)
+                    q.push(temp->left);
+                if (temp->right)
+                    q.push(temp->right);
+                ans++;
+                q.pop();
+            }
+        }
+        return ans;
     }
 };
 void solve()
 {
-    Solution x;
 }
 
 signed main()
