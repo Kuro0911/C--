@@ -46,31 +46,27 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int countNodes(TreeNode *root)
+    int guessNumber(int n)
     {
-        queue<TreeNode *> q;
-        int ans = 0;
-        if (!root)
+        int low = 1, high = n;
+        while (low <= high)
         {
-            return ans;
-        }
-        ans++;
-        q.push(root);
-        while (!q.empty())
-        {
-            int sz = q.size();
-            for (int i = 0; i < sz; i++)
+            int md = (low + high) / 2;
+            int res = guess(md);
+            if (res == 0)
             {
-                TreeNode *temp = q.;
-                if (temp->left)
-                    q.push(temp->left);
-                if (temp->right)
-                    q.push(temp->right);
-                ans++;
-                q.pop();
+                return md;
+            }
+            else if (res < 0)
+            {
+                high = md - 1;
+            }
+            else
+            {
+                low = md + 1;
             }
         }
-        return ans;
+        return -1;
     }
 };
 void solve()
