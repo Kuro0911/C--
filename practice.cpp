@@ -51,7 +51,7 @@ public:
         int low = 1, high = n;
         while (low <= high)
         {
-            int md = (low + high) / 2;
+            int md = low + (high - low) / 2;
             int res = guess(md);
             if (res == 0)
             {
