@@ -46,8 +46,25 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
+    int helper(int n, int fact)
+    {
+        while (n % fact == 0)
+        {
+            n /= fact;
+        }
+        return n;
+    }
     bool isUgly(int n)
     {
+        if (n <= 0)
+        {
+            return false;
+        }
+        for (auto x : {2, 3, 5})
+        {
+            n = helper(n, x);
+        }
+        return n == 1;
     }
 };
 void solve()
