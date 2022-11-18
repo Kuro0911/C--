@@ -46,31 +46,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    bool check(int x1, int y1, int x2, int y2)
+    bool isUgly(int n)
     {
-        if (x1 < x2 and y2 > y1)
-        {
-            return true;
-        }
-        return false;
-    }
-    int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2)
-    {
-        int arrA = (ax2 - ax1) * (ay2 - ay1);
-        int arrB = (bx2 - bx1) * (by2 - by1);
-
-        int tot = arrA + arrB;
-
-        int cx = min(ax2, bx2) - max(ax1, bx1);
-        int cy = min(ay2, by2) - max(ay1, by1);
-
-        if (cx > 0 and cy > 0)
-        {
-            int arrC = cx * cy;
-            tot -= arrC;
-        }
-
-        return tot;
     }
 };
 void solve()
