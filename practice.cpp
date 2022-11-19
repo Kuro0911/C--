@@ -46,49 +46,28 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int orientation(vector<int> p1, vector<int> p2, vector<int> p3)
+    int deepestLeavesSum(TreeNode *root)
     {
-        int d = (p3[1] - p2[1]) * (p2[0] - p1[0]) - (p2[1] - p1[1]) * (p3[0] - p2[0]);
-        if (d > 0)
+        queue<TreeNode *> q;
+        q.push(root);
+
+        vector<int> lvl;
+        while (!q.empty())
         {
-            return 1;
-        }
-        else if (d < 0)
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    vector<vector<int>> outerTrees(vector<vector<int>> &points)
-    {
-        sort(begin(points), end(points), [](const vector<int> &a, const vector<int> &b)
-             { return a[0] < b[0] || (a[0] == b[0] && a[1] < b[1]); });
-        vector<vector<int>> ans;
-        for (int i = 0; i < points.size(); i++)
-        {
-            while (size(ans) > 1 and orientation(ans[size(ans) - 2], ans.back(), points[i]) < 0)
+            int sz = q.size();
+            lvl.clear();
+            for (int i = 0; i < sz; i++)
             {
-                ans.pop_back();
+                TreeNode *temp = q.front();
+                if (temp->left)
+                    q.push(temp->left);
+                if (temp->right)
+                    q.push(temp->right);
+                lvl.push_back(temp->val);
+                q.pop();
             }
-            ans.push_back(points[i]);
         }
-        if (ans.size() == points.size())
-        {
-            return ans;
-        }
-        for (int i = points.size() - 2; i >= 0; i--)
-        {
-            while (size(ans) > 1 and orientation(ans[size(ans) - 2], ans.back(), points[i]) < 0)
-            {
-                ans.pop_back();
-            }
-            ans.push_back(points[i]);
-        }
-        ans.pop_back();
-        return ans;
+        return accumulate(lvl.begin(), lvl.end(), 0);
     }
 };
 void solve()
