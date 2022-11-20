@@ -43,33 +43,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    int deepestLeavesSum(TreeNode *root)
-    {
-        queue<TreeNode *> q;
-        q.push(root);
 
-        vector<int> lvl;
-        while (!q.empty())
-        {
-            int sz = q.size();
-            lvl.clear();
-            for (int i = 0; i < sz; i++)
-            {
-                TreeNode *temp = q.front();
-                if (temp->left)
-                    q.push(temp->left);
-                if (temp->right)
-                    q.push(temp->right);
-                lvl.push_back(temp->val);
-                q.pop();
-            }
-        }
-        return accumulate(lvl.begin(), lvl.end(), 0);
-    }
-};
 void solve()
 {
 }
