@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "avr/io.h"
 using namespace std;
 
 #define int long long
@@ -43,11 +44,27 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+string ddrb, portB;
 
+void toDelay()
+{
+    TCNT0 = Ox20;
+    TCCR0 = 0x01;
+    while ((TIFR & 0x1) == 0)
+        ;
+    TCCR0 = 0;
+    TIFR = 0x1;
+}
 void solve()
 {
-    string ddrb;
-    ddrb = "0xFF";
+    DDRB = 0xFF;
+    while (1)
+    {
+        PORTB = 0x55;
+        toDelay();
+        PORTB = 0xAA;
+        toDelay();
+    }
 }
 
 signed main()
