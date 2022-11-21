@@ -46,15 +46,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    switch (expression)
-    {
-    case /* constant-expression */:
-        /* code */
-        break;
-
-    default:
-        break;
-    }
+    string ddrb;
+    ddrb = "0xFF";
 }
 
 signed main()
