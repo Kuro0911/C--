@@ -44,29 +44,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
+class Solution
+{
+public:
+    int sumSubarrayMins(vector<int> &arr)
+    {
+        int mod = 1e9 + 7;
+        stack<int> st;
+        long ans = 0;
+        for (int i = 0; i <= arr.size(); i++)
+        {
+            while (!st.empty() and (i == arr.size() or arr[st.top()] >= arr[i]))
+            {
+                int md = st.top();
+                st.pop();
+                int l = st.empty() ? -1 : st.top();
+                int r = i;
 
+                long cnt = ((md - l) * (r - md)) % mod;
+
+                ans += (cnt * arr[md]) % mod;
+                ans %= mod;
+            }
+            st.push(i);
+        }
+        return (int)(ans);
+    }
+};
 void solve()
 {
-    for (int k = 0; k < 3; k++)
-    {
-        for (int l = 0; l < 3; l++)
-        {
-            for (int i = k * 3; i < k * 3 + 3; i++)
-            {
-                for (int j = l * 3; j < l * 3 + 3; j++)
-                {
-                    if (board[i][j] == '.')
-                        continue;
-                    if (vis.find(board[i][j]) != vis.end())
-                    {
-                        return false;
-                    }
-                    vis.insert(board[i][j]);
-                }
-            }
-            vis.clear();
-        }
-    }
 }
 
 signed main()
