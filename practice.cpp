@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include "avr/io.h"
 using namespace std;
 
 #define int long long
@@ -46,33 +45,79 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 class Solution
 {
+    int n;
+    vector<int> nums;
+
 public:
-    int sumSubarrayMins(vector<int> &arr)
+    Solution()
     {
-        int mod = 1e9 + 7;
-        stack<int> st;
-        long ans = 0;
-        for (int i = 0; i <= arr.size(); i++)
+        cin >> n;
+        vector<int> x(n);
+        for (int i = 0; i < n; i++)
         {
-            while (!st.empty() and (i == arr.size() or arr[st.top()] >= arr[i]))
+            cin >> x[i];
+        };
+        nums = x;
+    }
+
+    bool find132pattern()
+    {
+        stack<int> st;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (st.empty())
             {
-                int md = st.top();
-                st.pop();
-                int l = st.empty() ? -1 : st.top();
-                int r = i;
-
-                long cnt = ((md - l) * (r - md)) % mod;
-
-                ans += (cnt * arr[md]) % mod;
-                ans %= mod;
+                st.push(nums[i]);
             }
-            st.push(i);
+            else
+            {
+                if (st.top() < nums[i])
+                {
+                    if (st.size() == 1)
+                    {
+                        st.push(nums[i]);
+                    }
+                }
+                else
+                {
+                    if (st.size() == 2)
+                    {
+                        int x = st.top();
+                        st.pop();
+                        if (st.top() < nums[i])
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            st.pop();
+                            st.push(nums[i]);
+                        }
+                    }
+                    else
+                    {
+                        while (!st.empty() and st.top() > nums[i])
+                        {
+                            st.pop();
+                        }
+                        st.push(nums[i]);
+                    }
+                }
+            }
         }
-        return (int)(ans);
+
+        while (!st.empty())
+        {
+            cout << st.top() << endl;
+            st.pop();
+        }
+        return st.size() == 3;
     }
 };
 void solve()
 {
+    Solution x;
+    cout << x.find132pattern();
 }
 
 signed main()
