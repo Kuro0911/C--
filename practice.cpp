@@ -45,79 +45,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 class Solution
 {
-    int n;
-    vector<int> nums;
 
 public:
     Solution()
     {
-        cin >> n;
-        vector<int> x(n);
-        for (int i = 0; i < n; i++)
-        {
-            cin >> x[i];
-        };
-        nums = x;
     }
 
-    bool find132pattern()
+    int jobScheduling(vector<int> &startTime, vector<int> &endTime, vector<int> &profit)
     {
-        stack<int> st;
-        for (int i = 0; i < nums.size(); i++)
-        {
-            if (st.empty())
-            {
-                st.push(nums[i]);
-            }
-            else
-            {
-                if (st.top() < nums[i])
-                {
-                    if (st.size() == 1)
-                    {
-                        st.push(nums[i]);
-                    }
-                }
-                else
-                {
-                    if (st.size() == 2)
-                    {
-                        int x = st.top();
-                        st.pop();
-                        if (st.top() < nums[i])
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            st.pop();
-                            st.push(nums[i]);
-                        }
-                    }
-                    else
-                    {
-                        while (!st.empty() and st.top() > nums[i])
-                        {
-                            st.pop();
-                        }
-                        st.push(nums[i]);
-                    }
-                }
-            }
-        }
+        auto comp = [&endTime](const int i1, const int i2)
+        { return endTime[i1] < endTime[i2]; };
+        int n = endTime.size();
+        vector<int> index(n);
+        iota(index.begin(), index.end(), 0);
+        sort(index.begin(), index.end(), comp);
 
-        while (!st.empty())
+        vector<int> endSorted(endTime.begin(), endTime.end());
+        sort(endSorted.begin(), endSorted.end());
+        vector<int> dp(n + 1);
+        for (int i = 1; i <= n; i++)
         {
-            cout << st.top() << endl;
-            st.pop();
+            int j = upper_bound(endSorted.begin(), endSorted.end(), startTime[index[i - 1]]) - endSorted.begin();
+            dp[i] = max(dp[i - 1], profit[index[i - 1]] + dp[j]);
         }
-        return st.size() == 3;
+        return dp[n];
     }
 };
 void solve()
 {
     Solution x;
-    cout << x.find132pattern();
 }
 
 signed main()
