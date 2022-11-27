@@ -45,68 +45,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 class Solution
 {
-    vector<int> nums1;
-
 public:
-    Solution()
+    int numberOfArithmeticSlices(vector<int> &nums)
     {
-        int n;
-        cin >> n;
-
-        vector<int> temp(n);
-        for (auto &x : temp)
+        int ans = 0;
+        vector<unordered_map<int, int>> dp(nums.size());
+        for (int i = 0; i < nums.size(); i++)
         {
-            cin >> x;
-        }
-        cout << temp;
-        nums1 = temp;
-    }
-    bool check(vector<int> nums)
-    {
-        if (nums.size() < 3)
-        {
-            return false;
-        }
-        int df = nums[1] - nums[0];
-        for (int i = 0; i < nums.size() - 1; i++)
-        {
-            if (nums[i + 1] - nums[i] != df)
+            for (int j = 0; j < i; j++)
             {
-                return false;
+                int df = nums[i] - nums[j];
+                dp[i][df]++;
+                if (dp[j].count(df))
+                {
+                    dp[i][df] += dp[j][df];
+                    ans += dp[j][df];
+                }
             }
         }
-        return true;
-    }
-    void helper(vector<int> temp, vector<int> nums, set<vector<int>> &ans)
-    {
-        if (check(temp))
-        {
-            ans.insert(temp);
-        }
-        if (nums.size() == 0)
-        {
-            return;
-        }
-        int x = nums[0];
-        nums.erase(nums.begin());
-        temp.push_back(x);
-        helper(temp, nums, ans);
-        temp.pop_back();
-        helper(temp, nums, ans);
-    };
-    int numberOfArithmeticSlices()
-    {
-        vector<int> temp;
-        set<vector<int>> ans;
-        helper(temp, nums1, ans);
-
-        return ans.size();
+        return ans;
     }
 };
 void solve()
 {
-    Solution x;
-    cout << x.numberOfArithmeticSlices();
 }
 
 signed main()
