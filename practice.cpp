@@ -45,35 +45,32 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 //#####################################################
 class Solution
 {
-
 public:
-    Solution()
+    int helper(int i, int df, vector<int> nums)
     {
-    }
-
-    int jobScheduling(vector<int> &startTime, vector<int> &endTime, vector<int> &profit)
-    {
-        auto comp = [&endTime](const int i1, const int i2)
-        { return endTime[i1] < endTime[i2]; };
-        int n = endTime.size();
-        vector<int> index(n);
-        iota(index.begin(), index.end(), 0);
-        sort(index.begin(), index.end(), comp);
-
-        vector<int> endSorted(endTime.begin(), endTime.end());
-        sort(endSorted.begin(), endSorted.end());
-        vector<int> dp(n + 1);
-        for (int i = 1; i <= n; i++)
+        if (i == nums.size() - 1 or nums[i] + df != nums[i + 1])
         {
-            int j = upper_bound(endSorted.begin(), endSorted.end(), startTime[index[i - 1]]) - endSorted.begin();
-            dp[i] = max(dp[i - 1], profit[index[i - 1]] + dp[j]);
+            return 0;
         }
-        return dp[n];
+        return 1 + helper(i + 1, df, nums);
+    }
+    int numberOfArithmeticSlices(vector<int> &nums)
+    {
+        if (nums.size() < 3)
+        {
+            return 0;
+        }
+        int ans = 0;
+        for (int i = 0; i < nums.size() - 2; i++)
+        {
+            int df = nums[i + 1] - nums[i];
+            ans += helper(i + 1, df, nums);
+        }
+        return ans;
     }
 };
 void solve()
 {
-    Solution x;
 }
 
 signed main()
