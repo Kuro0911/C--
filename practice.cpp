@@ -46,24 +46,20 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int numberOfArithmeticSlices(vector<int> &nums)
+    vector<vector<int>> findWinners(vector<vector<int>> &matches)
     {
-        int ans = 0;
-        vector<unordered_map<int, int>> dp(nums.size());
-        for (int i = 0; i < nums.size(); i++)
+        map<int, vector<int>> M;
+        for (int i = 0; i < matches.size(); i++)
         {
-            for (int j = 0; j < i; j++)
-            {
-                int df = nums[i] - nums[j];
-                dp[i][df]++;
-                if (dp[j].count(df))
-                {
-                    dp[i][df] += dp[j][df];
-                    ans += dp[j][df];
-                }
-            }
+            M[matches[i][0]][0]++;
+            M[matches[i][0]][1]++;
         }
-        return ans;
+        for (auto x : M)
+        {
+            cout << x.first << " : " << x.second[0] << " " << x.second[1] << endl;
+        }
+        vector<vector<int>> res;
+        return res;
     }
 };
 void solve()
