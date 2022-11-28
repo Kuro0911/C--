@@ -53,24 +53,18 @@ void solve()
     {
         cin >> x;
     }
-    stack<int> st;
+    stack<pair<int, int>> st;
     vector<int> res(n, 0);
     for (int i = 0; i < n; i++)
     {
-        if (st.empty())
+        int ans = 1;
+        while (!st.empty() and vec[i] > st.top().first)
         {
-            res[i] = -1;
-            st.push(vec[i]);
+            ans += st.top().second;
+            st.pop();
         }
-        else
-        {
-            while (!st.empty() and st.top() < vec[i])
-            {
-                st.pop();
-            }
-            res[i] = st.empty() ? -1 : st.top();
-            st.push(vec[i]);
-        }
+        res[i] = ans;
+        st.push({vec[i], ans});
     }
     cout << res;
 }
