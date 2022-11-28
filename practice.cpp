@@ -43,27 +43,36 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-class Solution
-{
-public:
-    vector<vector<int>> findWinners(vector<vector<int>> &matches)
-    {
-        map<int, vector<int>> M;
-        for (int i = 0; i < matches.size(); i++)
-        {
-            M[matches[i][0]][0]++;
-            M[matches[i][0]][1]++;
-        }
-        for (auto x : M)
-        {
-            cout << x.first << " : " << x.second[0] << " " << x.second[1] << endl;
-        }
-        vector<vector<int>> res;
-        return res;
-    }
-};
+
 void solve()
 {
+    int n;
+    cin >> n;
+    vector<int> vec(n);
+    for (auto &x : vec)
+    {
+        cin >> x;
+    }
+    stack<int> st;
+    vector<int> res(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        if (st.empty())
+        {
+            res[i] = -1;
+            st.push(vec[i]);
+        }
+        else
+        {
+            while (!st.empty() and st.top() < vec[i])
+            {
+                st.pop();
+            }
+            res[i] = st.empty() ? -1 : st.top();
+            st.push(vec[i]);
+        }
+    }
+    cout << res;
 }
 
 signed main()
