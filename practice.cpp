@@ -95,11 +95,11 @@ public:
             {
                 if (matrix[i][j] != '0')
                 {
-                    temp[i]++;
+                    temp[j]++;
                 }
                 else
                 {
-                    temp[i] = 0;
+                    temp[j] = 0;
                 }
             }
             res = max(res, maxH(temp));
