@@ -116,44 +116,43 @@ void solve()
     {
         cin >> x;
     }
-    stack<pair<int, int>> st;
+    stack<int> st;
     vector<int> tr(vec.size()), tl(vec.size());
     for (int i = n - 1; i >= 0; i--)
     {
-        int ans = 0;
-        while (!st.empty() and st.top().first >= vec[i])
+        while (!st.empty() and vec[i] >= st.top())
         {
-            ans += st.top().second + 1;
             st.pop();
         }
-        tr[i] = ans;
-        st.push({vec[i], ans});
+        tr[i] = st.empty() ? INT_MAX : st.top();
+        if (st.empty())
+        {
+            st.push(vec[i]);
+        }
     }
     while (!st.empty())
     {
         st.pop();
     }
+
     for (int i = 0; i < n; i++)
     {
-        int ans = 0;
-        while (!st.empty() and st.top().first >= vec[i])
+        while (!st.empty() and vec[i] > st.top())
         {
-            ans += st.top().second + 1;
             st.pop();
         }
-        tl[i] = ans;
-        st.push({vec[i], ans});
+        tl[i] = st.empty() ? INT_MAX : st.top();
+        if (st.empty())
+        {
+            st.push(vec[i]);
+        }
     }
-
-    cout << "TO RIGHT => " << tr;
-    cout << "TO LEFT => " << tl;
-    int res = 0;
-    for (int i = 0; i < n; i++)
+    int ans = 0;
+    for (int i = 1; i < n - 1; i++)
     {
-        int arr = vec[i] * (tl[i] + tr[i] + 1);
-        res = max(arr, res);
+        ans += min(tl[i], tr[i]) - vec[i];
     }
-    cout << res;
+    cout << ans;
 }
 
 signed main()
