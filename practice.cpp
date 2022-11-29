@@ -43,7 +43,70 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+class Solution
+{
+public:
+    int maxH(vector<int> vec)
+    {
+        int n = vec.size();
+        vector<int> tr(n, 0), tl(n, 0);
+        stack<pair<int, int>> st;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            int ans = 0;
+            while (!st.empty() and st.top().first >= vec[i])
+            {
+                ans += st.top().second + 1;
+                st.pop();
+            }
+            tr[i] = ans;
+            st.push({vec[i], ans});
+        }
+        while (!st.empty())
+        {
+            st.pop();
+        }
+        for (int i = 0; i < n; i++)
+        {
+            int ans = 0;
+            while (!st.empty() and st.top().first >= vec[i])
+            {
+                ans += st.top().second + 1;
+                st.pop();
+            }
+            tl[i] = ans;
+            st.push({vec[i], ans});
+        }
+        int res = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int ar = vec[i] * (tr[i] + tl[i] + 1);
+            res = max(res, ar);
+        }
+        return res;
+    }
+    int maximalRectangle(vector<vector<char>> &matrix)
+    {
+        vector<int> temp(matrix[0].size(), 0);
+        int res = 0;
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix[0].size(); j++)
+            {
+                if (matrix[i][j] != '0')
+                {
+                    temp[i]++;
+                }
+                else
+                {
+                    temp[i] = 0;
+                }
+            }
+            res = max(res, maxH(temp));
+        }
+        return res;
+    }
+};
 void solve()
 {
     int n;
