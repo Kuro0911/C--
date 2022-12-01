@@ -2,13 +2,11 @@ import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-port = 8000
+port = 9999
 host = socket.gethostname()
 
 
 s.connect((host, port))
-print(s.recv(1024).decode())
-
 while True:
     msg = input()
     s.sendto(msg.encode(), (host, port))
