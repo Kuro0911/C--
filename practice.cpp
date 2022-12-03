@@ -43,7 +43,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 //#####################################################
-
+class Solution
+{
+public:
+    string frequencySort(string s)
+    {
+        map<char, int> mp;
+        for (auto x : s)
+        {
+            mp[x]++;
+        }
+        map<int, vector<int>> mp2;
+        priority_queue<pair<int, int>, vector<pair<int, int>>> pq;
+        for (auto x : mp)
+        {
+            pq.push(make_pair(x.second, x.first));
+        }
+        string res = "";
+        while (!pq.empty())
+        {
+            pair<int, int> tp = pq.top();
+            for (int i = 0; i < tp.first; i++)
+            {
+                res.push_back(tp.second);
+            }
+            pq.pop();
+        }
+        return res;
+    }
+};
 void solve()
 {
 }
