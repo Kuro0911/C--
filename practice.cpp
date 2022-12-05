@@ -44,6 +44,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+void solve()
+{
+}
+
 signed main()
 {
 
