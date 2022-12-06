@@ -44,35 +44,53 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
-class Solution {
+class shape
+{
 public:
-    ListNode* oddEvenList(ListNode* head) {
-        if(!head){
-            return head;
-        }
-        ListNode*eve = head->next;
-        ListNode* temp = eve;
-        ListNode*odd = head;
-        while(odd->next && eve->next){
-            odd->next = odd->next->next;
-            odd = odd->next;
-            eve->next = eve->next->next;
-            eve = eve->next;
-        }
-        odd->next = temp;
-        return head;
+    int len;
+    int b;
+    int area()
+    {
+        return len * b;
+    }
+    void printData()
+    {
+        cout << len << " " << b << endl;
     }
 };
+class rectangle : public shape
+{
+public:
+    rectangle(int x, int y)
+    {
+        len = x;
+        b = y;
+    }
+    void printData()
+    {
+        cout << "rect" << len << " " << b << endl;
+    }
+};
+class square : public shape
+{
+public:
+    square(int x, int y)
+    {
+        len = x;
+        b = y;
+    }
+    void printData()
+    {
+        cout << "sq" << len << " " << b << endl;
+    }
+};
+
 void solve()
 {
+    square sq(2, 2);
+    rectangle rect(2, 5);
+    cout << rect.area() << endl;
+    rect.printData();
 }
 
 signed main()
