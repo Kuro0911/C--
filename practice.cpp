@@ -44,6 +44,33 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(!head){
+            return head;
+        }
+        ListNode*eve = head->next;
+        ListNode* temp = eve;
+        ListNode*odd = head;
+        while(odd->next && eve->next){
+            odd->next = odd->next->next;
+            odd = odd->next;
+            eve->next = eve->next->next;
+            eve = eve->next;
+        }
+        odd->next = temp;
+        return head;
+    }
+};
 void solve()
 {
 }
