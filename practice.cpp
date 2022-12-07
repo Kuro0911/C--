@@ -57,7 +57,7 @@ void solve()
         }
     }
 
-    return res;
+    cout << res;
 }
 
 signed main()
