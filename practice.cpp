@@ -44,53 +44,20 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 //#####################################################
 
-class shape
-{
-public:
-    int len;
-    int b;
-    int area()
-    {
-        return len * b;
-    }
-    void printData()
-    {
-        cout << len << " " << b << endl;
-    }
-};
-class rectangle : public shape
-{
-public:
-    rectangle(int x, int y)
-    {
-        len = x;
-        b = y;
-    }
-    void printData()
-    {
-        cout << "rect" << len << " " << b << endl;
-    }
-};
-class square : public shape
-{
-public:
-    square(int x, int y)
-    {
-        len = x;
-        b = y;
-    }
-    void printData()
-    {
-        cout << "sq" << len << " " << b << endl;
-    }
-};
-
 void solve()
 {
-    square sq(2, 2);
-    rectangle rect(2, 5);
-    cout << rect.area() << endl;
-    rect.printData();
+    int res = -1;
+    for (int i = 1; i <= N; i++)
+    {
+        int y = A[i - 1] ^ i;
+        if (y != 0)
+        {
+            res = y;
+            break;
+        }
+    }
+
+    return res;
 }
 
 signed main()
