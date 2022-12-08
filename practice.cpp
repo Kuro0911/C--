@@ -11,7 +11,7 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-//#####################################################
+// #####################################################
 
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
@@ -42,22 +42,10 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
     return os;
 }
 
-//#####################################################
+// #####################################################
 
 void solve()
 {
-    int res = -1;
-    for (int i = 1; i <= N; i++)
-    {
-        int y = A[i - 1] ^ i;
-        if (y != 0)
-        {
-            res = y;
-            break;
-        }
-    }
-
-    cout << res;
 }
 
 signed main()
