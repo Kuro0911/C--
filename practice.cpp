@@ -67,12 +67,39 @@ class Solution
 public:
     TreeNode *recoverFromPreorder(string s)
     {
-        TreeNode *root = new TreeNode(s[0] - '0');
-        s = s.substr(1);
-        int prev = 1, curr = 1, pos_right = s.size() - 1, pos_left = s.size() - 1;
+        if (s.size() == 0)
+        {
+            return NULL;
+        }
+        TreeNode *root = new TreeNode();
+        int currDepth = 0;
+        for (auto x : s)
+        {
+            if (x == '-')
+            {
+                currDepth++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        string currVal = "";
+        for (int i = currDepth; i < s.size(); i++)
+        {
+            if (s[i] == '-')
+            {
+                break;
+            }
+            currVal.push_back(s[i]);
+        }
+        s = s.substr(currDepth + currVal.size());
+        root->val = stoi(currVal);
+        int pos = 0, curr = 0;
 
-        cout << s.find_first_of("0123456789");
-        for (int i = 1; i < s.size(); i++)
+        // cout << s << endl;
+
+        for (int i = currDepth + 1; i < s.size(); i++)
         {
             if (s[i] == '-')
             {
@@ -80,22 +107,30 @@ public:
             }
             else
             {
-                if (curr < prev)
+                if (curr == currDepth + 1)
                 {
-                    pos_left = i - curr;
-                    pos_right = i;
+                    pos = i - curr;
                     break;
                 }
                 else
                 {
-                    prev = curr;
                     curr = 0;
                 }
             }
         }
-        cout << s.substr(1, pos_left - 1) << " " << s.substr(pos_right) << endl;
-        // root->left = recoverFromPreorder(s.substr(1, pos - 1));
-        // root->right = recoverFromPreorder(s.substr(pos));
+
+        // cout << "pos : " << pos << endl;
+        // cout << s.substr(0, pos) << " " << s.substr(pos) << endl;
+
+        if (pos == 0)
+        {
+            root->left = recoverFromPreorder(s);
+        }
+        else
+        {
+            root->left = recoverFromPreorder(s.substr(0, pos));
+            root->right = recoverFromPreorder(s.substr(pos));
+        }
 
         return root;
     }
