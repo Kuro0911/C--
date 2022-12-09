@@ -43,9 +43,71 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+void print(TreeNode *root)
+{
+    if (!root)
+    {
+        return;
+    }
+    cout << root->val << " ";
+    print(root->left);
+    print(root->right);
+}
+class Solution
+{
+public:
+    TreeNode *recoverFromPreorder(string s)
+    {
+        TreeNode *root = new TreeNode(s[0] - '0');
+        s = s.substr(1);
+        int prev = 1, curr = 1, pos_right = s.size() - 1, pos_left = s.size() - 1;
+
+        cout << s.find_first_of("0123456789");
+        for (int i = 1; i < s.size(); i++)
+        {
+            if (s[i] == '-')
+            {
+                curr++;
+            }
+            else
+            {
+                if (curr < prev)
+                {
+                    pos_left = i - curr;
+                    pos_right = i;
+                    break;
+                }
+                else
+                {
+                    prev = curr;
+                    curr = 0;
+                }
+            }
+        }
+        cout << s.substr(1, pos_left - 1) << " " << s.substr(pos_right) << endl;
+        // root->left = recoverFromPreorder(s.substr(1, pos - 1));
+        // root->right = recoverFromPreorder(s.substr(pos));
+
+        return root;
+    }
+};
 
 void solve()
 {
+    Solution x;
+    string s;
+    cin >> s;
+    TreeNode *root = x.recoverFromPreorder(s);
+    print(root);
 }
 
 signed main()
