@@ -43,7 +43,41 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+class Solution
+{
+public:
+    vector<int> findOriginalArray(vector<int> &c)
+    {
+        set<int> vis(c.begin(), c.end());
+        vector<int> res;
+        for (int i = 0; i < c.size(); i++)
+        {
 
+            if (vis.find(c[i] / 2) != vis.end())
+            {
+                cout << c[i] << " found half: " << c[i] / 2 << endl;
+                vis.erase(c[i]);
+                res.push_back(c[i] / 2);
+                vis.erase(c[i] / 2);
+            }
+            else if (vis.find(c[i] * 2) != vis.end())
+            {
+                cout << c[i] << " found twice: " << c[i] * 2 << endl;
+                vis.erase(c[i]);
+                vis.erase(c[i] * 2);
+                res.push_back(c[i]);
+            }
+            else
+            {
+                if (vis.size() == 0 and res.size() == c.size() / 2)
+                    return res;
+                else
+                    break;
+            }
+        }
+        return {};
+    }
+};
 void solve()
 {
 }
