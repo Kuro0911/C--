@@ -48,7 +48,11 @@ class Solution
 public:
     vector<int> findOriginalArray(vector<int> &c)
     {
-        set<int> vis(c.begin(), c.end());
+        map<int, int> vis;
+        for (auto x : c)
+        {
+            vis[x]++;
+        }
         vector<int> res;
         for (int i = 0; i < c.size(); i++)
         {
@@ -56,15 +60,15 @@ public:
             if (vis.find(c[i] / 2) != vis.end())
             {
                 cout << c[i] << " found half: " << c[i] / 2 << endl;
-                vis.erase(c[i]);
+                vis[c[i]] != 1 ? vis[c[i]]-- : vis.erase(c[i]);
+                vis[c[i] / 2] != 1 ? vis[c[i] / 2]-- : vis.erase(c[i] / 2);
                 res.push_back(c[i] / 2);
-                vis.erase(c[i] / 2);
             }
             else if (vis.find(c[i] * 2) != vis.end())
             {
                 cout << c[i] << " found twice: " << c[i] * 2 << endl;
-                vis.erase(c[i]);
-                vis.erase(c[i] * 2);
+                vis[c[i]] != 1 ? vis[c[i]]-- : vis.erase(c[i]);
+                vis[c[i] * 2] != 1 ? vis[c[i] * 2]-- : vis.erase(c[i] * 2);
                 res.push_back(c[i]);
             }
             else
