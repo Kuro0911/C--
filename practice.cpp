@@ -46,50 +46,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    vector<int> findOriginalArray(vector<int> &c)
+    int climbStairs(int n)
     {
-        map<int, int> vis;
-        for (auto x : c)
+        if (n == 1)
         {
-            vis[x]++;
+            return 1;
         }
-        vector<int> res;
-        for (int i = 0; i < c.size(); i++)
+        if (n == 2)
         {
-
-            if (vis.find(c[i] / 2) != vis.end())
-            {
-                cout << c[i] << " found half: " << c[i] / 2 << endl;
-                vis[c[i]] != 1 ? vis[c[i]]-- : vis.erase(c[i]);
-                vis[c[i] / 2] != 1 ? vis[c[i] / 2]-- : vis.erase(c[i] / 2);
-                res.push_back(c[i] / 2);
-            }
-            else if (vis.find(c[i] * 2) != vis.end())
-            {
-                cout << c[i] << " found twice: " << c[i] * 2 << endl;
-                vis[c[i]] != 1 ? vis[c[i]]-- : vis.erase(c[i]);
-                vis[c[i] * 2] != 1 ? vis[c[i] * 2]-- : vis.erase(c[i] * 2);
-                res.push_back(c[i]);
-            }
-            else
-            {
-                if (vis.size() == 0 and res.size() == c.size() / 2)
-                    return res;
-                else
-                    break;
-            }
+            return 2;
         }
-        return {};
+        vector<int> dp(n, 0);
+        dp[0] = 1;
+        dp[1] = 2;
+        for (int i = 2; i < n; i++)
+        {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n - 1];
     }
 };
-int send(void *msg)
-{
-    return 0;
-}
 void solve()
 {
     string x = "aaa";
-    send(&x);
 }
 
 signed main()
