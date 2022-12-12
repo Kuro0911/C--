@@ -82,8 +82,14 @@ public:
         return {};
     }
 };
+int send(void *msg)
+{
+    return 0;
+}
 void solve()
 {
+    string x = "aaa";
+    send(&x);
 }
 
 signed main()
