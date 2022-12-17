@@ -43,41 +43,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
-{
-public:
-    int minFallingPathSum(vector<vector<int>> &matrix)
-    {
-        int n = matrix.size(), m = matrix[0].size();
-        if (n == 1 and m == 1)
-        {
-            return matrix[0][0];
-        }
-        vector<vector<int>> dp(n + 2, vector<int>(m + 2, 0));
-        for (int i = 1; i <= n; i++)
-        {
-            for (int j = 1; j <= m; j++)
-            {
-                int mn = INT_MAX;
-                for (int x = 1; x <= m; x++)
-                {
-                    if (x != j)
-                    {
-                        mn = min(dp[i - 1][x], mn);
-                    }
-                }
-                dp[i][j] = matrix[i - 1][j - 1] + mn;
-            }
-        }
-        int res = INT_MAX;
-        for (int x = 1; x <= m; x++)
-        {
-            cout << dp[n][x] << " ";
-            res = min(res, dp[n][x]);
-        }
-        return res;
-    }
-};
+
 void solve()
 {
 }
