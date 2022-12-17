@@ -43,7 +43,49 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    long helper(long num1, long num2, string opp)
+    {
+        switch (opp[0])
+        {
+        case '/':
+            return num1 / num2;
+            break;
+        case '-':
+            return num1 - num2;
+            break;
+        case '+':
+            return num1 + num2;
+            break;
+        case '*':
+            return num1 * num2;
+            break;
+        }
+        return 0;
+    }
+    int evalRPN(vector<string> &tokens)
+    {
+        stack<long> st;
+        for (auto x : tokens)
+        {
+            if (x == "+" or x == "-" or x == "*" or x == "/")
+            {
+                long num2 = st.top();
+                st.pop();
+                long num1 = st.top();
+                st.pop();
+                st.push(helper(num1, num2, x));
+            }
+            else
+            {
+                st.push(stol(x));
+            }
+        }
+        return st.top();
+    }
+};
 void solve()
 {
 }
