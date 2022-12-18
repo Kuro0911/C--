@@ -46,36 +46,6 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<int> res;
-    map<int, int> vis;
-    string A = "jrjsnfz";
-    vector<int> B{2};
-    for (auto x : B)
-    {
-        if (vis.find(x) != vis.end())
-        {
-            res.push_back(vis[x]);
-        }
-        else
-        {
-            int l = x - 2, r = x, sz = 1;
-            while (l >= 0 and r <= A.size() - 1)
-            {
-                if (A[l] == A[r])
-                {
-                    l--, r++;
-                    sz += 2;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            vis[x] = sz;
-            res.push_back(sz);
-        }
-    }
-    cout << res;
 }
 
 signed main()
