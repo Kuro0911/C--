@@ -46,44 +46,25 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    long helper(long num1, long num2, string opp)
+    vector<int> dailyTemperatures(vector<int> &t)
     {
-        switch (opp[0])
+        vector<int> res(t.size());
+        stack<pair<int, int>> st;
+        for (int i = 0; i < t.size(); i++)
         {
-        case '/':
-            return num1 / num2;
-            break;
-        case '-':
-            return num1 - num2;
-            break;
-        case '+':
-            return num1 + num2;
-            break;
-        case '*':
-            return num1 * num2;
-            break;
+            while (!st.empty() and st.top().second < t[i])
+            {
+                res[st.top().first] = i - st.top().first;
+                st.pop();
+            }
+            st.push({i, t[i]});
         }
-        return 0;
-    }
-    int evalRPN(vector<string> &tokens)
-    {
-        stack<long> st;
-        for (auto x : tokens)
+        while (!st.empty())
         {
-            if (x == "+" or x == "-" or x == "*" or x == "/")
-            {
-                long num2 = st.top();
-                st.pop();
-                long num1 = st.top();
-                st.pop();
-                st.push(helper(num1, num2, x));
-            }
-            else
-            {
-                st.push(stol(x));
-            }
+            res[st.top().first] = 0;
+            st.pop();
         }
-        return st.top();
+        return res;
     }
 };
 void solve()
