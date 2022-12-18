@@ -46,6 +46,20 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for (auto &x : arr)
+    {
+        cin >> x;
+    }
+    int res = arr[0];
+    for (int i = 1; i < n; i++)
+    {
+        res &= arr[i];
+    }
+
+    cout << res << endl;
 }
 
 signed main()
@@ -56,7 +70,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    // cin>>t;
+    cin >> t;
     while (t--)
     {
         solve();
