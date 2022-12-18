@@ -43,18 +43,67 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    int helper(int curr, vector<vector<int>> graph)
+    {
+        queue<pair<int, string>> q;
+        string bits, corr;
+        bits.assign(graph.size(), '0');
+        bits.assign(graph.size(), '1');
+        bits[curr] = '1';
+        q.push({curr, bits});
+        int ans = 1;
+        set<pair<int, string>> vis;
+        while (!q.empty())
+        {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
+            {
+                pair<int, string> temp = q.front();
+                q.pop();
+                for (auto x : graph[temp.first])
+                {
+                    temp.second[x] = '1';
+                    if (temp.second == corr)
+                    {
+                        return ans;
+                    }
+                    if (vis.find({x, temp.second}) == vis.end())
+                    {
+                        vis.insert({x, temp.second});
+                        q.push({x, temp.second});
+                    }
+                }
+            }
+            ans++;
+        }
+        return ans;
+    }
+    int shortestPathLength(vector<vector<int>> &g)
+    {
+        vector<vector<int>> graph(g.size());
+        for (int i = 0; i < g.size(); i++)
+        {
+            for (auto x : g[i])
+            {
+                graph[i].push_back(x);
+            }
+        }
+        int ans = INT_MAX;
+        for (int i = 0; i < graph.size(); i++)
+        {
+            ans = min(ans, helper(i, graph));
+        }
+        return ans;
+    }
+};
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    int res = 1;
-    for (int i = 0; i < k; i++)
-    {
-        res = (res * n) % MOD;
-    }
-
-    cout << res << endl;
+    string bits;
+    bits.assign(10, '0');
+    cout << bits;
 }
 
 signed main()
@@ -65,7 +114,7 @@ signed main()
     cout.tie(NULL);
 
     int t = 1;
-    cin >> t;
+    // cin>>t;
     while (t--)
     {
         solve();
