@@ -46,17 +46,12 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    for (auto &x : arr)
+    int n, k;
+    cin >> n >> k;
+    int res = 1;
+    for (int i = 0; i < k; i++)
     {
-        cin >> x;
-    }
-    int res = arr[0];
-    for (int i = 1; i < n; i++)
-    {
-        res &= arr[i];
+        res = (res * n) % MOD;
     }
 
     cout << res << endl;
