@@ -46,53 +46,64 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int rectangleArea(vector<vector<int>> &rectangles)
+    int snakesAndLadders(vector<vector<int>> &board)
     {
-        int open = 0, close = 1;
-        vector<vector<int>> events(rectangles.size() * 2);
-        int t = 0;
-        for (auto x : rectangles)
+        int n = board.size();
+        vector<int> bb;
+        bool flag = n % 2 == 0 ? false : true;
+        for (auto x : board)
         {
-            events[t++] = {x[1], open, x[0], x[2]};
-            events[t++] = {x[3], close, x[0], x[2]};
+            if (flag)
+            {
+                reverse(x.begin(), x.end());
+            }
+            flag = !flag;
+            for (auto y : x)
+            {
+                bb.push_back(y);
+            }
         }
-        sort(events.begin(), events.end());
-        vector<vector<int>> act;
-        int curr_Y = events[0][0];
-        long ans = 0;
-        for (auto x : events)
+        reverse(bb.begin(), bb.end());
+        int ans = 0;
+        queue<int> q;
+        q.push(1);
+        set<int> vis;
+        while (!q.empty())
         {
-            int y = x[0], typ = x[1], x1 = x[2], x2 = x[3];
-            int q = 0;
-            int cur = -1;
-            for (auto t : act)
+            int sz = q.size();
+            ans++;
+            for (int i = 0; i < sz; i++)
             {
-                cur = max(cur, t[0]);
-                q += t[1] - cur > 0 ? t[1] - cur : 0;
-                cur = max(cur, t[1]);
-            }
-            ans += q * (y - curr_Y);
-
-            if (typ == open)
-            {
-                act.push_back({x1, x2});
-                sort(act.begin(), act.end());
-            }
-            else
-            {
-                for (int i = 0; i < act.size(); i++)
+                int temp = q.front();
+                q.pop();
+                int tot = min(n * n, temp + 6);
+                if (vis.find(temp) != vis.end())
                 {
-                    if (act[i][0] == x1 and act[i][1] == x2)
+                    continue;
+                }
+                vis.insert(temp);
+
+                for (int i = temp + 1; i <= tot; i++)
+                {
+                    if (i == n * n or bb[i - 1] == n * n)
                     {
-                        act.erase(act.begin() + i);
-                        break;
+                        return ans;
+                    }
+                    if (bb[i - 1] == -1)
+                    {
+                        q.push(i);
+                    }
+                    else
+                    {
+                        if (bb[i - 1] != temp)
+                        {
+                            q.push(bb[i - 1]);
+                        }
                     }
                 }
             }
-            curr_Y = y;
         }
-        ans %= MOD;
-        return ans;
+        return -1;
     }
 };
 void solve()
