@@ -101,9 +101,7 @@ public:
 };
 void solve()
 {
-    string bits;
-    bits.assign(10, '0');
-    cout << bits;
+    Solution x;
 }
 
 signed main()
