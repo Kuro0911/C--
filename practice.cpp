@@ -46,56 +46,52 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    int helper(int curr, vector<vector<int>> graph)
+    int rectangleArea(vector<vector<int>> &rectangles)
     {
-        queue<pair<int, string>> q;
-        string bits, corr;
-        bits.assign(graph.size(), '0');
-        bits.assign(graph.size(), '1');
-        bits[curr] = '1';
-        q.push({curr, bits});
-        int ans = 1;
-        set<pair<int, string>> vis;
-        while (!q.empty())
+        int open = 0, close = 1;
+        vector<vector<int>> events(rectangles.size() * 2);
+        int t = 0;
+        for (auto x : rectangles)
         {
-            int sz = q.size();
-            for (int i = 0; i < sz; i++)
+            events[t++] = {x[1], open, x[0], x[2]};
+            events[t++] = {x[3], close, x[0], x[2]};
+        }
+        sort(events.begin(), events.end());
+        vector<vector<int>> act;
+        int curr_Y = events[0][0];
+        long ans = 0;
+        for (auto x : events)
+        {
+            int y = x[0], typ = x[1], x1 = x[2], x2 = x[3];
+            int q = 0;
+            int cur = -1;
+            for (auto t : act)
             {
-                pair<int, string> temp = q.front();
-                q.pop();
-                for (auto x : graph[temp.first])
+                cur = max(cur, t[0]);
+                q += t[1] - cur > 0 ? t[1] - cur : 0;
+                cur = max(cur, t[1]);
+            }
+            ans += q * (y - curr_Y);
+
+            if (typ == open)
+            {
+                act.push_back({x1, x2});
+                sort(act.begin(), act.end());
+            }
+            else
+            {
+                for (int i = 0; i < act.size(); i++)
                 {
-                    temp.second[x] = '1';
-                    if (temp.second == corr)
+                    if (act[i][0] == x1 and act[i][1] == x2)
                     {
-                        return ans;
-                    }
-                    if (vis.find({x, temp.second}) == vis.end())
-                    {
-                        vis.insert({x, temp.second});
-                        q.push({x, temp.second});
+                        act.erase(act.begin() + i);
+                        break;
                     }
                 }
             }
-            ans++;
+            curr_Y = y;
         }
-        return ans;
-    }
-    int shortestPathLength(vector<vector<int>> &g)
-    {
-        vector<vector<int>> graph(g.size());
-        for (int i = 0; i < g.size(); i++)
-        {
-            for (auto x : g[i])
-            {
-                graph[i].push_back(x);
-            }
-        }
-        int ans = INT_MAX;
-        for (int i = 0; i < graph.size(); i++)
-        {
-            ans = min(ans, helper(i, graph));
-        }
+        ans %= MOD;
         return ans;
     }
 };
