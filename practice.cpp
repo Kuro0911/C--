@@ -43,7 +43,20 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution {
+public:
+    vector<int> circularPermutation(int n, int start) {
+        vector<int> grey(pow(2,n),0);
+        int r=0;
+        for(int i=0;i<pow(2,n);i++){
+            grey[i]=i^(i>>1);
+            if(grey[i]==start)
+                r=i;
+        }
+        rotate(grey.begin(),grey.begin()+r,grey.end());
+        return grey;
+    }
+};
 void solve()
 {
 }
