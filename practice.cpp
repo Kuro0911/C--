@@ -43,72 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
-{
-public:
-    int snakesAndLadders(vector<vector<int>> &board)
-    {
-        int n = board.size();
-        vector<int> bb;
-        bool flag = n % 2 == 0 ? false : true;
-        for (auto x : board)
-        {
-            if (flag)
-            {
-                reverse(x.begin(), x.end());
-            }
-            flag = !flag;
-            for (auto y : x)
-            {
-                bb.push_back(y);
-            }
-        }
-        reverse(bb.begin(), bb.end());
-        int ans = 0;
-        queue<int> q;
-        q.push(1);
-        set<int> vis;
-        while (!q.empty())
-        {
-            int sz = q.size();
-            ans++;
-            for (int i = 0; i < sz; i++)
-            {
-                int temp = q.front();
-                q.pop();
-                int tot = min(n * n, temp + 6);
-                if (vis.find(temp) != vis.end())
-                {
-                    continue;
-                }
-                vis.insert(temp);
 
-                for (int i = temp + 1; i <= tot; i++)
-                {
-                    if (i == n * n or bb[i - 1] == n * n)
-                    {
-                        return ans;
-                    }
-                    if (bb[i - 1] == -1)
-                    {
-                        q.push(i);
-                    }
-                    else
-                    {
-                        if (bb[i - 1] != temp)
-                        {
-                            q.push(bb[i - 1]);
-                        }
-                    }
-                }
-            }
-        }
-        return -1;
-    }
-};
 void solve()
 {
-    Solution x;
 }
 
 signed main()
