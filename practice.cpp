@@ -43,18 +43,41 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution {
+class Solution
+{
 public:
-    vector<int> circularPermutation(int n, int start) {
-        vector<int> grey(pow(2,n),0);
-        int r=0;
-        for(int i=0;i<pow(2,n);i++){
-            grey[i]=i^(i>>1);
-            if(grey[i]==start)
-                r=i;
+    bool canChange(string start, string target)
+    {
+        int n = start.length();
+        string s1 = start;
+        string s2 = target;
+
+        start.erase(remove(start.begin(), start.end(), '_'), start.end());
+        target.erase(remove(target.begin(), target.end(), '_'), target.end());
+
+        if (start != target)
+        {
+            return false;
         }
-        rotate(grey.begin(),grey.begin()+r,grey.end());
-        return grey;
+        int i = 0, j = 0;
+        while (i < n and j < n)
+        {
+            if (s1[i] == '_')
+            {
+                i++;
+            }
+            else if (s2[j] == '_')
+            {
+                j++;
+            }
+            if ((s1[i] == 'L' and i < j) or (s1[i] == 'R' and i > j))
+            {
+                return false;
+            }
+            i++;
+            j++;
+        }
+        return true;
     }
 };
 void solve()
