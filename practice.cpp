@@ -43,41 +43,38 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
-{
+class Solution {
 public:
-    bool canChange(string start, string target)
-    {
-        int n = start.length();
-        string s1 = start;
-        string s2 = target;
-
-        start.erase(remove(start.begin(), start.end(), '_'), start.end());
-        target.erase(remove(target.begin(), target.end(), '_'), target.end());
-
-        if (start != target)
-        {
-            return false;
+    vector<vector<int>> graph;
+    void helper(int root, int prev, vector<int> &res, vector<int> &cnt){
+        for(auto x : graph[root]){
+            if(x == prev){
+                continue;
+            }
+            helper(x, root, res,cnt);
+            cnt[root] += cnt[x];
+            res[root] += cnt[x] + res[x]; 
         }
-        int i = 0, j = 0;
-        while (i < n and j < n)
-        {
-            if (s1[i] == '_')
-            {
-                i++;
+    }
+    void helper2(int root, int prev, vector<int> &res, vector<int> &cnt){
+        for(auto x : graph[root]){
+            if(x == prev){
+                continue;
             }
-            else if (s2[j] == '_')
-            {
-                j++;
-            }
-            if ((s1[i] == 'L' and i < j) or (s1[i] == 'R' and i > j))
-            {
-                return false;
-            }
-            i++;
-            j++;
+            res[x] = res[root] - cnt[x] + cnt.size() - cnt[x]; 
+            helper2(x, root, res,cnt);
         }
-        return true;
+    }
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        graph.resize(n);
+        for(auto x: edges){
+            graph[x[0]].push_back(x[1]);
+            graph[x[1]].push_back(x[0]);
+        }
+        vector<int> res(n , 0), cnt(n , 1);
+        helper(0, -1, res , cnt);
+        helper2(0, -1, res , cnt);
+        return res;
     }
 };
 void solve()
