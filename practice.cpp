@@ -43,42 +43,66 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution {
+class Solution
+{
 public:
-    vector<vector<int>> graph;
-    void helper(int root, int prev, vector<int> &res, vector<int> &cnt){
-        for(auto x : graph[root]){
-            if(x == prev){
-                continue;
+    int takeCharacters(string s, int k)
+    {
+        map<int, vector<int>> mp1, mp2;
+        vector<int> temp1(3, 0), temp2(3, 0);
+        for (int i = 0; i < s.size(); i++)
+        {
+            temp1[s[i] - 'a']++;
+            mp1[i] = temp1;
+        }
+        for (int i = s.size() - 1; i >= 0; i--)
+        {
+            temp2[s[i] - 'a']++;
+            mp2[i] = temp2;
+        }
+        for (auto x : mp1)
+        {
+            cout << x.first << " : ";
+            for (auto y : x.second)
+            {
+                cout << y << " ";
             }
-            helper(x, root, res,cnt);
-            cnt[root] += cnt[x];
-            res[root] += cnt[x] + res[x]; 
+            cout << endl;
         }
-    }
-    void helper2(int root, int prev, vector<int> &res, vector<int> &cnt){
-        for(auto x : graph[root]){
-            if(x == prev){
-                continue;
+        cout << endl;
+        for (auto x : mp2)
+        {
+            cout << x.first << " : ";
+            for (auto y : x.second)
+            {
+                cout << y << " ";
             }
-            res[x] = res[root] - cnt[x] + cnt.size() - cnt[x]; 
-            helper2(x, root, res,cnt);
+            cout << endl;
         }
-    }
-    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
-        graph.resize(n);
-        for(auto x: edges){
-            graph[x[0]].push_back(x[1]);
-            graph[x[1]].push_back(x[0]);
+        int ans = INT_MAX;
+        cout << endl;
+
+        for (int i = 0; i < s.size(); i++)
+        {
+            for (int j = 0; j < s.size(); j++)
+            {
+                int a = mp1[i][0] + mp2[i][0];
+                int b = mp1[i][1] + mp2[i][1];
+                int c = mp1[i][2] + mp2[i][2];
+                cout << mp1[i] << " " << mp2[j];
+                if (a >= k and b >= k and c >= k)
+                {
+                    ans = min(ans, i + j + 2);
+                }
+            }
         }
-        vector<int> res(n , 0), cnt(n , 1);
-        helper(0, -1, res , cnt);
-        helper2(0, -1, res , cnt);
-        return res;
+        return ans == INT_MAX ? -1 : ans;
     }
 };
 void solve()
 {
+    Solution x;
+    cout << x.takeCharacters("aabaaaacaabc", 2);
 }
 
 signed main()
