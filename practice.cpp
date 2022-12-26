@@ -43,66 +43,14 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
-{
-public:
-    int takeCharacters(string s, int k)
-    {
-        map<int, vector<int>> mp1, mp2;
-        vector<int> temp1(3, 0), temp2(3, 0);
-        for (int i = 0; i < s.size(); i++)
-        {
-            temp1[s[i] - 'a']++;
-            mp1[i] = temp1;
-        }
-        for (int i = s.size() - 1; i >= 0; i--)
-        {
-            temp2[s[i] - 'a']++;
-            mp2[i] = temp2;
-        }
-        for (auto x : mp1)
-        {
-            cout << x.first << " : ";
-            for (auto y : x.second)
-            {
-                cout << y << " ";
-            }
-            cout << endl;
-        }
-        cout << endl;
-        for (auto x : mp2)
-        {
-            cout << x.first << " : ";
-            for (auto y : x.second)
-            {
-                cout << y << " ";
-            }
-            cout << endl;
-        }
-        int ans = INT_MAX;
-        cout << endl;
 
-        for (int i = 0; i < s.size(); i++)
-        {
-            for (int j = 0; j < s.size(); j++)
-            {
-                int a = mp1[i][0] + mp2[i][0];
-                int b = mp1[i][1] + mp2[i][1];
-                int c = mp1[i][2] + mp2[i][2];
-                cout << mp1[i] << " " << mp2[j];
-                if (a >= k and b >= k and c >= k)
-                {
-                    ans = min(ans, i + j + 2);
-                }
-            }
-        }
-        return ans == INT_MAX ? -1 : ans;
-    }
-};
 void solve()
 {
-    Solution x;
-    cout << x.takeCharacters("aabaaaacaabc", 2);
+    priority_queue<pair<string, string>, vector<pair<string, string>>, greater<pair<string, string>>> pq;
+    pair<string, string> str1{"abc", "xyz"}, str2{"abc", "uvw"};
+    string x = "log 123", id = "log";
+    string y = x + id;
+    cout << y;
 }
 
 signed main()
