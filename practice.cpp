@@ -46,11 +46,16 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    priority_queue<pair<string, string>, vector<pair<string, string>>, greater<pair<string, string>>> pq;
-    pair<string, string> str1{"abc", "xyz"}, str2{"abc", "uvw"};
-    string x = "log 123", id = "log";
-    string y = x + id;
-    cout << y;
+    priority_queue<int, vector<int>, greater<int>> pq;
+    for (int i = 0; i < 10; i++)
+    {
+        pq.push(i);
+    }
+    while (!pq.empty())
+    {
+        cout << pq.top() << endl;
+        pq.pop();
+    }
 }
 
 signed main()
