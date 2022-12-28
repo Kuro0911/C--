@@ -46,7 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    priority_queue<int, vector<int>, greater<int>> pq;
+    priority_queue<int, vector<int>> pq;
     for (int i = 0; i < 10; i++)
     {
         pq.push(i);
