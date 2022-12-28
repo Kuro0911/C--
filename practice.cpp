@@ -43,19 +43,54 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    bool check(string word)
+    {
+        if (word[0] != '$' or word.size() == 1)
+        {
+            return false;
+        }
+        for (int i = 1; i < word.size(); i++)
+        {
+            if (word[i] < '0' or word[i] > '9')
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    string discountPrices(string sentence, int discount)
+    {
+        string res = "";
+        stringstream str(sentence);
+        string word;
+        float dis = (float)discount / 100;
+        while (str >> word)
+        {
+            res.push_back(' ');
+            if (check(word))
+            {
+                int num = stoi(word.substr(1));
+                cout << num << endl;
+                double x = num * dis;
+                string y = to_string(x);
+                res.push_back('$');
+                res += y.substr(0, y.find('.') + 3);
+            }
+            else
+            {
+                res += word;
+            }
+        }
+        return res.substr(1);
+    }
+};
 void solve()
 {
-    priority_queue<int, vector<int>> pq;
-    for (int i = 0; i < 10; i++)
-    {
-        pq.push(i);
-    }
-    while (!pq.empty())
-    {
-        cout << pq.top() << endl;
-        pq.pop();
-    }
+    Solution x;
+    cout << x.discountPrices("here are $1 $2 and 5 $ candies in the shop", 50);
 }
 
 signed main()
