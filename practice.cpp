@@ -46,35 +46,6 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string x;
-    cin >> x;
-    int i = 0, j = 0;
-    vector<string> strs;
-    while (i < x.size() and j < x.size())
-    {
-        i = min(x.find_first_of("/", i), x.size());
-        i++;
-        if (i >= x.size())
-        {
-            break;
-        }
-        j = min(x.find_first_of("/", i), x.size());
-        string temp = "";
-        for (int k = i; k < j; k++)
-        {
-            temp.push_back(x[k]);
-        }
-        strs.push_back(temp);
-        i = j;
-        // j = x.find_first_of("/", i + 1);
-        // for (int k = i; k <= j; k++)
-        // {
-        //     cout << x[k];
-        // }
-    }
-    for(auto s : strs){
-        cout << "[ " << s << " ]";
-    }
 }
 
 signed main()
