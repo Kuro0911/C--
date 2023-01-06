@@ -46,6 +46,14 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    priority_queue<int, vector<int>, greater<>> pq;
+    pq.push(1);
+    pq.push(2);
+    while (!pq.empty())
+    {
+        cout << pq.top() << endl;
+        pq.pop();
+    }
 }
 
 signed main()
