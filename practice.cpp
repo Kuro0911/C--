@@ -43,71 +43,97 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-int bfs(int r, int c, vector<int> A, vector<int> B, vector<vector<int>> graph)
+class Solution
 {
-    if (r == c)
+public:
+    bool isItPossible(string word1, string word2)
     {
-        return A[r];
-    }
-    set<int> vis;
-    int edges = 0;
-    queue<pair<int, int>> q;
-    q.push({r, 0});
-    while (!q.empty())
-    {
-        int sz = q.size();
-        for (int i = 0; i < sz; i++)
+        map<char, int> mp1, mp2;
+        for (auto x : word1)
         {
-            int temp = q.front().first;
-            int w = q.front().second;
-            if (temp == c)
+            mp1[x]++;
+        }
+        for (auto x : word2)
+        {
+            mp2[x]++;
+        }
+        int sz1 = mp1.size(), sz2 = mp2.size();
+        if (abs(sz1 - sz2) == 0)
+        {
+            return true;
+        }
+        else if (abs(sz1 - sz2) != 1)
+        {
+            return false;
+        }
+        if (mp1.size() < mp2.size())
+        {
+            swap(mp1, mp2);
+        }
+        map<char, int> tmp1, tmp2;
+        tmp1 = mp1;
+        tmp2 = mp2;
+        cout << "###########################\n";
+        for (auto x : tmp1)
+        {
+            cout << x.first << " " << x.second << endl;
+        }
+        cout << endl;
+        for (auto x : tmp2)
+        {
+            cout << x.first << " " << x.second << endl;
+        }
+        cout << "###########################\n";
+        for (auto [word, num] : mp1)
+        {
+            tmp1[word]--;
+            if (tmp1[word] == 0)
             {
-                return A[temp] + 2 * w + edges * B[temp];
+                tmp1.erase(word);
             }
-            vis.insert(temp);
-            q.pop();
-            for (int j = 0; j < A.size(); j++)
+            tmp2[word]++;
+
+            for (auto [w2, nn] : mp2)
             {
-                if (j != temp and vis.find(j) == vis.end() and graph[temp][j] != -1)
+                tmp1[w2]++;
+                cout << "###########################\n";
+                for (auto x : tmp1)
                 {
-                    q.push({j, w + graph[temp][j]});
+                    cout << x.first << " " << x.second << endl;
+                }
+                cout << endl;
+                for (auto x : tmp2)
+                {
+                    cout << x.first << " " << x.second << endl;
+                }
+                cout << "###########################\n";
+                cout << endl;
+                if (tmp2.size() == tmp1.size())
+                {
+                    return true;
+                }
+                tmp1[w2]--;
+                if (tmp1[w2] == 0)
+                {
+                    tmp1.erase(word);
                 }
             }
+            tmp1[word]++;
+            tmp2[word]--;
+            if (tmp2[word] == 0)
+            {
+                tmp2.erase(word);
+            }
         }
-        edges++;
+        return false;
     }
-    return INT_MAX;
-}
-
-vector<int> solve2(vector<int> &A, vector<int> &B, vector<vector<int>> &C)
-{
-    vector<vector<int>> graph(A.size(), vector<int>(A.size(), -1));
-    for (auto x : C)
-    {
-        graph[x[0] - 1][x[1] - 1] = x[2];
-        graph[x[1] - 1][x[0] - 1] = x[2];
-    }
-
-    vector<int> res;
-    for (int i = 0; i < A.size(); i++)
-    {
-        int mn = INT_MAX;
-        for (int j = 0; j < A.size(); j++)
-        {
-            mn = min(mn, bfs(i, j, A, B, graph));
-        }
-        res.push_back(mn);
-    }
-    return res;
-}
-
+};
 void solve()
 {
-    vector<int> A{15, 20, 25, 33};
-    vector<int> B{1, 4, 1, 2};
-    vector<vector<int>> C{{1, 4, 4}, {1, 3, 3}, {2, 3, 5}};
-
-    cout << solve2(A, B, C);
+    string a, b;
+    cin >> a >> b;
+    Solution x;
+    cout << x.isItPossible(a, b);
 }
 
 signed main()
