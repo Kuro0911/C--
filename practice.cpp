@@ -46,94 +46,42 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    bool isItPossible(string word1, string word2)
+    bool isInterleave(string s1, string s2, string s3)
     {
-        map<char, int> mp1, mp2;
-        for (auto x : word1)
+        vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, false));
+        for (int i = 0; i <= s1.size(); i++)
         {
-            mp1[x]++;
-        }
-        for (auto x : word2)
-        {
-            mp2[x]++;
-        }
-        int sz1 = mp1.size(), sz2 = mp2.size();
-        if (abs(sz1 - sz2) == 0)
-        {
-            return true;
-        }
-        else if (abs(sz1 - sz2) != 1)
-        {
-            return false;
-        }
-        if (mp1.size() < mp2.size())
-        {
-            swap(mp1, mp2);
-        }
-        map<char, int> tmp1, tmp2;
-        tmp1 = mp1;
-        tmp2 = mp2;
-        cout << "###########################\n";
-        for (auto x : tmp1)
-        {
-            cout << x.first << " " << x.second << endl;
-        }
-        cout << endl;
-        for (auto x : tmp2)
-        {
-            cout << x.first << " " << x.second << endl;
-        }
-        cout << "###########################\n";
-        for (auto [word, num] : mp1)
-        {
-            tmp1[word]--;
-            if (tmp1[word] == 0)
+            for (int j = 0; j <= s2.size(); j++)
             {
-                tmp1.erase(word);
-            }
-            tmp2[word]++;
-
-            for (auto [w2, nn] : mp2)
-            {
-                tmp1[w2]++;
-                cout << "###########################\n";
-                for (auto x : tmp1)
+                if (i == 0 and j == 0)
                 {
-                    cout << x.first << " " << x.second << endl;
+                    dp[i][j] = true;
                 }
-                cout << endl;
-                for (auto x : tmp2)
+                else if (i == 0)
                 {
-                    cout << x.first << " " << x.second << endl;
+                    dp[i][j] = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1];
                 }
-                cout << "###########################\n";
-                cout << endl;
-                if (tmp2.size() == tmp1.size())
+                else if (j == 0)
                 {
-                    return true;
+                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1];
                 }
-                tmp1[w2]--;
-                if (tmp1[w2] == 0)
+                else
                 {
-                    tmp1.erase(word);
+                    bool c1 = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1];
+                    bool c2 = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1];
+                    dp[i][j] = c1 or c2;
                 }
             }
-            tmp1[word]++;
-            tmp2[word]--;
-            if (tmp2[word] == 0)
-            {
-                tmp2.erase(word);
-            }
         }
-        return false;
+        return dp[s1.size()][s2.size()];
     }
 };
 void solve()
 {
-    string a, b;
-    cin >> a >> b;
+    string s1, s2, s3;
+    cin >> s1 >> s2 >> s3;
     Solution x;
-    cout << x.isItPossible(a, b);
+    x.isInterleave(s1, s2, s3);
 }
 
 signed main()
