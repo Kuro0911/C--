@@ -43,47 +43,86 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
+
+class Node
 {
 public:
-    bool isInterleave(string s1, string s2, string s3)
+    Node *children[26];
+    bool isEnd;
+    Node()
     {
-        vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, false));
-        for (int i = 0; i <= s1.size(); i++)
+        for (int i = 0; i < 26; i++)
         {
-            for (int j = 0; j <= s2.size(); j++)
-            {
-                if (i == 0 and j == 0)
-                {
-                    dp[i][j] = true;
-                }
-                else if (i == 0)
-                {
-                    dp[i][j] = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1];
-                }
-                else if (j == 0)
-                {
-                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1];
-                }
-                else
-                {
-                    bool c1 = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1];
-                    bool c2 = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1];
-                    dp[i][j] = c1 or c2;
-                }
-            }
+            children[i] = NULL;
         }
-        return dp[s1.size()][s2.size()];
+        isEnd = false;
+    }
+};
+class WordFilter
+{
+private:
+    Node *root = new Node();
+    Node *rootSuff = new Node();
+
+    void insert(string word, Node *curr_root)
+    {
+        Node *temp = curr_root;
+        int curr = 0;
+        for (int i = 0; i < word.size(); i++)
+        {
+            curr = word[i] - 'a';
+            if (temp->children[curr] == NULL)
+            {
+                temp->children[curr] = new Node();
+            }
+            temp = temp->children[curr];
+        }
+        temp->isEnd = true;
+    }
+
+public:
+    WordFilter(vector<string> &words)
+    {
+        for (auto x : words)
+        {
+            insert(x, root);
+            reverse(x.begin(), x.end());
+            insert(x, rootSuff);
+        }
+    }
+
+    int f(string pref, string suff)
+    {
+        cout << startsWith(pref, root) << endl;
+        cout << startsWith(suff, rootSuff) << endl;
+
+        return -1;
+    }
+    bool startsWith(string prefix, Node *curr_root)
+    {
+        Node *temp = curr_root;
+        for (auto x : prefix)
+        {
+            if (temp->children[x - 'a'] == NULL)
+            {
+                return false;
+            }
+            temp = temp->children[x - 'a'];
+        }
+        return true;
     }
 };
 void solve()
 {
-    string s1, s2, s3;
-    cin >> s1 >> s2 >> s3;
-    Solution x;
-    x.isInterleave(s1, s2, s3);
-}
+    vector<string> str(1);
+    for (auto &x : str)
+    {
+        cin >> x;
+    }
 
+    WordFilter wf(str);
+    wf.f("a", "e");
+}
 signed main()
 {
 

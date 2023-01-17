@@ -11,7 +11,7 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
-//#####################################################
+// #####################################################
 
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
@@ -42,8 +42,8 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
     return os;
 }
 
-//#####################################################
-// DISJOINT SET UNION
+// #####################################################
+//  DISJOINT SET UNION
 
 // TIME : O(alpha(n));
 // alpha = inverse accerman function
@@ -95,9 +95,11 @@ void solve()
     }
     for (int i = 0; i < k; i++)
     {
-        int x, y;
-        cin >> x >> y;
-        node.Union(x, y);
+        node.Union(i, i);
+    }
+    for (auto x : node.parent)
+    {
+        cout << x;
     }
     set<int> st;
     for (auto x : node.parent)
