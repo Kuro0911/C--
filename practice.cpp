@@ -47,11 +47,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Node
 {
 public:
-    Node *children[26];
+    Node *children[27];
     bool isEnd;
     Node()
     {
-        for (int i = 0; i < 26; i++)
+        for (int i = 0; i < 27; i++)
         {
             children[i] = NULL;
         }
@@ -62,11 +62,10 @@ class WordFilter
 {
 private:
     Node *root = new Node();
-    Node *rootSuff = new Node();
-
-    void insert(string word, Node *curr_root)
+    map<string, int> mp;
+    void insert(string word)
     {
-        Node *temp = curr_root;
+        Node *temp = root;
         int curr = 0;
         for (int i = 0; i < word.size(); i++)
         {
@@ -83,46 +82,79 @@ private:
 public:
     WordFilter(vector<string> &words)
     {
-        for (auto x : words)
+        for (int k = 0; k < words.size(); k++)
         {
-            insert(x, root);
-            reverse(x.begin(), x.end());
-            insert(x, rootSuff);
+            string x = words[k];
+            mp[x] = k;
+            for (int i = 0; i <= x.size(); i++)
+            {
+                string temp = x.substr(i) + "{" + x;
+                insert(temp);
+            }
         }
     }
 
     int f(string pref, string suff)
     {
-        cout << startsWith(pref, root) << endl;
-        cout << startsWith(suff, rootSuff) << endl;
-
-        return -1;
+        string x = find(suff + "{" + pref);
+        if (x == "?")
+        {
+            return -1;
+        }
+        int mx = INT_MIN;
+        for (auto x : vec)
+        {
+            mx = max(mp[pref + x], mx);
+        }
+        return mx;
     }
-    bool startsWith(string prefix, Node *curr_root)
+    string find(string str)
     {
-        Node *temp = curr_root;
-        for (auto x : prefix)
+        Node *temp = root;
+        for (auto x : str)
         {
             if (temp->children[x - 'a'] == NULL)
             {
-                return false;
+                return "?";
             }
             temp = temp->children[x - 'a'];
         }
-        return true;
+        getAll(temp, "");
+        return "ok";
+    }
+    vector<string> vec;
+    void getAll(Node *root, string wrd)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+        if (root->isEnd)
+        {
+            vec.push_back(wrd);
+        }
+        for (int i = 0; i < 26; i++)
+        {
+            if (root->children[i] != NULL)
+            {
+                wrd.push_back(i + 'a');
+                getAll(root->children[i], wrd);
+                wrd.pop_back();
+            }
+        }
     }
 };
 void solve()
 {
-    vector<string> str(1);
+    vector<string> str(4);
     for (auto &x : str)
     {
         cin >> x;
     }
-
     WordFilter wf(str);
-    wf.f("a", "e");
+    cout << wf.f("a", "e");
 }
+
 signed main()
 {
 
