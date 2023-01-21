@@ -29,7 +29,7 @@ ostream &operator<<(ostream &os, const set<T> &v)
     return os;
 }
 template <typename T, typename S>
-ostream &operator<<(ostream &os, c onst map<T, S> &v)
+ostream &operator<<(ostream &os, const map<T, S> &v)
 {
     for (auto it : v)
         os << it.first << " : " << it.second << endl;
