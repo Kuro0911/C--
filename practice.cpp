@@ -43,7 +43,56 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>> &edges)
+    {
+        queue<int> q;
+        vector<vector<int>> graph(n);
+        vector<int> vis(n, false);
+        vector<int> inDeg(n);
+        for (auto x : edges)
+        {
+            graph[x[0]].push_back(x[1]);
+            graph[x[1]].push_back(x[0]);
+            inDeg[x[0]]++;
+            inDeg[x[1]]++;
+        }
+        for (auto x : inDeg)
+        {
+            if (x == 1)
+            {
+                q.push(x);
+            }
+        }
+        vector<int> top;
+        while (!q.empty())
+        {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
+            {
+                int temp = q.front();
+                q.pop();
+                if (!vis[temp])
+                {
+                    inDeg[temp]--;
+                    if (inDeg[temp] == 1)
+                    {
+                        q.push(temp);
+                    }
+                    top.push_back(temp);
+                    vis[temp] = true;
+                }
+            }
+        }
+        for (auto x : top)
+        {
+            cout << x << " ";
+        }
+        return {};
+    }
+};
 void solve()
 {
 }
