@@ -43,7 +43,52 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+class SummaryRanges
+{
+public:
+    vector<int> vec;
+    SummaryRanges() {}
 
+    void addNum(int value)
+    {
+        vec.push_back(value);
+    }
+
+    vector<vector<int>> getIntervals()
+    {
+        vector<vector<int>> res;
+        sort(vec.begin(), vec.end());
+        for (int i = 0; i < vec.size(); i++)
+        {
+            if (res.size() == 0)
+            {
+                res.push_back({vec[i], vec[i]});
+                continue;
+            }
+            int ptr = res.size() - 1;
+            if (res[ptr][1] == vec[i])
+            {
+                continue;
+            }
+            if (res[ptr][1] + 1 == vec[i])
+            {
+                res[ptr][1] = vec[i];
+            }
+            else
+            {
+                res.push_back({vec[i], vec[i]});
+            }
+        }
+        return res;
+    }
+};
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj->addNum(value);
+ * vector<vector<int>> param_2 = obj->getIntervals();
+ */
 void solve()
 {
 }
