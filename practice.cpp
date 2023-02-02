@@ -43,156 +43,16 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Node
-{
-public:
-    int key, val, cnt;
-    Node *next = NULL;
-    Node *prev = NULL;
-    Node(int k, int v)
-    {
-        key = k, val = v;
-        cnt = 1;
-    }
-};
-class LFUCache
-{
-public:
-    Node *head = NULL;
-    int cap, curr;
-    LFUCache(int capacity)
-    {
-        cap = capacity;
-        curr = 0;
-    }
-    void print(Node *root)
-    {
-        Node *temp = root;
-        while (temp)
-        {
-            cout << temp->key << " " << temp->val << " " << temp->cnt << endl;
-            temp = temp->next;
-        }
-    }
-    int get(int key)
-    {
-        Node *temp = head;
-        while (temp != NULL and temp->key != key)
-        {
-            temp = temp->next;
-        }
-        if (temp)
-        {
-            if (temp != head)
-            {
-                if (temp->next)
-                {
-                    temp->next->prev = temp->prev;
-                    temp->prev->next = temp->next;
-                }
-                else
-                {
-                    temp->prev->next = NULL;
-                }
-                temp->next = head;
-                head->prev = temp;
-                head = temp;
-            }
-            temp->cnt++;
-            return temp->val;
-        }
-        return -1;
-    }
 
-    void put(int key, int value)
-    {
-        if (cap == 0)
-        {
-            return;
-        }
-        if (curr == 0)
-        {
-            curr++;
-            Node *new_node = new Node(key, value);
-            head = new_node;
-            return;
-        }
-        if (get(key) != -1)
-        {
-            Node *temp = head;
-            while (temp->key != key)
-                temp = temp->next;
-            if (temp != head)
-            {
-                if (temp->next)
-                    temp->next->prev = temp->prev;
-                temp->prev->next = temp->next;
-
-                temp->next = head;
-                head->prev = temp;
-                head = temp;
-            }
-            head->val = value;
-            head->cnt++;
-            return;
-        }
-        else
-        {
-            if (curr == cap)
-            {
-                Node *temp = head, *ptr = head;
-                while (ptr)
-                {
-                    if (ptr->cnt <= temp->cnt)
-                    {
-                        temp = ptr;
-                    }
-                    ptr = ptr->next;
-                }
-                if (temp != head)
-                {
-                    if (temp->next)
-                    {
-                        temp->next->prev = temp->prev;
-                    }
-                    temp->prev->next = temp->next;
-                }
-                else
-                {
-                    head = head->next;
-                }
-
-                curr--;
-            }
-            Node *new_node = new Node(key, value);
-            if (!head)
-            {
-                head = new_node;
-            }
-            else
-            {
-                new_node->next = head;
-                head->prev = new_node;
-                head = new_node;
-            }
-        }
-        curr++;
-        cout << "round st\n";
-        print(head);
-        cout << "round over\n";
-    }
-};
-
-/**
- * Your LFUCache object will be instantiated and called as such:
- * LFUCache* obj = new LFUCache(capacity);
- * int param_1 = obj->get(key);
- * obj->put(key,value);
- */
 void solve()
 {
+    int x();
+    cout << x << endl;
 }
-
+int x()
+{
+    return 1;
+}
 signed main()
 {
 
