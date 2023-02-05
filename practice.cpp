@@ -44,15 +44,58 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+class Solution
+{
+public:
+    vector<int> findAnagrams(string s, string p)
+    {
+        int l = 0, r = 0;
+        int winSize = p.size();
+        unordered_map<char, int> mp;
+        set<char> dict;
+        for (auto x : p)
+        {
+            mp[x]++;
+            dict.insert(x);
+        }
+        for (int i = 0; i < winSize; i++)
+        {
+            if (mp.count(p[i]) > 0)
+            {
+                if (--mp[p[i]] == 0)
+                {
+                    mp.erase(p[i]);
+                }
+            }
+            r++;
+        }
+        vector<int> res;
+        while (r != s.size())
+        {
+            if (mp.empty())
+            {
+                res.push_back(l);
+            }
+            if (dict.find(s[l]) != dict.end())
+            {
+                mp[s[l]]++;
+            }
+            if (dict.find(s[r + 1]) != dict.end())
+            {
+                mp[s[r + 1]];
+            }
+            l++;
+            r++;
+        }
+    }
+};
+
 void solve()
 {
     int x();
     cout << x << endl;
 }
-int x()
-{
-    return 1;
-}
+
 signed main()
 {
 
