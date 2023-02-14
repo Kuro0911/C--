@@ -43,21 +43,59 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    int countSubstrings(string s, string t)
+    {
+        if (s.size() == 0 or t.size() == 0)
+        {
+            return 0;
+        }
+        int n = s.size(), m = t.size();
+        vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(m + 1, vector<int>(2, 0)));
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                if (s[i - 1] == t[j - 1])
+                {
+                    dp[i][j][0] = 1;
+                }
+                else
+                {
+                    dp[i][j][1] = 1;
+                }
+            }
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                if (s[i - 1] == t[j - 1])
+                {
+                    dp[i][j][0] += dp[i - 1][j - 1][0];
+                    dp[i][j][1] += dp[i - 1][j - 1][1];
+                }
+                else
+                {
+                    dp[i][j][1] += dp[i][j][0];
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                ans += dp[i][j][1];
+            }
+        }
+        return ans;
+    }
+};
 void solve()
 {
-    priority_queue<int, vector<int>> pq;
-    pq.push(1);
-    pq.push(2);
-    pq.push(3);
-    pq.push(4);
-    pq.push(5);
-    pq.push(6);
-    while (!pq.empty())
-    {
-        cout << pq.top() << " ";
-        pq.pop();
-    }
 }
 
 signed main()
