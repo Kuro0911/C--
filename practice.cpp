@@ -43,61 +43,59 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
+
+class Complex
 {
+    int real, img;
+
 public:
-    int countSubstrings(string s, string t)
+    void set_num(int r, int i)
     {
-        if (s.size() == 0 or t.size() == 0)
-        {
-            return 0;
-        }
-        int n = s.size(), m = t.size();
-        vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(m + 1, vector<int>(2, 0)));
-        for (int i = 1; i <= n; i++)
-        {
-            for (int j = 1; j <= m; j++)
-            {
-                if (s[i - 1] == t[j - 1])
-                {
-                    dp[i][j][0] = 1;
-                }
-                else
-                {
-                    dp[i][j][1] = 1;
-                }
-            }
-        }
-        for (int i = 1; i <= n; i++)
-        {
-            for (int j = 1; j <= m; j++)
-            {
-                if (s[i - 1] == t[j - 1])
-                {
-                    dp[i][j][0] += dp[i - 1][j - 1][0];
-                    dp[i][j][1] += dp[i - 1][j - 1][1];
-                }
-                else
-                {
-                    dp[i][j][1] += dp[i][j][0];
-                }
-            }
-        }
-        int ans = 0;
-        for (int i = 1; i <= n; i++)
-        {
-            for (int j = 1; j <= m; j++)
-            {
-                ans += dp[i][j][1];
-            }
-        }
-        return ans;
+        real = r;
+        img = i;
+    }
+    // for firend class
+    friend class Sum;
+    // for friend func
+    friend Complex sum(Complex n1, Complex n2);
+    void print()
+    {
+        cout << real << " + " << img << "i" << endl;
     }
 };
-void solve()
+
+// friend class
+class Sum
 {
+public:
+    void sum(Complex n1, Complex n2)
+    {
+        Complex n3;
+        n3.set_num(n1.real + n2.real, n1.img + n2.img);
+        n3.print();
+    }
+};
+// function
+Complex sum(Complex n1, Complex n2)
+{
+    Complex n3;
+    n3.set_num(n1.real + n2.real, n1.img + n2.img);
+    return n3;
 }
 
+void solve()
+{
+    Complex n1, n2;
+    n1.set_num(12, 2);
+    n2.set_num(2, 4);
+    // using func
+    Complex n3 = sum(n1, n2);
+    n3.print();
+
+    // using class
+    Sum x;
+    x.sum(n1, n2);
+}
 signed main()
 {
 
