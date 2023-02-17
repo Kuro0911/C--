@@ -9,8 +9,5 @@ function gen() {
   console.log(res);
 }
 
-try {
-  gen();
-} catch (error) {
-  console.error("aaa");
-}
+function f() {}
+console.log(f(2, 3)(3, 4));
