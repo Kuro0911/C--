@@ -43,19 +43,52 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+unordered_map<string, vector<string>> first;
 
-int distancesum(vector<int> x, vector<int> y, int n)
+vector<string> helper(vector<vector<string>> vec, unordered_map<string, vector<vector<string>>> mp)
 {
-    int sum = 0;
-    for (int i = 0; i < n; i++)
-        for (int j = i + 1; j < n; j++)
-            sum += (abs(x[i] - x[j]) + abs(y[i] - y[j]));
-    return sum;
+    vector<string> res;
+    for (auto x : vec)
+    {
+        string curr = x[0];
+        if (mp.find(curr) == mp.end())
+        {
+            res.push_back(curr);
+        }
+        else
+        {
+            if (first.find(curr) == first.end())
+            {
+                first[curr] = helper(mp[curr], mp);
+            }
+            for (auto f : first[curr])
+                res.push_back(f);
+        }
+    }
+    return res;
 }
 void solve()
 {
-    vector<int> x{1, 0, 1, 0, 0, 0, 1}, y{0, 0, 1, 1, 1, 1, 1};
-    cout << distancesum(x, y, x.size());
+    unordered_map<string, vector<vector<string>>> mp;
+    mp["S"] = {{"T", "E'"}};
+    mp["E'"] = {{"+", "T", "E'"}, {"~"}};
+    mp["T"] = {{"F", "T'"}};
+    mp["T'"] = {{"*", "F", "T'"}, {"~"}};
+    mp["F"] = {{"(", "E", ")"},
+               {"id"}};
+    for (auto x : mp)
+    {
+        first[x.first] = helper(mp[x.first], mp);
+    }
+    for (auto x : first)
+    {
+        cout << "FIRST[" << x.first << "] : ";
+        for (auto y : x.second)
+        {
+            cout << y << " ";
+        }
+        cout << endl;
+    }
 }
 
 signed main()
