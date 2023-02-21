@@ -44,19 +44,18 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+int distancesum(vector<int> x, vector<int> y, int n)
+{
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = i + 1; j < n; j++)
+            sum += (abs(x[i] - x[j]) + abs(y[i] - y[j]));
+    return sum;
+}
 void solve()
 {
-    map<int, int> mp1, mp2;
-    vector<int> A{1}, B{1};
-    for (auto x : A)
-        mp1[x]++;
-    for (auto x : B)
-        mp2[x]++;
-    for (auto x : A)
-    {
-        int cnt = min(mp1[x], mp2[x]);
-        cout << cnt;
-    }
+    vector<int> x{1, 0, 1, 0, 0, 0, 1}, y{0, 0, 1, 1, 1, 1, 1};
+    cout << distancesum(x, y, x.size());
 }
 
 signed main()
