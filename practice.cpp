@@ -43,52 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-unordered_map<string, vector<string>> first;
 
-vector<string> helper(vector<vector<string>> vec, unordered_map<string, vector<vector<string>>> mp)
-{
-    vector<string> res;
-    for (auto x : vec)
-    {
-        string curr = x[0];
-        if (mp.find(curr) == mp.end())
-        {
-            res.push_back(curr);
-        }
-        else
-        {
-            if (first.find(curr) == first.end())
-            {
-                first[curr] = helper(mp[curr], mp);
-            }
-            for (auto f : first[curr])
-                res.push_back(f);
-        }
-    }
-    return res;
-}
 void solve()
 {
-    unordered_map<string, vector<vector<string>>> mp;
-    mp["S"] = {{"T", "E'"}};
-    mp["E'"] = {{"+", "T", "E'"}, {"~"}};
-    mp["T"] = {{"F", "T'"}};
-    mp["T'"] = {{"*", "F", "T'"}, {"~"}};
-    mp["F"] = {{"(", "E", ")"},
-               {"id"}};
-    for (auto x : mp)
-    {
-        first[x.first] = helper(mp[x.first], mp);
-    }
-    for (auto x : first)
-    {
-        cout << "FIRST[" << x.first << "] : ";
-        for (auto y : x.second)
-        {
-            cout << y << " ";
-        }
-        cout << endl;
-    }
 }
 
 signed main()
