@@ -44,6 +44,43 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+class Solution
+{
+public:
+    int shipWithinDays(vector<int> &weights, int days)
+    {
+        int l = INT_MIN, r = 0;
+        for (auto x : weights)
+        {
+            l = max(x, l);
+            r += x;
+        }
+        while (l < r)
+        {
+            int md = (r + l) / 2;
+            int ans = 0, curr = 0;
+            for (auto x : weights)
+            {
+                curr += x;
+
+                if (curr > md)
+                {
+                    ans++;
+                    curr = x;
+                }
+            }
+            if (ans >= days)
+            {
+                l = md + 1;
+            }
+            else
+            {
+                r = md;
+            }
+        }
+        return l;
+    }
+};
 void solve()
 {
 }
