@@ -81,7 +81,6 @@ void solve()
     auto [c, w] = pq.top();
     while (!pq.empty())
     {
-        c, w = pq.top().;
         pq.pop();
     }
     cout << c << " " << w << endl;
