@@ -43,47 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
-{
-public:
-    int findMaximizedCapital(int k, int w, vector<int> &profits, vector<int> &capital)
-    {
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-        for (int i = 0; i < profits.size(); i++)
-        {
-            pq.push({capital[i], profits[i]});
-        }
-        priority_queue<int> pq2;
-        for (int i = 0; i < k; i++)
-        {
-            while (!pq.empty() and pq.top().first <= w)
-            {
-                pq2.push(pq.top().second);
-                pq.pop();
-            }
-            if (pq2.empty())
-            {
-                break;
-            }
-            w += pq2.top();
-            pq2.pop();
-        }
-        return w;
-    }
-};
+
 void solve()
 {
-    priority_queue<pii, vector<pii>, greater<>> pq;
-    pq.push({1, 2});
-    pq.push({1, 2});
-    pq.push({1, 2});
-    pq.push({1, 2});
-    auto [c, w] = pq.top();
-    while (!pq.empty())
-    {
-        pq.pop();
-    }
-    cout << c << " " << w << endl;
 }
 
 signed main()
