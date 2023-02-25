@@ -44,8 +44,32 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+int binSearch(vector<int> arr, int target)
+{
+    sort(arr.begin(), arr.end());
+    int st = 0, ed = arr.size();
+    while (st < ed)
+    {
+        int md = st + (ed - st) / 2;
+        if (arr[md] == target)
+        {
+            return 1;
+        }
+        if (arr[md] < target)
+        {
+            st = md + 1;
+        }
+        else if (arr[md] > target)
+        {
+            ed = md - 1;
+        }
+    }
+    return -1;
+}
 void solve()
 {
+    vector<int> arr{1, 12, 123, 43, 12, 67};
+    cout << binSearch(arr, 122);
 }
 
 signed main()
