@@ -1,112 +1,101 @@
-#include <stdio.h>
-#include <string.h>
- 
-#define SUCCESS 1
-#define FAILED 0
- 
-int E(), Edash(), T(), Tdash(), F();
- 
-const char *cursor;
-char string[64];
- 
-int main()
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define tb ' '
+#define all(a) (a).begin(), (a).end()
+#define sz(x) ((int)x.size())
+#define MOD (int)(1e9 + 7)
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+
+// #####################################################
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
 {
-    puts("Enter the string");
-    // scanf("%s", string);
-    sscanf("i+(i+i)*i", "%s", string);
-    cursor = string;
-    puts("");
-    puts("Input            Action");
-    puts("--------------------------------");
- 
-    if (E() && *cursor == '\0') {
-        puts("--------------------------------");
-        puts("String is successfully parsed");
-        return 0;
-    } else {
-        puts("--------------------------------");
-        puts("Error in parsing String");
-        return 1;
+    for (auto &x : v)
+        os << x << " ";
+    os << endl;
+    return os;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const set<T> &v)
+{
+    for (auto it : v)
+        os << it << " ";
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const map<T, S> &v)
+{
+    for (auto it : v)
+        os << it.first << " : " << it.second << endl;
+    return os;
+}
+template <typename T, typename S>
+ostream &operator<<(ostream &os, const pair<T, S> &v)
+{
+    os << v.first << " : " << v.second << endl;
+    return os;
+}
+
+// #####################################################
+
+void solve()
+{
+    vector<vector<int>> vec;
+    for (int i = 0; i < 4; i++)
+    {
+        vector<int> temp;
+        for (int j = 0; j < 4; j++)
+        {
+            temp.push_back(j);
+        }
+        vec.push_back(temp);
+    }
+    for (int i = 0; i < vec.size(); i++)
+    {
+        for (int j = 0; j < vec.size(); j++)
+        {
+            cout << vec[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    int md = vec.size() / 2;
+    for (int i = 0; i < md; i++)
+    {
+        for (int j = md; j < vec.size(); j++)
+        {
+            cout << vec[i][j] << " ";
+        }
+        cout << endl;
     }
 }
- 
-int E()
+
+signed main()
 {
-    printf("%-16s E  ->  T E'\n", cursor);
-    if (T()) {
-        if (Edash())
-            return SUCCESS;
-        else
-            return FAILED;
-    } else
-        return FAILED;
-}
- 
-int Edash()
-{
-    if (*cursor == '+') {
-        printf("%-16s E' ->  + T E'\n", cursor);
-        cursor++;
-        if (T()) {
-            if (Edash())
-                return SUCCESS;
-            else
-                return FAILED;
-        } else
-            return FAILED;
-    } else {
-        printf("%-16s E' ->  $\n", cursor);
-        return SUCCESS;
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int t = 1;
+    // cin>>t;
+    while (t--)
+    {
+        solve();
     }
-}
- 
-int T()
-{
-    printf("%-16s T  ->  F T'\n", cursor);
-    if (F()) {
-        if (Tdash())
-            return SUCCESS;
-        else
-            return FAILED;
-    } else
-        return FAILED;
-}
- 
-int Tdash()
-{
-    if (*cursor == '*') {
-        printf("%-16s T' ->  * F T'\n", cursor);
-        cursor++;
-        if (F()) {
-            if (Tdash())
-                return SUCCESS;
-            else
-                return FAILED;
-        } else
-            return FAILED;
-    } else {
-        printf("%-16s T' ->  $\n", cursor);
-        return SUCCESS;
-    }
-}
- 
-int F()
-{
-    if (*cursor == '(') {
-        printf("%-16s F  ->  ( E )\n", cursor);
-        cursor++;
-        if (E()) {
-            if (*cursor == ')') {
-                cursor++;
-                return SUCCESS;
-            } else
-                return FAILED;
-        } else
-            return FAILED;
-    } else if (*cursor == 'i') {
-        cursor++;
-        printf("%-16s F  ->  i\n", cursor);
-        return SUCCESS;
-    } else
-        return FAILED;
+// for (int i = 1; i <= t; i++)
+//{
+// cout << "Case #" << i << ": " ;
+// solve();
+//}
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
+    return 0;
 }
