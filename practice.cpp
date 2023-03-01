@@ -46,34 +46,6 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<vector<int>> vec;
-    for (int i = 0; i < 4; i++)
-    {
-        vector<int> temp;
-        for (int j = 0; j < 4; j++)
-        {
-            temp.push_back(j);
-        }
-        vec.push_back(temp);
-    }
-    for (int i = 0; i < vec.size(); i++)
-    {
-        for (int j = 0; j < vec.size(); j++)
-        {
-            cout << vec[i][j] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-    int md = vec.size() / 2;
-    for (int i = 0; i < md; i++)
-    {
-        for (int j = md; j < vec.size(); j++)
-        {
-            cout << vec[i][j] << " ";
-        }
-        cout << endl;
-    }
 }
 
 signed main()
