@@ -43,7 +43,28 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    long long countSubarrays(vector<int> &nums, int minK, int maxK)
+    {
+        long long ans = 0;
+        int mn = -1, mx = -1, lb = -1;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] < minK or nums[i] > maxK)
+            {
+                lb = i;
+            }
+            if (nums[i] == minK)
+                mn = i;
+            if (nums[i] == maxK)
+                mx = i;
+            ans += max(0, min(mn, mx) - lb);
+        }
+        return ans;
+    }
+};
 void solve()
 {
 }
