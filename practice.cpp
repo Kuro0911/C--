@@ -46,23 +46,56 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 class Solution
 {
 public:
-    long long countSubarrays(vector<int> &nums, int minK, int maxK)
+    int minJumps(vector<int> &arr)
     {
-        long long ans = 0;
-        int mn = -1, mx = -1, lb = -1;
-        for (int i = 0; i < nums.size(); i++)
+        map<int, vector<int>> mp;
+        for (int i = 0; i < arr.size(); i++)
         {
-            if (nums[i] < minK or nums[i] > maxK)
-            {
-                lb = i;
-            }
-            if (nums[i] == minK)
-                mn = i;
-            if (nums[i] == maxK)
-                mx = i;
-            ans += max(0, min(mn, mx) - lb);
+            mp[arr[i]].push_back(i);
         }
-        return ans;
+        vector<int> dp(arr.size(), INT_MAX);
+        dp[0] = 0;
+        for (int i = 0; i < arr.size(); i++)
+        {
+            if (i + 1 < arr.size())
+            {
+                dp[i + 1] = min(dp[i + 1], 1 + dp[i]);
+            }
+            if (i - 1 >= 0)
+            {
+                dp[i - 1] = min(dp[i - 1], 1 + dp[i]);
+            }
+            for (auto x : mp[arr[i]])
+            {
+                if (x != i)
+                {
+                    dp[x] = min(dp[x], dp[i] + 1);
+                }
+            }
+        }
+        for (int i = arr.size() - 1; i >= 0; i--)
+        {
+            if (i + 1 < arr.size())
+            {
+                dp[i + 1] = min(dp[i + 1], 1 + dp[i]);
+            }
+            if (i - 1 >= 0)
+            {
+                dp[i - 1] = min(dp[i - 1], 1 + dp[i]);
+            }
+            for (auto x : mp[arr[i]])
+            {
+                if (x != i)
+                {
+                    dp[x] = min(dp[x], dp[i] + 1);
+                }
+            }
+        }
+        for (int i = 0; i < arr.size(); i++)
+        {
+            cout << dp[i] << " ";
+        }
+        return dp[arr.size() - 1];
     }
 };
 void solve()
