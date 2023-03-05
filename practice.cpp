@@ -43,63 +43,52 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
+vector<int> sol(vector<vector<int>> A, vector<vector<int>> B)
 {
-public:
-    int minJumps(vector<int> &arr)
+    map<int, map<int, int>> mp;
+    long long tot = 0;
+    for (int i = 0; i < A.size(); i++)
     {
-        map<int, vector<int>> mp;
-        for (int i = 0; i < arr.size(); i++)
+        for (int j = A[i][0]; j <= A[i][1]; j++)
         {
-            mp[arr[i]].push_back(i);
+            mp[j][A[i][2]]++;
+            tot++;
         }
-        vector<int> dp(arr.size(), INT_MAX);
-        dp[0] = 0;
-        for (int i = 0; i < arr.size(); i++)
-        {
-            if (i + 1 < arr.size())
-            {
-                dp[i + 1] = min(dp[i + 1], 1 + dp[i]);
-            }
-            if (i - 1 >= 0)
-            {
-                dp[i - 1] = min(dp[i - 1], 1 + dp[i]);
-            }
-            for (auto x : mp[arr[i]])
-            {
-                if (x != i)
-                {
-                    dp[x] = min(dp[x], dp[i] + 1);
-                }
-            }
-        }
-        for (int i = arr.size() - 1; i >= 0; i--)
-        {
-            if (i + 1 < arr.size())
-            {
-                dp[i + 1] = min(dp[i + 1], 1 + dp[i]);
-            }
-            if (i - 1 >= 0)
-            {
-                dp[i - 1] = min(dp[i - 1], 1 + dp[i]);
-            }
-            for (auto x : mp[arr[i]])
-            {
-                if (x != i)
-                {
-                    dp[x] = min(dp[x], dp[i] + 1);
-                }
-            }
-        }
-        for (int i = 0; i < arr.size(); i++)
-        {
-            cout << dp[i] << " ";
-        }
-        return dp[arr.size() - 1];
     }
-};
+    for (auto m : mp)
+    {
+        cout << "i : " << m.first << endl;
+        for (auto x : m.second)
+        {
+            cout << x.first << " " << x.second << endl;
+        }
+    }
+    vector<long long> res;
+    for (int i = 0; i < B.size(); i++)
+    {
+        int pos = B[i][0], st = B[i][1];
+        map<int, int> new_mp;
+        for (auto x : mp[pos])
+        {
+            if (x.first < st)
+            {
+                tot -= x.second;
+            }
+            else
+            {
+                new_mp[x.first] = x.second;
+            }
+        }
+        mp[pos] = new_mp;
+        res.push_back(tot);
+    }
+    return res;
+}
+
 void solve()
 {
+    vector<int> temp = sol({{1, 3, 7}, {2, 5, 4}, {4, 8, 6}}, {{3, 5}, {5, 8}});
+    cout << " res : " << temp;
 }
 
 signed main()
