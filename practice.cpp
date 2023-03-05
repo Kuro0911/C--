@@ -43,43 +43,57 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-vector<int> sol(vector<vector<int>> A, vector<vector<int>> B)
+vector<long long> Solution(vector<vector<int>> &A, vector<vector<int>> &B)
 {
-    map<int, map<int, int>> mp;
     long long tot = 0;
+    map<int, vector<vector<int>>> mp;
     for (int i = 0; i < A.size(); i++)
     {
-        for (int j = A[i][0]; j <= A[i][1]; j++)
-        {
-            mp[j][A[i][2]]++;
-            tot++;
-        }
-    }
-    for (auto m : mp)
-    {
-        cout << "i : " << m.first << endl;
-        for (auto x : m.second)
-        {
-            cout << x.first << " " << x.second << endl;
-        }
+        int st = A[i][0], ed = A[i][1], str = A[i][2];
+        tot += ed - st + 1;
+        mp[str].push_back({st, ed});
     }
     vector<long long> res;
     for (int i = 0; i < B.size(); i++)
     {
-        int pos = B[i][0], st = B[i][1];
-        map<int, int> new_mp;
-        for (auto x : mp[pos])
+        int pos = B[i][0], str = B[i][1];
+        for (auto x : mp)
         {
-            if (x.first < st)
+            if (x.first < str)
             {
-                tot -= x.second;
-            }
-            else
-            {
-                new_mp[x.first] = x.second;
+                vector<vector<int>> temp;
+                for (int k = 0; k < x.second.size(); k++)
+                {
+                    if (x.second[k][0] <= pos and x.second[k][1] >= pos)
+                    {
+                        tot--;
+                        vector<int> new_val = divide(x.second[k][0], x.second[k][1], pos);
+                        if (pos == x.second[k][0])
+                        {
+                            x.second[k][0] = pos + 1;
+                            if (x.second[k][1] >= x.second[k][0])
+                                temp.push_back({x.second[k]});
+                        }
+                        else if (pos == x.second[k][1])
+                        {
+                            x.second[k][1] = pos - 1;
+                            if (x.second[k][1] >= x.second[k][0])
+                                temp.push_back({x.second[k]});
+                        }
+                        else
+                        {
+                            temp.push_back({x.second[k][0], pos - 1});
+                            temp.push_back({pos + 1, x.second[k][1]});
+                        }
+                    }
+                    else
+                    {
+                        temp.push_back(x.second[k]);
+                    }
+                }
+                mp[x.first] = temp;
             }
         }
-        mp[pos] = new_mp;
         res.push_back(tot);
     }
     return res;
@@ -87,8 +101,6 @@ vector<int> sol(vector<vector<int>> A, vector<vector<int>> B)
 
 void solve()
 {
-    vector<int> temp = sol({{1, 3, 7}, {2, 5, 4}, {4, 8, 6}}, {{3, 5}, {5, 8}});
-    cout << " res : " << temp;
 }
 
 signed main()
