@@ -43,64 +43,77 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-vector<long long> Solution(vector<vector<int>> &A, vector<vector<int>> &B)
+
+class Solution
 {
-    long long tot = 0;
-    map<int, vector<vector<int>>> mp;
-    for (int i = 0; i < A.size(); i++)
+public:
+    bool valid(string s)
     {
-        int st = A[i][0], ed = A[i][1], str = A[i][2];
-        tot += ed - st + 1;
-        mp[str].push_back({st, ed});
-    }
-    vector<long long> res;
-    for (int i = 0; i < B.size(); i++)
-    {
-        int pos = B[i][0], str = B[i][1];
-        for (auto x : mp)
+        stack<char> st;
+        for (int i = 0; i < s.size(); i++)
         {
-            if (x.first < str)
+            if (s[i] == ')')
             {
-                vector<vector<int>> temp;
-                for (int k = 0; k < x.second.size(); k++)
+                bool flag = false;
+                while (!st.empty())
                 {
-                    if (x.second[k][0] <= pos and x.second[k][1] >= pos)
+                    if (st.top() == '(')
                     {
-                        tot--;
-                        vector<int> new_val = divide(x.second[k][0], x.second[k][1], pos);
-                        if (pos == x.second[k][0])
-                        {
-                            x.second[k][0] = pos + 1;
-                            if (x.second[k][1] >= x.second[k][0])
-                                temp.push_back({x.second[k]});
-                        }
-                        else if (pos == x.second[k][1])
-                        {
-                            x.second[k][1] = pos - 1;
-                            if (x.second[k][1] >= x.second[k][0])
-                                temp.push_back({x.second[k]});
-                        }
-                        else
-                        {
-                            temp.push_back({x.second[k][0], pos - 1});
-                            temp.push_back({pos + 1, x.second[k][1]});
-                        }
+                        flag = true;
+                        st.pop();
+                        break;
                     }
-                    else
-                    {
-                        temp.push_back(x.second[k]);
-                    }
+                    st.pop();
                 }
-                mp[x.first] = temp;
+                if (!flag)
+                    return false;
+            }
+            else if (s[i] == '(')
+            {
+                st.push(s[i]);
             }
         }
-        res.push_back(tot);
+        return st.empty();
     }
-    return res;
-}
-
+    vector<string> removeInvalidParentheses(string s)
+    {
+        queue<string> q;
+        q.push(s);
+        set<string> vis;
+        while (!q.empty())
+        {
+            int sz = q.size();
+            vector<string> lvl;
+            for (int i = 0; i < sz; i++)
+            {
+                string temp = q.front();
+                q.pop();
+                if (valid(temp))
+                {
+                    lvl.push_back(temp);
+                }
+                for (int k = 0; k < temp.size(); k++)
+                {
+                    string new_str = temp.substr(0, k) + temp.substr(k + 1);
+                    if (vis.find(new_str) == vis.end())
+                    {
+                        q.push(new_str);
+                        vis.insert(new_str);
+                    }
+                }
+            }
+            if (lvl.size() != 0)
+            {
+                return lvl;
+            }
+        }
+        return {""};
+    }
+};
 void solve()
 {
+    Solution x;
+    cout << x.removeInvalidParentheses("(()())()(()())(aa)(a(a))a");
 }
 
 signed main()
