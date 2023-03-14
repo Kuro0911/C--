@@ -44,76 +44,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
-class Solution
-{
-public:
-    bool valid(string s)
-    {
-        stack<char> st;
-        for (int i = 0; i < s.size(); i++)
-        {
-            if (s[i] == ')')
-            {
-                bool flag = false;
-                while (!st.empty())
-                {
-                    if (st.top() == '(')
-                    {
-                        flag = true;
-                        st.pop();
-                        break;
-                    }
-                    st.pop();
-                }
-                if (!flag)
-                    return false;
-            }
-            else if (s[i] == '(')
-            {
-                st.push(s[i]);
-            }
-        }
-        return st.empty();
-    }
-    vector<string> removeInvalidParentheses(string s)
-    {
-        queue<string> q;
-        q.push(s);
-        set<string> vis;
-        while (!q.empty())
-        {
-            int sz = q.size();
-            vector<string> lvl;
-            for (int i = 0; i < sz; i++)
-            {
-                string temp = q.front();
-                q.pop();
-                if (valid(temp))
-                {
-                    lvl.push_back(temp);
-                }
-                for (int k = 0; k < temp.size(); k++)
-                {
-                    string new_str = temp.substr(0, k) + temp.substr(k + 1);
-                    if (vis.find(new_str) == vis.end())
-                    {
-                        q.push(new_str);
-                        vis.insert(new_str);
-                    }
-                }
-            }
-            if (lvl.size() != 0)
-            {
-                return lvl;
-            }
-        }
-        return {""};
-    }
-};
 void solve()
 {
-    Solution x;
-    cout << x.removeInvalidParentheses("(()())()(()())(aa)(a(a))a");
+    int x = 2;
+    char temp = 'a' + x;
+    cout << temp;
 }
 
 signed main()
