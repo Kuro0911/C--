@@ -44,11 +44,19 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+struct node
+{
+    int data;
+    node *next;
+    node(int d)
+    {
+        data = d;
+    }
+};
 void solve()
 {
-    int x = 2;
-    char temp = 'a' + x;
-    cout << temp;
+    node *temp = new node(1);
+    cout << temp->data;
 }
 
 signed main()
