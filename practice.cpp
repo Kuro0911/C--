@@ -44,19 +44,70 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
-struct node
+// print
+
+void print(unordered_map<string, vector<vector<string>>> mp)
 {
-    int data;
-    node *next;
-    node(int d)
+    for (auto x : mp)
     {
-        data = d;
+        cout << x.first << " : ";
+        for (auto y : x.second)
+        {
+            for (auto z : y)
+            {
+                cout << z;
+            }
+            cout << " | ";
+        }
+        cout << endl;
+    }
+}
+
+// left recursion
+
+void remove_lr(unordered_map<string, vector<vector<string>>> &mp)
+{
+    for (auto x : mp)
+    {
+        for (auto y : x.second)
+        {
+            if (y[0] == x.first)
+            {
+                vector<vector<string>> temp;
+                vector<string> beta = x.second[1];
+                beta.push_back(x.first + "`");
+                temp.push_back(beta);
+                mp[x.first + "`"] = {beta};
+
+                vector<string> alpha = x.second[0];
+                alpha.erase(alpha.begin());
+                alpha.push_back(x.first + "`");
+                mp[x.first].clear();
+                mp[x.first].push_back(alpha);
+                mp[x.first].push_back({"~"});
+            }
+        }
+    }
+};
+// left factor
+void remove_lf(unordered_map<string, vector<vector<string>>> &mp)
+{
+    for (auto x : mp)
+    {
+        for (auto y : x.second)
+        {
+        }
     }
 };
 void solve()
 {
-    node *temp = new node(1);
-    cout << temp->data;
+    unordered_map<string, vector<vector<string>>> mp;
+    mp["E"] = {{"E", "+", "T"}, {"T"}};
+    mp["T"] = {{"T", "*", "F"}, {"F"}};
+    mp["F"] = {{"(", "E", ")"},
+               {"id"}};
+    remove_lr(mp);
+    print(mp);
 }
 
 signed main()
