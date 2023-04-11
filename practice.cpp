@@ -43,9 +43,6 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
-// print
-
 void print(unordered_map<string, vector<vector<string>>> mp)
 {
     for (auto x : mp)
@@ -89,25 +86,22 @@ void remove_lr(unordered_map<string, vector<vector<string>>> &mp)
         }
     }
 };
-// left factor
-void remove_lf(unordered_map<string, vector<vector<string>>> &mp)
-{
-    for (auto x : mp)
-    {
-        for (auto y : x.second)
-        {
-        }
-    }
-};
+
 void solve()
 {
-    unordered_map<string, vector<vector<string>>> mp;
-    mp["E"] = {{"E", "+", "T"}, {"T"}};
-    mp["T"] = {{"T", "*", "F"}, {"F"}};
-    mp["F"] = {{"(", "E", ")"},
-               {"id"}};
-    remove_lr(mp);
-    print(mp);
+    TopDownParser obj;
+    obj.removeLeftRecursion();
+    obj.displayProduction();
+    cout << "----------------" << endl;
+    // obj.seeNonTerminals();
+    // cout << "----------------" << endl;
+    obj.calculateFirst();
+    // obj.displayFirst();
+    // cout << "----------------" << endl;
+    obj.calcuateFollow();
+    // obj.displayFollow();
+    obj.createTable();
+    obj.displayTable();
 }
 
 signed main()
