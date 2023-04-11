@@ -43,65 +43,36 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-void print(unordered_map<string, vector<vector<string>>> mp)
-{
-    for (auto x : mp)
-    {
-        cout << x.first << " : ";
-        for (auto y : x.second)
-        {
-            for (auto z : y)
-            {
-                cout << z;
-            }
-            cout << " | ";
-        }
-        cout << endl;
-    }
-}
-
-// left recursion
-
-void remove_lr(unordered_map<string, vector<vector<string>>> &mp)
-{
-    for (auto x : mp)
-    {
-        for (auto y : x.second)
-        {
-            if (y[0] == x.first)
-            {
-                vector<vector<string>> temp;
-                vector<string> beta = x.second[1];
-                beta.push_back(x.first + "`");
-                temp.push_back(beta);
-                mp[x.first + "`"] = {beta};
-
-                vector<string> alpha = x.second[0];
-                alpha.erase(alpha.begin());
-                alpha.push_back(x.first + "`");
-                mp[x.first].clear();
-                mp[x.first].push_back(alpha);
-                mp[x.first].push_back({"~"});
-            }
-        }
-    }
-};
 
 void solve()
 {
-    TopDownParser obj;
-    obj.removeLeftRecursion();
-    obj.displayProduction();
-    cout << "----------------" << endl;
-    // obj.seeNonTerminals();
-    // cout << "----------------" << endl;
-    obj.calculateFirst();
-    // obj.displayFirst();
-    // cout << "----------------" << endl;
-    obj.calcuateFollow();
-    // obj.displayFollow();
-    obj.createTable();
-    obj.displayTable();
+    int n;
+    cin >> n;
+    vector<vector<int>> vec(n, vector<int>(2));
+    for (auto &x : vec)
+    {
+        for (auto &y : x)
+        {
+            cin >> y;
+        }
+    }
+    sort(vec.begin(), vec.end());
+    int i = 1, curr = vec[0][0];
+    vector<int> ans{curr};
+    while (i < n)
+    {
+        if (curr >= vec[i][0] and curr <= vec[i][1])
+        {
+            i++;
+        }
+        else
+        {
+            curr = vec[i][1];
+            ans.push_back(curr);
+            i++;
+        }
+    }
+    cout << ans << endl;
 }
 
 signed main()
