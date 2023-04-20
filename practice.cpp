@@ -46,33 +46,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<vector<int>> vec(n, vector<int>(2));
-    for (auto &x : vec)
-    {
-        for (auto &y : x)
-        {
-            cin >> y;
-        }
-    }
-    sort(vec.begin(), vec.end());
-    int i = 1, curr = vec[0][0];
-    vector<int> ans{curr};
-    while (i < n)
-    {
-        if (curr >= vec[i][0] and curr <= vec[i][1])
-        {
-            i++;
-        }
-        else
-        {
-            curr = vec[i][1];
-            ans.push_back(curr);
-            i++;
-        }
-    }
-    cout << ans << endl;
+    stack<string> st;
+    map<string, vector<string>> mp;
+    vector<string> input{"E", "+", "E", "*", "E"};
 }
 
 signed main()
