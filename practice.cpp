@@ -46,9 +46,11 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    stack<string> st;
-    map<string, vector<string>> mp;
-    vector<string> input{"E", "+", "E", "*", "E"};
+    string s = "12345";
+    for (int i = 1; i <= s.size(); i++)
+    {
+        cout << s.substr(0, i) << " " << s.substr(i) << endl;
+    }
 }
 
 signed main()
