@@ -43,14 +43,51 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+int printStack(stack<int> Stack)
+{
+    while (!Stack.empty())
+    {
+        cout << Stack.top() << " ";
+        Stack.pop();
+    }
+    return 0;
+}
+stack<int> induct(stack<int> st, int val)
+{
+    if (st.empty() || st.top() <= val)
+    {
+        st.push(val);
+        return st;
+    }
+    int Last = st.top();
+    st.pop();
+    st = induct(st, val);
+    st.push(Last);
+    return st;
+}
+stack<int> Sort(stack<int> st)
+{
+    if (st.empty())
+    {
+        return st;
+    }
+    int last = st.top();
+    st.pop();
+    st = Sort(st);
+    return induct(st, last);
+}
 
 void solve()
 {
-    string s = "12345";
-    for (int i = 1; i <= s.size(); i++)
-    {
-        cout << s.substr(0, i) << " " << s.substr(i) << endl;
-    }
+    stack<int> st;
+
+    st.push(1);
+    st.push(23);
+    st.push(42);
+    st.push(2);
+
+    st = Sort(st);
+    printStack(st);
 }
 
 signed main()

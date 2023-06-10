@@ -90,5 +90,6 @@
         "valarray": "cpp"
     },
     "cmake.configureOnOpen": true,
-    "C_Cpp.errorSquiggles": "Enabled"
+    "C_Cpp.errorSquiggles": "Enabled",
+    "cph.general.onceMaintainerMessage": false
 }
