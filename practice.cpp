@@ -43,7 +43,46 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-
+class Solution
+{
+public:
+    int hIndex(vector<int> &citations)
+    {
+        int st = 0, ed = citations.size() - 1;
+        if (citations.size() == 1)
+        {
+            if (citations[0] == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        while (st <= ed)
+        {
+            int md = (ed + st) / 2;
+            if (citations[md] <= citations.size() - md)
+            {
+                st = md + 1;
+            }
+            else
+            {
+                ed = md - 1;
+            }
+        }
+        if (ed < 0 or st >= citations.size())
+        {
+            if (st >= citations.size())
+            {
+                return citations[citations.size() - 1];
+            }
+            return citations.size();
+        }
+        return citations[ed];
+    }
+};
 void solve()
 {
 }
