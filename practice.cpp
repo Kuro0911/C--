@@ -83,6 +83,39 @@ public:
         return citations[ed];
     }
 };
+class Solution
+{
+public:
+    string largestWordCount(vector<string> &messages, vector<string> &senders)
+    {
+        map<string, int> mp;
+        for (int i = 0; i < messages.size(); i++)
+        {
+            stringstream str(messages[i]);
+            int cnt = 0;
+            string s;
+            while (str >> s)
+            {
+                cnt++;
+            }
+            mp[senders[i]] += cnt;
+        }
+        pair<string, int> res = {"a", INT_MIN};
+        for (auto [x, y] : mp)
+        {
+            cout << x << " " << y << endl;
+            if (y > res.second)
+            {
+                res = {x, y};
+            }
+            if (y == res.second)
+            {
+                res.first = max(res.first, x);
+            }
+        }
+        return res.first;
+    }
+};
 void solve()
 {
 }
