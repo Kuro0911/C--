@@ -86,34 +86,49 @@ public:
 class Solution
 {
 public:
-    string largestWordCount(vector<string> &messages, vector<string> &senders)
+    set<pair<int, int>> vis;
+
+    int helper(int i, int j, vector<vector<int>> &grid)
     {
-        map<string, int> mp;
-        for (int i = 0; i < messages.size(); i++)
+        if (i == grid.size() - 1 and j == grid[0].size() - 1)
         {
-            stringstream str(messages[i]);
-            int cnt = 0;
-            string s;
-            while (str >> s)
-            {
-                cnt++;
-            }
-            mp[senders[i]] += cnt;
+            return 1;
         }
-        pair<string, int> res = {"a", INT_MIN};
-        for (auto [x, y] : mp)
+        if (vis.find({i, j}) != vis.end())
         {
-            cout << x << " " << y << endl;
-            if (y > res.second)
+            return INT_MAX;
+        }
+        vis.insert({i, j});
+
+        vector<vector<int>> dir{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
+        int res = INT_MAX;
+        for (auto d : dir)
+        {
+            int new_x = d[0] + i, new_y = d[1] + j;
+            if (new_x >= 0 and new_y >= 0 and new_x < grid.size() and new_y < grid[0].size() and grid[new_x][new_y] != 1)
             {
-                res = {x, y};
-            }
-            if (y == res.second)
-            {
-                res.first = max(res.first, x);
+                int x = helper(new_x, new_y, grid);
+                if (x != INT_MAX)
+                {
+                    res = min(res, 1 + x);
+                }
             }
         }
-        return res.first;
+        vis.erase({i, j});
+        return res;
+    }
+    int shortestPathBinaryMatrix(vector<vector<int>> &grid)
+    {
+        if (grid[0][0] == 1)
+        {
+            return -1;
+        }
+        int x = helper(0, 0, grid);
+        if (x == INT_MAX)
+        {
+            return -1;
+        }
+        return x;
     }
 };
 void solve()
