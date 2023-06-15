@@ -43,92 +43,50 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution
 {
 public:
-    int hIndex(vector<int> &citations)
+    int maxLevelSum(TreeNode *root)
     {
-        int st = 0, ed = citations.size() - 1;
-        if (citations.size() == 1)
+        queue<TreeNode *> q;
+        q.push(root);
+        vector<int> res;
+        while (!q.empty())
         {
-            if (citations[0] == 0)
+            int sz = q.size();
+            int curr = 0;
+            for (int i = 0; i < sz; i++)
             {
-                return 0;
+                TreeNode *temp = q.front();
+                if (temp->left)
+                    q.push(temp->left);
+                if (temp->right)
+                    q.push(temp->right);
+                curr += temp->val;
+                q.pop();
             }
-            else
-            {
-                return 1;
-            }
+            res.push_back(curr);
         }
-        while (st <= ed)
+        pair<int, int> ans{0, INT_MIN};
+        for (int i = 0; i < res.size(); i++)
         {
-            int md = (ed + st) / 2;
-            if (citations[md] <= citations.size() - md)
+            if (ans.second < res[i])
             {
-                st = md + 1;
-            }
-            else
-            {
-                ed = md - 1;
-            }
-        }
-        if (ed < 0 or st >= citations.size())
-        {
-            if (st >= citations.size())
-            {
-                return citations[citations.size() - 1];
-            }
-            return citations.size();
-        }
-        return citations[ed];
-    }
-};
-class Solution
-{
-public:
-    set<pair<int, int>> vis;
-
-    int helper(int i, int j, vector<vector<int>> &grid)
-    {
-        if (i == grid.size() - 1 and j == grid[0].size() - 1)
-        {
-            return 1;
-        }
-        if (vis.find({i, j}) != vis.end())
-        {
-            return INT_MAX;
-        }
-        vis.insert({i, j});
-
-        vector<vector<int>> dir{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
-        int res = INT_MAX;
-        for (auto d : dir)
-        {
-            int new_x = d[0] + i, new_y = d[1] + j;
-            if (new_x >= 0 and new_y >= 0 and new_x < grid.size() and new_y < grid[0].size() and grid[new_x][new_y] != 1)
-            {
-                int x = helper(new_x, new_y, grid);
-                if (x != INT_MAX)
-                {
-                    res = min(res, 1 + x);
-                }
+                ans = {i, res[i]};
             }
         }
-        vis.erase({i, j});
-        return res;
-    }
-    int shortestPathBinaryMatrix(vector<vector<int>> &grid)
-    {
-        if (grid[0][0] == 1)
-        {
-            return -1;
-        }
-        int x = helper(0, 0, grid);
-        if (x == INT_MAX)
-        {
-            return -1;
-        }
-        return x;
+        return ans.first + 1;
     }
 };
 void solve()
