@@ -46,13 +46,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int st, ed, x, y;
-    cin >> st >> ed >> x >> y;
-    int a = abs(st - ed);
-    int b = abs(st - x) + abs(ed - y);
-    int c = abs(st - y) + abs(ed - x);
-
-    cout << min({a, b, c});
+    vector<int> input;
+    for (int i = 0; i < 7; i++)
+    {
+        int x;
+        cin >> x;
+        input.push_back(x);
+    }
+    sort(input.begin(), input.end());
+    int mx = input[6];
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
+            for (int k = 0; k < 6; k++)
+            {
+                if (input[i] + input[j] + input[k] == mx)
+                {
+                    cout << input[i] << " " << input[j] << " " << input[k];
+                    return;
+                }
+            }
+        }
+    }
 }
 
 signed main()
@@ -62,19 +78,22 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("teleport.in", "r", stdin);
-    freopen("teleport.out", "w", stdout);
+    // freopen("promote.in", "r", stdin);
+    // freopen("promote.out", "w", stdout);
 
     int t = 1;
-    // cin>>t;
+    // cin >> t;
     while (t--)
     {
         solve();
     }
-    // for (int i = 1; i <= t; i++)
-    //{
-    // cout << "Case #" << i << ": " ;
-    // solve();
-    //}
+// for (int i = 1; i <= t; i++)
+//{
+// cout << "Case #" << i << ": " ;
+// solve();
+//}
+#ifndef ONLINE_JUDGE
+    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
+#endif
     return 0;
 }
