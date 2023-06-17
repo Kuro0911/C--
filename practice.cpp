@@ -46,26 +46,40 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    vector<int> input;
-    for (int i = 0; i < 7; i++)
+    vector<vector<char>> graph(10, vector<char>(10));
+    pair<int, int> root;
+    for (int i = 0; i < 10; i++)
     {
-        int x;
-        cin >> x;
-        input.push_back(x);
-    }
-    sort(input.begin(), input.end());
-    int mx = input[6];
-    for (int i = 0; i < 6; i++)
-    {
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < 10; j++)
         {
-            for (int k = 0; k < 6; k++)
+            cin >> graph[i][j];
+            if (graph[i][j] == 'L')
+                root = {i, j};
+        }
+    }
+
+    priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<>> pq;
+    pq.push({0, root});
+    vector<pair<int, int>> dir{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    while (!pq.empty())
+    {
+        auto temp = pq.top();
+        int dist = temp.first;
+        auto curr = temp.second;
+        int i = curr.first, j = curr.second;
+        pq.pop();
+        if (graph[i][j] == 'B')
+        {
+            cout << dist - 1;
+            return;
+        }
+        graph[i][j] = '#';
+        for (auto d : dir)
+        {
+            int new_x = i + d.first, new_y = j + d.second;
+            if (new_x >= 0 and new_y >= 0 and new_x < 10 and new_y < 10 and graph[new_x][new_y] != '#' and graph[new_x][new_y] != 'R')
             {
-                if (input[i] + input[j] + input[k] == mx)
-                {
-                    cout << input[i] << " " << input[j] << " " << input[k];
-                    return;
-                }
+                pq.push({dist + 1, {new_x, new_y}});
             }
         }
     }
@@ -78,8 +92,8 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    // freopen("promote.in", "r", stdin);
-    // freopen("promote.out", "w", stdout);
+    freopen("buckets.in", "r", stdin);
+    freopen("buckets.out", "w", stdout);
 
     int t = 1;
     // cin >> t;
