@@ -46,6 +46,29 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    string x;
+    cin >> x;
+    int a = 0, b = 0;
+    for (int i = 0; i < x.size(); i += 2)
+    {
+        int s = x[i + 1] - '0';
+        if (x[i] == 'A')
+        {
+            a += s;
+        }
+        else
+        {
+            b += s;
+        }
+    }
+    if (a > b)
+    {
+        cout << "A";
+    }
+    else
+    {
+        cout << "B";
+    }
 }
 
 signed main()
