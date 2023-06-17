@@ -46,29 +46,13 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    string x;
-    cin >> x;
-    int a = 0, b = 0;
-    for (int i = 0; i < x.size(); i += 2)
-    {
-        int s = x[i + 1] - '0';
-        if (x[i] == 'A')
-        {
-            a += s;
-        }
-        else
-        {
-            b += s;
-        }
-    }
-    if (a > b)
-    {
-        cout << "A";
-    }
-    else
-    {
-        cout << "B";
-    }
+    int st, ed, x, y;
+    cin >> st >> ed >> x >> y;
+    int a = abs(st - ed);
+    int b = abs(st - x) + abs(ed - y);
+    int c = abs(st - y) + abs(ed - x);
+
+    cout << min({a, b, c});
 }
 
 signed main()
@@ -78,19 +62,19 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
+    freopen("teleport.in", "r", stdin);
+    freopen("teleport.out", "w", stdout);
+
     int t = 1;
     // cin>>t;
     while (t--)
     {
         solve();
     }
-// for (int i = 1; i <= t; i++)
-//{
-// cout << "Case #" << i << ": " ;
-// solve();
-//}
-#ifndef ONLINE_JUDGE
-    cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
-#endif
+    // for (int i = 1; i <= t; i++)
+    //{
+    // cout << "Case #" << i << ": " ;
+    // solve();
+    //}
     return 0;
 }
