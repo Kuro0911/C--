@@ -46,41 +46,47 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n, m, k;
-    cin >> n >> m >> k;
-    vector<vector<char>> s(n, vector<char>(m));
+    int n, m, st = 1;
+    cin >> n >> m;
+    map<pair<int, int>, int> mp;
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; j++)
-        {
-            cin >> s[i][j];
-        }
+        int x, y;
+        cin >> x >> y;
+        mp[{st, st + x - 1}] = y;
+        st = st + x;
     }
-    vector<vector<char>> res;
-    for (int i = 0; i < n; i++)
+
+    int res = 0, dist = 0;
+    for (int i = 0; i < m; i++)
     {
-        vector<char> temp;
-        for (int j = 0; j < m; j++)
+        int x, y;
+        cin >> x >> y;
+        int curr_st = dist + 1, curr_ed = dist + x;
+        dist += x;
+        for (auto m : mp)
         {
-            for (int x = 0; x < k; x++)
+            // 4 cases:
+            if (m.first.first <= curr_st and m.first.second >= curr_ed)
             {
-                temp.push_back(s[i][j]);
+                res = max(res, y - m.second);
+            }
+            else if (m.first.first <= curr_st and m.first.second >= curr_st)
+            {
+                res = max(res, y - m.second);
+            }
+            else if (m.first.first <= curr_ed and m.first.second >= curr_ed)
+            {
+
+                res = max(res, y - m.second);
+            }
+            else if (m.first.first >= curr_st and m.first.second <= curr_ed)
+            {
+                res = max(res, y - m.second);
             }
         }
-        for (int x = 0; x < k; x++)
-        {
-            res.push_back(temp);
-        }
     }
-    for (int i = 0; i < res.size(); i++)
-    {
-        for (int j = 0; j < res[i].size(); j++)
-        {
-            cout << res[i][j];
-        }
-        if (i != res.size())
-            cout << endl;
-    }
+    cout << res;
 }
 
 signed main()
@@ -90,11 +96,11 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("cowsignal.in", "r", stdin);
-    freopen("cowsignal.out", "w", stdout);
+    freopen("speeding.in", "r", stdin);
+    freopen("speeding.out", "w", stdout);
 
     int t = 1;
-    // cin >> t;
+    // cin>>t;
     while (t--)
     {
         solve();
