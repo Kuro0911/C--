@@ -46,6 +46,41 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<vector<char>> s(n, vector<char>(m));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cin >> s[i][j];
+        }
+    }
+    vector<vector<char>> res;
+    for (int i = 0; i < n; i++)
+    {
+        vector<char> temp;
+        for (int j = 0; j < m; j++)
+        {
+            for (int x = 0; x < k; x++)
+            {
+                temp.push_back(s[i][j]);
+            }
+        }
+        for (int x = 0; x < k; x++)
+        {
+            res.push_back(temp);
+        }
+    }
+    for (int i = 0; i < res.size(); i++)
+    {
+        for (int j = 0; j < res[i].size(); j++)
+        {
+            cout << res[i][j];
+        }
+        if (i != res.size())
+            cout << endl;
+    }
 }
 
 signed main()
@@ -55,8 +90,8 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    // freopen("mixmilk.in", "r", stdin);
-    // freopen("mixmilk.out", "w", stdout);
+    freopen("cowsignal.in", "r", stdin);
+    freopen("cowsignal.out", "w", stdout);
 
     int t = 1;
     // cin >> t;
