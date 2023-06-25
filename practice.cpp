@@ -46,44 +46,16 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    int n, m, st = 1;
-    cin >> n >> m;
-    map<pair<int, int>, int> mp;
-    for (int i = 0; i < n; i++)
+    string str, c;
+    cin >> str >> c;
+    string res;
+    for (int i = 0; i < str.size(); i++)
     {
-        int x, y;
-        cin >> x >> y;
-        mp[{st, st + x - 1}] = y;
-        st = st + x;
-    }
+        res.push_back(str[i]);
 
-    int res = 0, dist = 0;
-    for (int i = 0; i < m; i++)
-    {
-        int x, y;
-        cin >> x >> y;
-        int curr_st = dist + 1, curr_ed = dist + x;
-        dist += x;
-        for (auto m : mp)
+        if (res.size() >= c.size() and res.substr(res.size() - c.size()) == c)
         {
-            // 4 cases:
-            if (m.first.first <= curr_st and m.first.second >= curr_ed)
-            {
-                res = max(res, y - m.second);
-            }
-            else if (m.first.first <= curr_st and m.first.second >= curr_st)
-            {
-                res = max(res, y - m.second);
-            }
-            else if (m.first.first <= curr_ed and m.first.second >= curr_ed)
-            {
-
-                res = max(res, y - m.second);
-            }
-            else if (m.first.first >= curr_st and m.first.second <= curr_ed)
-            {
-                res = max(res, y - m.second);
-            }
+            res.resize(res.size() - c.size());
         }
     }
     cout << res;
@@ -96,8 +68,8 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("speeding.in", "r", stdin);
-    freopen("speeding.out", "w", stdout);
+    freopen("censor.in", "r", stdin);
+    freopen("censor.out", "w", stdout);
 
     int t = 1;
     // cin>>t;
