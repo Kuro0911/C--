@@ -44,21 +44,12 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
+// select sort
+void solve(vector<int> &vec)
+{
+}
 void solve()
 {
-    string str, c;
-    cin >> str >> c;
-    string res;
-    for (int i = 0; i < str.size(); i++)
-    {
-        res.push_back(str[i]);
-
-        if (res.size() >= c.size() and res.substr(res.size() - c.size()) == c)
-        {
-            res.resize(res.size() - c.size());
-        }
-    }
-    cout << res;
 }
 
 signed main()
@@ -68,8 +59,8 @@ signed main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("censor.in", "r", stdin);
-    freopen("censor.out", "w", stdout);
+    // freopen("[input].in", "r", stdin);
+    // freopen("[output].out", "w", stdout);
 
     int t = 1;
     // cin>>t;
