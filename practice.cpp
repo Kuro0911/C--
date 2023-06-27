@@ -44,9 +44,34 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 // #####################################################
 
-// select sort
-void solve(vector<int> &vec)
+struct Node
 {
+    int data;
+    Node *next;
+};
+int Del(Node *root, int k)
+{
+    if (!root)
+    {
+        return -1;
+    }
+    Node *slow = root, *fast = root;
+    for (int i = 0; i < k; i++)
+    {
+        if (!fast)
+        {
+            cout << "k > len";
+            return;
+        }
+        fast = fast->next;
+    }
+    while (fast)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    // slow - > kth last ele;
+    del(slow, root);
 }
 void solve()
 {
