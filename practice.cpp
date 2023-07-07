@@ -43,91 +43,69 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-class Solution
+// vector<int> Solve(int N, vector<int> A, int K, vector<int> h)
+// {
+//     vector<int> ans;
+//     sort(A.begin(), A.end());
+//     for (int i = 0; i < K; i++)
+//     {
+//         int curr = h[i];
+//         int st = 0, ed = N - 1;
+//         int res = 0;
+//         while (st <= ed)
+//         {
+//             int md = st + (ed - st) / 2;
+//             if (A[md] > curr)
+//             {
+//                 res += (ed - md) + 1;
+//                 ed = md - 1;
+//             }
+//             else
+//             {
+//                 st = md + 1;
+//             }
+//         }
+//         ans.push_back(res);
+//     }
+//     return ans;
+// }
+int N, Q;
+int A[10000], L[10000], R[10000];
+
+int Solve(string str)
 {
-public:
-    int getConsec(string ans)
+    int n = str.size();
+    int st = 0, ed = 0;
+    int mxD = 0;
+    unordered_set<char> chars, distinctChars;
+
+    while (ed < n)
     {
-        int res = 0, curr = 1;
-        for (int i = 0; i < ans.size() - 1; i++)
+        chars.insert(str[ed]);
+        distinctChars.insert(str[ed]);
+
+        if (chars.size() == distinctChars.size())
         {
-            if (ans[i] != ans[i + 1])
-            {
-                res = max(res, curr);
-                curr = 1;
-            }
-            else
-            {
-                curr++;
-            }
+            int sz = chars.size();
+            mxD = std::max(mxD, sz);
+            ed++;
         }
-        return curr;
+        else
+        {
+            chars.erase(str[st]);
+            distinctChars.clear();
+            st++;
+            ed = st;
+        }
     }
-    int maxConsecutiveAnswers(string answerKey, int k)
-    {
-        vector<int> t_pos, f_pos;
-        for (int i = 0; i < answerKey.size(); i++)
-        {
-            if (answerKey[i] == 'T')
-            {
-                t_pos.push_back(i);
-            }
-            else
-            {
-                f_pos.push_back(i);
-            }
-        }
-        int res = 0, f_sz = f_pos.size() - 1, t_sz = t_pos.size() - 1;
+    return mxD;
+}
 
-        cout << "false pos :";
-        for (auto x : f_pos)
-        {
-            cout << x << " ";
-        }
-        cout << endl;
-
-        // true case
-        int l = 0, r = min(k, f_sz);
-        while (r < f_pos.size())
-        {
-            cout << l << " " << r << endl;
-            string temp = answerKey;
-            for (int i = l; i <= r; i++)
-            {
-                temp[i] = 'T';
-            }
-            res = max(getConsec(temp), res);
-            l++;
-            r++;
-        }
-
-        cout << "true pos :";
-        for (auto x : t_pos)
-        {
-            cout << x << " ";
-        }
-        cout << endl;
-
-        // false case
-        l = 0, r = min(k, t_sz);
-        while (r < t_pos.size())
-        {
-            cout << l << " " << r << endl;
-            string temp = answerKey;
-            for (int i = l; i <= r; i++)
-            {
-                temp[i] = 'F';
-            }
-            res = max(getConsec(temp), res);
-            l++;
-            r++;
-        }
-        return res;
-    }
-};
 void solve()
 {
-    cout << "test" << endl;
+    string s;
+    cin >> s;
+    cout << Solve("abcda");
 }
 
 signed main()
