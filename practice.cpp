@@ -43,7 +43,88 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
+class Solution
+{
+public:
+    int getConsec(string ans)
+    {
+        int res = 0, curr = 1;
+        for (int i = 0; i < ans.size() - 1; i++)
+        {
+            if (ans[i] != ans[i + 1])
+            {
+                res = max(res, curr);
+                curr = 1;
+            }
+            else
+            {
+                curr++;
+            }
+        }
+        return curr;
+    }
+    int maxConsecutiveAnswers(string answerKey, int k)
+    {
+        vector<int> t_pos, f_pos;
+        for (int i = 0; i < answerKey.size(); i++)
+        {
+            if (answerKey[i] == 'T')
+            {
+                t_pos.push_back(i);
+            }
+            else
+            {
+                f_pos.push_back(i);
+            }
+        }
+        int res = 0, f_sz = f_pos.size() - 1, t_sz = t_pos.size() - 1;
 
+        cout << "false pos :";
+        for (auto x : f_pos)
+        {
+            cout << x << " ";
+        }
+        cout << endl;
+
+        // true case
+        int l = 0, r = min(k, f_sz);
+        while (r < f_pos.size())
+        {
+            cout << l << " " << r << endl;
+            string temp = answerKey;
+            for (int i = l; i <= r; i++)
+            {
+                temp[i] = 'T';
+            }
+            res = max(getConsec(temp), res);
+            l++;
+            r++;
+        }
+
+        cout << "true pos :";
+        for (auto x : t_pos)
+        {
+            cout << x << " ";
+        }
+        cout << endl;
+
+        // false case
+        l = 0, r = min(k, t_sz);
+        while (r < t_pos.size())
+        {
+            cout << l << " " << r << endl;
+            string temp = answerKey;
+            for (int i = l; i <= r; i++)
+            {
+                temp[i] = 'F';
+            }
+            res = max(getConsec(temp), res);
+            l++;
+            r++;
+        }
+        return res;
+    }
+};
 void solve()
 {
     cout << "test" << endl;
