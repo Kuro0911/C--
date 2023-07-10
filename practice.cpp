@@ -43,69 +43,9 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 }
 
 // #####################################################
-// vector<int> Solve(int N, vector<int> A, int K, vector<int> h)
-// {
-//     vector<int> ans;
-//     sort(A.begin(), A.end());
-//     for (int i = 0; i < K; i++)
-//     {
-//         int curr = h[i];
-//         int st = 0, ed = N - 1;
-//         int res = 0;
-//         while (st <= ed)
-//         {
-//             int md = st + (ed - st) / 2;
-//             if (A[md] > curr)
-//             {
-//                 res += (ed - md) + 1;
-//                 ed = md - 1;
-//             }
-//             else
-//             {
-//                 st = md + 1;
-//             }
-//         }
-//         ans.push_back(res);
-//     }
-//     return ans;
-// }
-int N, Q;
-int A[10000], L[10000], R[10000];
-
-int Solve(string str)
-{
-    int n = str.size();
-    int st = 0, ed = 0;
-    int mxD = 0;
-    unordered_set<char> chars, distinctChars;
-
-    while (ed < n)
-    {
-        chars.insert(str[ed]);
-        distinctChars.insert(str[ed]);
-
-        if (chars.size() == distinctChars.size())
-        {
-            int sz = chars.size();
-            mxD = std::max(mxD, sz);
-            ed++;
-        }
-        else
-        {
-            chars.erase(str[st]);
-            distinctChars.clear();
-            st++;
-            ed = st;
-        }
-    }
-    return mxD;
-}
 
 void solve()
 {
-    string s;
-    cin >> s;
-    cout << Solve("abcda");
 }
 
 signed main()
