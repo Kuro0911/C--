@@ -46,6 +46,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
+    vector<vector<int>> binArr{{0, 2}, {2, 3}, {2, 1}};
 }
 
 signed main()
