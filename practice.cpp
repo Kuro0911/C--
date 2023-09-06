@@ -11,21 +11,22 @@ typedef pair<pii, int> ppi;
 typedef pair<int, pii> pip;
 typedef pair<pii, pii> ppp;
 
+
 // #####################################################
 
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
     for (auto &x : v)
-        os << x << " ";
-    os << endl;
-    return os;
+        os << x << tb;
+        os << endl;
+        return os;
 }
 template <typename T>
 ostream &operator<<(ostream &os, const set<T> &v)
 {
     for (auto it : v)
-        os << it << " ";
+        os << it << tb;
     return os;
 }
 template <typename T, typename S>
@@ -42,34 +43,35 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
     return os;
 }
 
+
 // #####################################################
+
 
 void solve()
 {
-    vector<vector<int>> binArr{{0, 2}, {2, 3}, {2, 1}};
+    
 }
 
 signed main()
 {
-
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-
     // freopen("[input].in", "r", stdin);
     // freopen("[output].out", "w", stdout);
 
+
     int t = 1;
-    // cin>>t;
+    // cin >> t;
     while (t--)
     {
         solve();
     }
 // for (int i = 1; i <= t; i++)
-//{
-// cout << "Case #" << i << ": " ;
-// solve();
-//}
+// {
+//	cout << "Case #" << i << ": ";
+//	solve();
+// }
 #ifndef ONLINE_JUDGE
     cerr << "Time :" << 1000 * ((double)clock()) / (double)CLOCKS_PER_SEC << "ms";
 #endif
