@@ -49,7 +49,7 @@ ostream &operator<<(ostream &os, const pair<T, S> &v)
 
 void solve()
 {
-    
+    cout << "test";
 }
 
 signed main()
